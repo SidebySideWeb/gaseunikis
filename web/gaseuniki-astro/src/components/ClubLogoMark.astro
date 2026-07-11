@@ -1,24 +1,36 @@
 ---
 interface Props {
   size?: 'sm' | 'md';
+  src?: string;
+  alt?: string;
 }
 
-const { size = 'md' } = Astro.props;
+const { size = 'md', src, alt = 'Logo' } = Astro.props;
+
+const sizeClasses =
+  size === 'sm' ? 'h-[52px] w-[52px]' : 'h-[52px] w-[52px] md:h-[62px] md:w-[62px]';
+const iconClasses = size === 'sm' ? 'text-4xl' : 'text-4xl md:text-5xl';
+const pixelSize = size === 'sm' ? 52 : 62;
 ---
 
-<span
-  class:list={[
-    'flex shrink-0 items-center justify-center rounded-xl bg-primary/10 text-primary',
-    size === 'sm' ? 'h-10 w-10' : 'h-10 w-10 md:h-12 md:w-12',
-  ]}
-  aria-hidden="true"
->
-  <span
-    class:list={[
-      'material-symbols-outlined',
-      size === 'sm' ? 'text-3xl' : 'text-3xl md:text-4xl',
-    ]}
-  >
-    sports_gymnastics
-  </span>
-</span>
+{
+  src ? (
+    <img
+      src={src}
+      alt={alt}
+      class:list={['shrink-0 object-contain', sizeClasses]}
+      width={pixelSize}
+      height={pixelSize}
+    />
+  ) : (
+    <span
+      class:list={[
+        'flex shrink-0 items-center justify-center rounded-xl bg-primary/10 text-primary',
+        sizeClasses,
+      ]}
+      aria-hidden="true"
+    >
+      <span class:list={['material-symbols-outlined', iconClasses]}>sports_gymnastics</span>
+    </span>
+  )
+}
