@@ -1,0 +1,118 @@
+---
+import ClubLogoMark from './ClubLogoMark.astro';
+import { client } from '../lib/sanity';
+import { siteSettingsQuery } from '../lib/queries';
+import { defaultNavLinks } from '../lib/nav-links';
+import type { NavLink, SiteSettings } from '../lib/types';
+
+let settings: SiteSettings | null = null;
+
+try {
+  settings = await client.fetch<SiteSettings>(siteSettingsQuery);
+} catch {
+  settings = null;
+}
+
+const clubName = settings?.clubName ?? 'ΓΑΣ ΕΥΝΙΚΗ';
+const tagline =
+  settings?.footerTagline ??
+  'Προωθούμε τον αθλητισμό και τις αξίες του μέσα από τη ρυθμική γυμναστική στην Ελευσίνα.';
+const copyright =
+  settings?.footerCopyright ??
+  '© 2024 Γας Ευνίκη Ελευσίνας. Με την επιφύλαξη παντός δικαιώματος.';
+const navLinks: NavLink[] = settings?.navLinks?.length ? settings.navLinks : defaultNavLinks;
+
+const navigationLinks = navLinks.slice(0, 4);
+const usefulLinks: NavLink[] = [
+  { label: 'Εγγραφές', url: '/egrafes' },
+  { label: 'Επικοινωνία', url: '/epikoinonia' },
+  { label: 'Ε.Γ.Ο.', url: settings?.egoUrl ?? '#' },
+  { label: 'F.I.G.', url: settings?.figUrl ?? '#' },
+];
+---
+
+<footer class="mt-auto border-t border-outline-variant/30 bg-surface-container-highest">
+  <div class="container-page grid grid-cols-1 gap-gutter py-section-padding md:grid-cols-4">
+    <div class="space-y-4">
+      <div class="flex items-center gap-3">
+        <ClubLogoMark size="sm" />
+        <span class="font-display text-headline-md font-bold text-on-surface">{clubName}</span>
+      </div>
+      <p class="font-body text-body-md text-on-surface-variant">{tagline}</p>
+    </div>
+
+    <div>
+      <h2 class="mb-4 font-display text-label-md uppercase tracking-wider text-primary">Πλοήγηση</h2>
+      <ul class="space-y-2">
+        {
+          navigationLinks.map((link) => (
+            <li>
+              <a
+                href={link.url}
+                class="font-body text-body-md text-on-surface-variant transition-colors hover:text-secondary"
+              >
+                {link.label}
+              </a>
+            </li>
+          ))
+        }
+      </ul>
+    </div>
+
+    <div>
+      <h2 class="mb-4 font-display text-label-md uppercase tracking-wider text-primary">Χρήσιμα</h2>
+      <ul class="space-y-2">
+        {
+          usefulLinks.map((link) => (
+            <li>
+              <a
+                href={link.url}
+                class="font-body text-body-md text-on-surface-variant transition-colors hover:text-secondary"
+              >
+                {link.label}
+              </a>
+            </li>
+          ))
+        }
+      </ul>
+    </div>
+
+    <div>
+      <h2 class="mb-4 font-display text-label-md uppercase tracking-wider text-primary">
+        Ακολουθήστε μας
+      </h2>
+      <div class="flex gap-4">
+        {
+          settings?.facebookUrl && (
+            <a
+              href={settings.facebookUrl}
+              class="flex h-10 w-10 items-center justify-center rounded-full bg-primary/10 text-primary transition-all hover:bg-primary hover:text-on-primary"
+              aria-label="Facebook"
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              <span class="material-symbols-outlined">public</span>
+            </a>
+          )
+        }
+        {
+          settings?.instagramUrl && (
+            <a
+              href={settings.instagramUrl}
+              class="flex h-10 w-10 items-center justify-center rounded-full bg-primary/10 text-primary transition-all hover:bg-primary hover:text-on-primary"
+              aria-label="Instagram"
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              <span class="material-symbols-outlined">photo_camera</span>
+            </a>
+          )
+        }
+      </div>
+    </div>
+  </div>
+
+  <div class="border-t border-outline-variant/20 py-8">
+    <p class="text-center font-body text-body-md text-on-surface-variant">{copyright}</p>
+  </div>
+</footer>

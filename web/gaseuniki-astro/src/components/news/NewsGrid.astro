@@ -1,0 +1,58 @@
+---
+import type { NewsItem } from '../../lib/types';
+import PlaceholderImage from '../ui/PlaceholderImage.astro';
+import { newsPageFallbacks } from '../../lib/stitch-images';
+import { resolveImageUrl } from '../../lib/image';
+
+interface Props {
+  items: NewsItem[];
+}
+
+const { items } = Astro.props;
+
+function formatDate(dateStr: string): string {
+  try {
+    return new Intl.DateTimeFormat('el-GR', {
+      day: 'numeric',
+      month: 'long',
+      year: 'numeric',
+    }).format(new Date(dateStr));
+  } catch {
+    return dateStr;
+  }
+}
+---
+
+<div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+  {items.map((item, index) => {
+    const borderColor = index % 2 === 0 ? 'border-primary' : 'border-secondary';
+    const linkColor = index % 2 === 0 ? 'text-primary' : 'text-secondary';
+    const badgeColor = index % 2 === 0 ? 'text-primary border-primary/10' : 'text-secondary border-secondary/10';
+    return (
+      <article class={`card-hover bg-white rounded-2xl overflow-hidden shadow-sm border-t-4 ${borderColor}`}>
+        <div class="relative h-56 overflow-hidden">
+          <PlaceholderImage
+            src={resolveImageUrl(item.featuredImage, newsPageFallbacks[index % newsPageFallbacks.length])}
+            alt={item.featuredImage?.alt ?? item.title}
+            class="h-full w-full object-cover"
+          />
+          {item.publishedDate && (
+            <div class={`absolute top-4 left-4 bg-white/90 backdrop-blur px-3 py-1 rounded-lg font-label-md ${badgeColor} shadow-sm border`}>
+              {formatDate(item.publishedDate)}
+            </div>
+          )}
+        </div>
+        <div class="p-6">
+          <h3 class="font-display text-headline-md text-on-surface mb-3 line-clamp-2">{item.title}</h3>
+          {item.excerpt && (
+            <p class="text-on-surface-variant font-body-md mb-6 line-clamp-3">{item.excerpt}</p>
+          )}
+          <a href={`/nea/${item.slug?.current ?? '#'}`} class={`inline-flex items-center gap-2 ${linkColor} font-label-md hover:gap-3 transition-all`}>
+            {item.readMoreLabel ?? 'Διαβάστε περισσότερα'}
+            <span class="material-symbols-outlined">arrow_forward</span>
+          </a>
+        </div>
+      </article>
+    );
+  })}
+</div>

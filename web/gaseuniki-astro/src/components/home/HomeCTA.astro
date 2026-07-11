@@ -1,0 +1,27 @@
+---
+import Button from '../ui/Button.astro';
+
+interface Props {
+  heading: string;
+  text: string;
+  buttonLabel: string;
+  buttonUrl: string;
+}
+
+const { heading, text, buttonLabel, buttonUrl } = Astro.props;
+---
+
+<section class="py-section-padding">
+  <div class="container-page">
+    <div class="relative overflow-hidden rounded-[2.5rem] gradient-primary p-12 text-center text-on-primary shadow-card md:p-20">
+      <span class="material-symbols-outlined absolute right-8 top-8 text-[150px] opacity-10" aria-hidden="true">
+        fitness_center
+      </span>
+      <h2 class="relative mb-6 font-display text-display-lg">{heading}</h2>
+      <p class="relative mx-auto mb-10 max-w-2xl font-body text-body-lg opacity-90">{text}</p>
+      <Button href={buttonUrl} variant="secondary" class="relative bg-white hover:bg-white">
+        {buttonLabel}
+      </Button>
+    </div>
+  </div>
+</section>

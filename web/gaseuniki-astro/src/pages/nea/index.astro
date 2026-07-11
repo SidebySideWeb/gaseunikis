@@ -1,0 +1,45 @@
+---
+import Layout from '../../layouts/Layout.astro';
+import BreadcrumbSchema from '../../components/schema/BreadcrumbSchema.astro';
+import NewsHero from '../../components/news/NewsHero.astro';
+import NewsGrid from '../../components/news/NewsGrid.astro';
+import NewsPagination from '../../components/news/NewsPagination.astro';
+import { client } from '../../lib/sanity';
+import { newsIndexPageQuery, newsPostListQuery } from '../../lib/queries';
+import type { NewsIndexPage, NewsItem } from '../../lib/types';
+
+const defaultPage: NewsIndexPage = {
+  heroHeading: 'Νέα & Ανακοινώσεις',
+  heroText:
+    'Μείνετε ενημερωμένοι για ό,τι συμβαίνει στον σύλλογό μας, από αγωνιστικές επιτυχίες μέχρι νέες εγγραφές και εκδηλώσεις.',
+};
+
+const [fetchedPage, posts] = await Promise.all([
+  client.fetch<NewsIndexPage | null>(newsIndexPageQuery),
+  client.fetch<NewsItem[]>(newsPostListQuery),
+]);
+
+const page = { ...defaultPage, ...fetchedPage };
+
+const pageTitle = page.seo?.title ?? 'Νέα & Ανακοινώσεις';
+const pageDescription =
+  page.seo?.description ??
+  'Τελευταία νέα, ανακοινώσεις και εκδηλώσεις του ΓΑΣ Ευνίκη Ελευσίνας.';
+const currentPage = 1;
+const totalPages = 3;
+---
+
+<Layout title={pageTitle} description={pageDescription} currentPath="/nea" noIndex={page.seo?.noIndex}>
+  <BreadcrumbSchema
+    slot="schema"
+    items={[
+      { name: 'Αρχική', url: '/' },
+      { name: 'Νέα', url: '/nea' },
+    ]}
+  />
+  <main class="pt-32 px-gutter w-full max-w-container-max-width mx-auto">
+    <NewsHero heading={page.heroHeading ?? ''} text={page.heroText ?? ''} />
+    <NewsGrid items={posts ?? []} />
+    <NewsPagination currentPage={currentPage} totalPages={totalPages} />
+  </main>
+</Layout>

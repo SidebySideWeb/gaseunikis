@@ -1,0 +1,79 @@
+---
+import NavMobile from './NavMobile';
+import Button from './ui/Button.astro';
+import ClubLogoMark from './ClubLogoMark.astro';
+import { client } from '../lib/sanity';
+import { siteSettingsQuery } from '../lib/queries';
+import { defaultNavLinks, defaultNavCta } from '../lib/nav-links';
+import type { NavLink, SiteSettings } from '../lib/types';
+
+export interface Props {
+  currentPath: string;
+}
+
+const { currentPath } = Astro.props;
+
+let settings: SiteSettings | null = null;
+
+try {
+  settings = await client.fetch<SiteSettings>(siteSettingsQuery);
+} catch {
+  settings = null;
+}
+
+const navLinks: NavLink[] = settings?.navLinks?.length ? settings.navLinks : defaultNavLinks;
+const navCtaLabel = settings?.navCtaLabel ?? defaultNavCta.label;
+const navCtaUrl = settings?.navCtaUrl ?? defaultNavCta.url;
+const clubName = settings?.clubName ?? 'ΓΑΣ ΕΥΝΙΚΗ';
+
+function isActive(url: string): boolean {
+  if (url === '/') return currentPath === '/';
+  return currentPath === url || currentPath.startsWith(`${url}/`);
+}
+---
+
+<header class="fixed top-0 left-0 right-0 z-50 border-b border-primary/5 bg-surface-container-lowest shadow-sm">
+  <nav
+    class="container-page flex items-center justify-between py-4"
+    aria-label="Κύρια πλοήγηση"
+  >
+    <a href="/" class="flex items-center gap-3">
+      <ClubLogoMark />
+      <span class="font-display text-headline-md font-bold text-primary">{clubName}</span>
+    </a>
+
+    <div class="hidden items-center gap-8 font-display text-label-md md:flex">
+      {
+        navLinks.map((link) => (
+          <a
+            href={link.url}
+            class:list={[
+              'transition-colors',
+              isActive(link.url)
+                ? 'border-b-2 border-primary pb-1 text-primary'
+                : 'text-on-surface-variant hover:text-primary',
+            ]}
+            aria-current={isActive(link.url) ? 'page' : undefined}
+          >
+            {link.label}
+          </a>
+        ))
+      }
+    </div>
+
+    <div class="flex items-center gap-4">
+      <Button href={navCtaUrl} variant="primary" size="sm" class="hidden md:inline-flex">
+        {navCtaLabel}
+      </Button>
+
+      <NavMobile
+        client:load
+        links={navLinks}
+        ctaLabel={navCtaLabel}
+        ctaUrl={navCtaUrl}
+        currentPath={currentPath}
+        clubName={clubName}
+      />
+    </div>
+  </nav>
+</header>

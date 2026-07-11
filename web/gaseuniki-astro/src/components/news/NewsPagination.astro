@@ -1,0 +1,59 @@
+---
+interface Props {
+  currentPage: number;
+  totalPages: number;
+}
+
+const { currentPage, totalPages } = Astro.props;
+
+const pages = Array.from({ length: totalPages }, (_, i) => i + 1);
+const hasPrev = currentPage > 1;
+const hasNext = currentPage < totalPages;
+---
+
+<nav class="mt-20 mb-20 flex justify-center items-center gap-4" aria-label="Σελιδοποίηση">
+  <button
+    type="button"
+    disabled={!hasPrev}
+    class={`flex items-center gap-2 border-2 px-6 py-2.5 rounded-xl font-label-md ${
+      hasPrev
+        ? 'border-primary text-primary hover:bg-primary/5 transition-all'
+        : 'border-primary/20 text-primary/50 cursor-not-allowed'
+    }`}
+    aria-disabled={!hasPrev}
+  >
+    <span class="material-symbols-outlined">chevron_left</span>
+    Προηγούμενα
+  </button>
+
+  <div class="flex gap-2" role="list">
+    {pages.map((page) => (
+      <button
+        type="button"
+        role="listitem"
+        aria-current={page === currentPage ? 'page' : undefined}
+        class={
+          page === currentPage
+            ? 'w-10 h-10 rounded-lg bg-primary text-on-primary font-label-md flex items-center justify-center'
+            : 'w-10 h-10 rounded-lg text-on-surface-variant font-label-md flex items-center justify-center hover:bg-primary/5 hover:text-primary transition-colors'
+        }
+      >
+        {page}
+      </button>
+    ))}
+  </div>
+
+  <button
+    type="button"
+    disabled={!hasNext}
+    class={`flex items-center gap-2 border-2 px-6 py-2.5 rounded-xl font-label-md ${
+      hasNext
+        ? 'border-primary text-primary hover:bg-primary/5 transition-all'
+        : 'border-primary/20 text-primary/50 cursor-not-allowed'
+    }`}
+    aria-disabled={!hasNext}
+  >
+    Επόμενα
+    <span class="material-symbols-outlined">chevron_right</span>
+  </button>
+</nav>

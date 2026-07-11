@@ -1,0 +1,18 @@
+---
+interface Props {
+  label?: string;
+  heading: string;
+  text: string;
+}
+
+const { label = 'Ενημερώσεις', heading, text } = Astro.props;
+---
+
+<div class="mb-16 text-center max-w-3xl mx-auto">
+  <div class="inline-flex items-center gap-2 text-secondary mb-4 uppercase tracking-widest font-label-md">
+    <span class="material-symbols-outlined text-sm">notifications</span>
+    {label}
+  </div>
+  <h1 class="font-display text-display-lg text-on-surface mb-4">{heading}</h1>
+  <p class="font-body text-body-lg text-on-surface-variant">{text}</p>
+</div>

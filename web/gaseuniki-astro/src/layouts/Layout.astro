@@ -1,0 +1,73 @@
+---
+import Nav from '../components/Nav.astro';
+import Footer from '../components/Footer.astro';
+import SeoHead from '../components/SeoHead.astro';
+import LocalBusinessSchema from '../components/schema/LocalBusinessSchema.astro';
+import GtmHead from '../components/GtmHead.astro';
+import GtmBody from '../components/GtmBody.astro';
+import { getSiteSettings } from '../lib/gaseuniki';
+import { defaultSiteSettings } from '../lib/fallbacks';
+import { getImageUrl } from '../lib/image';
+import { buildAbsoluteUrl, resolveSiteOrigin } from '../lib/site-url';
+import '../styles/global.css';
+
+export interface Props {
+  title: string;
+  description: string;
+  ogImage?: string;
+  noIndex?: boolean;
+  currentPath: string;
+}
+
+const { title, description, ogImage, noIndex = false, currentPath } = Astro.props;
+
+const siteOrigin = resolveSiteOrigin(Astro.site);
+const canonicalUrl = buildAbsoluteUrl(currentPath, siteOrigin);
+const gtmId = (import.meta.env.PUBLIC_GTM_ID ?? '').trim();
+
+let siteSettings = defaultSiteSettings;
+
+try {
+  const fetched = await getSiteSettings();
+  siteSettings = { ...defaultSiteSettings, ...fetched };
+} catch {
+  /* use defaults */
+}
+
+const defaultOgImage =
+  siteSettings.defaultOgImageUrl ??
+  getImageUrl(siteSettings.defaultOgImage) ??
+  '/images/og-default.jpg';
+
+const resolvedOgImage = ogImage ?? defaultOgImage;
+---
+
+<!doctype html>
+<html lang="el">
+  <head>
+    <meta charset="utf-8" />
+    {gtmId ? <GtmHead gtmId={gtmId} /> : null}
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <link rel="icon" href="/favicon.ico" />
+    <meta name="generator" content={Astro.generator} />
+    <SeoHead
+      title={title}
+      description={description}
+      ogImage={resolvedOgImage}
+      defaultOgImage={defaultOgImage}
+      noIndex={noIndex}
+      canonicalUrl={canonicalUrl}
+    />
+    <LocalBusinessSchema settings={siteSettings} />
+    <slot name="schema" />
+  </head>
+  <body class="custom-scrollbar overflow-x-hidden">
+    {gtmId ? <GtmBody gtmId={gtmId} /> : null}
+    <Nav currentPath={currentPath} />
+    <main class="mt-20 flex-1">
+      <slot />
+    </main>
+    <Footer />
+  </body>
+</html>

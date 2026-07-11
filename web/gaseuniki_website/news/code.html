@@ -1,0 +1,371 @@
+<!DOCTYPE html>
+
+<html class="light" lang="el" style="height: 100%; margin: 0px; padding: 0px; overflow-x: hidden;"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Νέα &amp; Ανακοινώσεις - ΓΑΣ ΕΥΝΙΚΗ</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;600;700;800&amp;family=Nunito+Sans:wght@300;400;600;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            "colors": {
+                    "primary": "#b80049",
+                    "on-primary": "#ffffff",
+                    "tertiary-container": "#916f1c",
+                    "on-secondary": "#ffffff",
+                    "on-error-container": "#93000a",
+                    "on-secondary-fixed-variant": "#8d0051",
+                    "on-tertiary-fixed-variant": "#5b4300",
+                    "surface-container-highest": "#e2e2e2",
+                    "secondary-container": "#fe4ea2",
+                    "error": "#ba1a1a",
+                    "on-surface-variant": "#5b3f43",
+                    "error-container": "#ffdad6",
+                    "secondary-fixed": "#ffd9e4",
+                    "on-tertiary": "#ffffff",
+                    "outline-variant": "#e4bdc2",
+                    "inverse-surface": "#2f3131",
+                    "surface-bright": "#f9f9f9",
+                    "on-tertiary-container": "#fffbff",
+                    "primary-fixed": "#ffd9de",
+                    "tertiary-fixed-dim": "#ebc166",
+                    "on-primary-fixed-variant": "#900038",
+                    "on-background": "#1a1c1c",
+                    "on-surface": "#1a1c1c",
+                    "inverse-on-surface": "#f0f1f1",
+                    "surface-container-high": "#e8e8e8",
+                    "surface-variant": "#e2e2e2",
+                    "tertiary": "#765700",
+                    "surface-container-low": "#f3f3f4",
+                    "on-tertiary-fixed": "#261a00",
+                    "on-error": "#ffffff",
+                    "primary-container": "#e2165f",
+                    "surface-container": "#eeeeee",
+                    "secondary-fixed-dim": "#ffb0cc",
+                    "outline": "#8f6f73",
+                    "secondary": "#b7046c",
+                    "surface-container-lowest": "#ffffff",
+                    "on-primary-fixed": "#400014",
+                    "surface-tint": "#bc004b",
+                    "surface": "#f9f9f9",
+                    "on-secondary-container": "#5c0033",
+                    "on-primary-container": "#fffbff",
+                    "on-secondary-fixed": "#3e0021",
+                    "background": "#f9f9f9",
+                    "surface-dim": "#dadada"
+            },
+            "borderRadius": {
+                    "DEFAULT": "0.25rem",
+                    "lg": "0.5rem",
+                    "xl": "0.75rem",
+                    "full": "9999px"
+            },
+            "spacing": {
+                    "gutter": "24px",
+                    "unit": "8px",
+                    "margin-desktop": "40px",
+                    "section-padding": "80px",
+                    "margin-mobile": "16px",
+                    "container-max-width": "1200px"
+            },
+            "fontFamily": {
+                    "headline-md": ["Plus Jakarta Sans"],
+                    "headline-lg": ["Plus Jakarta Sans"],
+                    "display-lg": ["Plus Jakarta Sans"],
+                    "headline-lg-mobile": ["Plus Jakarta Sans"],
+                    "body-md": ["Nunito Sans"],
+                    "label-md": ["Plus Jakarta Sans"],
+                    "body-lg": ["Nunito Sans"]
+            },
+            "fontSize": {
+                    "headline-md": ["24px", {"lineHeight": "1.4", "fontWeight": "600"}],
+                    "headline-lg": ["32px", {"lineHeight": "1.3", "fontWeight": "700"}],
+                    "display-lg": ["48px", {"lineHeight": "1.2", "letterSpacing": "-0.02em", "fontWeight": "700"}],
+                    "headline-lg-mobile": ["28px", {"lineHeight": "1.3", "fontWeight": "700"}],
+                    "body-md": ["16px", {"lineHeight": "1.6", "fontWeight": "400"}],
+                    "label-md": ["14px", {"lineHeight": "1.2", "fontWeight": "600"}],
+                    "body-lg": ["18px", {"lineHeight": "1.6", "fontWeight": "400"}]
+            }
+          },
+        },
+      }
+    </script>
+<style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+            display: inline-block;
+            vertical-align: middle;
+        }
+        
+        .ribbon-bg {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -1;
+            overflow: hidden;
+            background: radial-gradient(circle at 10% 20%, rgba(184, 0, 73, 0.08) 0%, transparent 40%),
+                        radial-gradient(circle at 90% 80%, rgba(183, 4, 108, 0.08) 0%, transparent 40%);
+        }
+
+        .ribbon-wave {
+            position: absolute;
+            width: 200%;
+            height: 100%;
+            background: url("data:image/svg+xml,%3Csvg viewBox='0 0 1000 1000' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M0,500 C200,400 300,600 500,500 C700,400 800,600 1000,500' stroke='rgba(184, 0, 73, 0.05)' fill='transparent' stroke-width='2'/%3E%3C/svg%3E");
+            background-size: 1000px 1000px;
+            animation: move-wave 60s linear infinite;
+        }
+
+        @keyframes move-wave {
+            0% { transform: translateX(0); }
+            100% { transform: translateX(-50%); }
+        }
+
+        .card-hover {
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+        .card-hover:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 20px 40px -12px rgba(184, 0, 73, 0.15);
+        }
+    </style>
+</head>
+<body class="bg-surface text-on-surface font-body-md selection:bg-primary-container selection:text-on-primary-container min-h-screen">
+<div class="ribbon-bg">
+<div class="ribbon-wave"></div>
+</div>
+<!-- Header Section (TopNavBar) -->
+<header class="fixed top-0 left-0 right-0 z-50 bg-surface/90 dark:bg-surface-dim/90 backdrop-blur-md shadow-sm">
+<nav class="flex justify-between items-center px-gutter py-4 w-full max-w-container-max-width mx-auto">
+<div class="flex items-center gap-3">
+<img alt="ΓΑΣ ΕΥΝΙΚΗ Logo" class="h-10 w-10 md:h-12 md:w-12 object-contain" src="https://lh3.googleusercontent.com/aida/AP1WRLsd6F_5ATqchePDsvAwj09ABL3eWYobdJlROr41n3xeZ_Eq45Mp76rtusbY8sWGWcGMJr_dhem2odaVyioLV_G7eKrPf3xb09qDSj3Q75jx07IqzKIGISJMA1okUD5bZxAy0QDU2cr-P5JSn-y_MBUuUn2WBIMjspA4zCZO6PYFXJxlffRhX-4rsMaD17JfW-idVy0M_nhL2_7X6B-FFWM4ViYvCbx6XqBcIFe-ldhfRgTlSPzew1DqVsMh"/>
+<span class="font-display-lg text-headline-md font-bold text-primary dark:text-primary-fixed-dim">ΓΑΣ ΕΥΝΙΚΗ</span>
+</div>
+<!-- Desktop Nav -->
+<div class="hidden md:flex items-center gap-8 font-display-lg text-label-md">
+<a class="text-on-surface-variant dark:text-outline hover:text-primary dark:hover:text-primary-fixed-dim transition-colors" href="#">Αρχική</a>
+<a class="text-on-surface-variant dark:text-outline hover:text-primary dark:hover:text-primary-fixed-dim transition-colors" href="#">Ο Σύλλογος</a>
+<a class="text-primary dark:text-primary-fixed-dim border-b-2 border-primary dark:border-primary-fixed-dim pb-1" href="#">Νέα</a>
+<a class="text-on-surface-variant dark:text-outline hover:text-primary dark:hover:text-primary-fixed-dim transition-colors" href="#">Τμήματα</a>
+<a class="text-on-surface-variant dark:text-outline hover:text-primary dark:hover:text-primary-fixed-dim transition-colors" href="#">Εγγραφές</a>
+<a class="text-on-surface-variant dark:text-outline hover:text-primary dark:hover:text-primary-fixed-dim transition-colors" href="#">Επικοινωνία</a>
+</div>
+<div class="flex items-center gap-4">
+<button class="bg-primary text-on-primary px-6 py-2.5 rounded-xl font-label-md hover:scale-105 active:scale-95 transition-all shadow-md">
+                    Εγγραφή
+                </button>
+<button class="md:hidden text-primary">
+<span class="material-symbols-outlined" style="font-size: 32px;">menu</span>
+</button>
+</div>
+</nav>
+</header>
+<main class="pt-32 px-gutter w-full max-w-container-max-width mx-auto">
+<!-- Hero Section -->
+<div class="mb-16 text-center max-w-3xl mx-auto">
+<div class="inline-flex items-center gap-2 text-secondary mb-4 uppercase tracking-widest font-label-md">
+<span class="material-symbols-outlined text-sm">notifications</span>
+                Ενημερώσεις
+            </div>
+<h1 class="font-display-lg text-display-lg md:text-display-lg text-on-surface mb-4">Νέα &amp; Ανακοινώσεις</h1>
+<p class="font-body-lg text-body-lg text-on-surface-variant">
+                Μείνετε ενημερωμένοι για ό,τι συμβαίνει στον σύλλογό μας, από αγωνιστικές επιτυχίες μέχρι νέες εγγραφές και εκδηλώσεις.
+            </p>
+</div>
+<!-- News Grid -->
+<div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+<!-- Article 1 -->
+<article class="card-hover bg-white rounded-2xl overflow-hidden shadow-[0_4px_20px_rgba(184,0,73,0.05)] border-t-4 border-primary">
+<div class="relative h-56 overflow-hidden">
+<img alt="Εγγραφές 2026-2027" class="w-full h-full object-cover" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBrwM1kXAMO_zM-hXPnLZdhMb_UJeNWoO0HG-QvrkOWPFx8NK-F3WQ8G8PPszq38lXeDXPu98zjvJxsrlv1-Gf59Tdq_porU_w8Cc34NxEWRPqSUkiQRZGCLjvIJIZsbLQJ973cx2wtJD92UV70DcHY6ezR08BS6hNVh-Qwrt9m9kgajM_4hMNkrPXs0lIKzblr1bjVlzBnfcE_uKxlWuZ8RvqEmsnjeWwrTSz5ss2iZkrerh8VKZokMg"/>
+<div class="absolute top-4 left-4 bg-white/90 backdrop-blur px-3 py-1 rounded-lg font-label-md text-primary shadow-sm border border-primary/10">
+                        1 Ιουλίου 2026
+                    </div>
+</div>
+<div class="p-6">
+<h3 class="font-display-lg text-headline-md text-on-surface mb-3 line-clamp-2">Εγγραφές 2026-2027</h3>
+<p class="text-on-surface-variant font-body-md mb-6 line-clamp-3">
+                        Ξεκίνησαν οι προεγγραφές για τη νέα αθλητική χρονιά. Ελάτε στην οικογένεια της ΓΑΣ ΕΥΝΙΚΗ και ανακαλύψτε τη μαγεία της ρυθμικής γυμναστικής.
+                    </p>
+<a class="inline-flex items-center gap-2 text-primary font-label-md hover:gap-3 transition-all" href="#">
+                        Διαβάστε περισσότερα
+                        <span class="material-symbols-outlined">arrow_forward</span>
+</a>
+</div>
+</article>
+<!-- Article 2 -->
+<article class="card-hover bg-white rounded-2xl overflow-hidden shadow-[0_4px_20px_rgba(184,0,73,0.05)] border-t-4 border-secondary">
+<div class="relative h-56 overflow-hidden">
+<img alt="Πανελλήνιο Πρωτάθλημα" class="w-full h-full object-cover" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCMvnz-E_NgzhBI7HS3WvKO3pkn-_dJh66d8qXTsFSx2e15J10Bvi7EtgJw2J4Qu5nCwb4sMoLXtneJzkzaGOOUFd1pGGXwvABFU9afZe3gA8faubgV2GKY8MUL0_bhaeaM0tlXc5zhJ7iCyS4x8kFoUSKM8fbFf7DrsZx9hQPog_2Hv-CpxhFKioK5RWGLDKdwGRmNF8FsUoNOIBDPIbPEByzsbkkBJgjICLOip6QVt9Bfav_Ks0raxw"/>
+<div class="absolute top-4 left-4 bg-white/90 backdrop-blur px-3 py-1 rounded-lg font-label-md text-secondary shadow-sm border border-secondary/10">
+                        15 Ιουνίου 2026
+                    </div>
+</div>
+<div class="p-6">
+<h3 class="font-display-lg text-headline-md text-on-surface mb-3 line-clamp-2">Επιτυχημένη παρουσία στο Πανελλήνιο</h3>
+<p class="text-on-surface-variant font-body-md mb-6 line-clamp-3">
+                        Οι αθλήτριές μας εντυπωσίασαν με τις επιδόσεις τους στο Πανελλήνιο Πρωτάθλημα, κατακτώντας σημαντικές διακρίσεις και μετάλλια.
+                    </p>
+<a class="inline-flex items-center gap-2 text-secondary font-label-md hover:gap-3 transition-all" href="#">
+                        Διαβάστε περισσότερα
+                        <span class="material-symbols-outlined">arrow_forward</span>
+</a>
+</div>
+</article>
+<!-- Article 3 -->
+<article class="card-hover bg-white rounded-2xl overflow-hidden shadow-[0_4px_20px_rgba(184,0,73,0.05)] border-t-4 border-primary">
+<div class="relative h-56 overflow-hidden">
+<img alt="Ημέρα Ανοιχτών Θυρών" class="w-full h-full object-cover" src="https://lh3.googleusercontent.com/aida-public/AB6AXuClk3DMRegYS6P4Vgd_6XR6P9UbZzj36YlT1lYsxbU7rdjJy6cDO2Ij_W_nIJTH5u4_v2HJc5vmHuYGUqn3YASe7SSRL0cyxmZ5-l9jJo-6z583tR2JNkFQrMA_bfYsx1OAa8a-mngw4iFW5OTJjw_18Q3id6QPBTXvcuKRFQDE6S6JiIB-Jj8GzY-ysQlH6zieR3jlFsceqerT40ZBcVXR0bteUWKFooeZdbHIT20kQTVeVZaJvKx4aw"/>
+<div class="absolute top-4 left-4 bg-white/90 backdrop-blur px-3 py-1 rounded-lg font-label-md text-primary shadow-sm border border-primary/10">
+                        20 Μαΐου 2026
+                    </div>
+</div>
+<div class="p-6">
+<h3 class="font-display-lg text-headline-md text-on-surface mb-3 line-clamp-2">Ημέρα Ανοιχτών Θυρών</h3>
+<p class="text-on-surface-variant font-body-md mb-6 line-clamp-3">
+                        Σας προσκαλούμε να γνωρίσετε από κοντά τον σύλλογό μας, να παρακολουθήσετε ανοιχτές προπονήσεις και να μιλήσετε με τους προπονητές μας.
+                    </p>
+<a class="inline-flex items-center gap-2 text-primary font-label-md hover:gap-3 transition-all" href="#">
+                        Διαβάστε περισσότερα
+                        <span class="material-symbols-outlined">arrow_forward</span>
+</a>
+</div>
+</article>
+<!-- Article 4 -->
+<article class="card-hover bg-white rounded-2xl overflow-hidden shadow-[0_4px_20px_rgba(184,0,73,0.05)] border-t-4 border-secondary">
+<div class="relative h-56 overflow-hidden">
+<img alt="Έναρξη Χρονιάς" class="w-full h-full object-cover" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDqp5XTmQNvHqedD0KJzSxblKk8pyERuZ6LMNLQwVLI3aqpmQqP3lEpIAlBcupAONeMqqjmakU7FrtWFK9DpBkpvU1TGbePt0pB-VdvrROAted5wGXTNiO3fi_a4l5Ltxw9qFC-sPhOcKaeSJANj3ulEfvP1V3wFVg_mIO1BP17PotXFG3p0f14gWmxbpw3A2tKm1nvU1bYKlDPImfGxFbGMCjPUS70JcI9Sjrkx_BrcAoqY77fOEAriQ"/>
+<div class="absolute top-4 left-4 bg-white/90 backdrop-blur px-3 py-1 rounded-lg font-label-md text-secondary shadow-sm border border-secondary/10">
+                        1 Σεπτεμβρίου 2025
+                    </div>
+</div>
+<div class="p-6">
+<h3 class="font-display-lg text-headline-md text-on-surface mb-3 line-clamp-2">Έναρξη νέας αγωνιστικής χρονιάς</h3>
+<p class="text-on-surface-variant font-body-md mb-6 line-clamp-3">
+                        Με νέα όνειρα και υψηλούς στόχους ξεκινά η προετοιμασία των αθλητριών μας για τις επερχόμενες διοργανώσεις της χρονιάς.
+                    </p>
+<a class="inline-flex items-center gap-2 text-secondary font-label-md hover:gap-3 transition-all" href="#">
+                        Διαβάστε περισσότερα
+                        <span class="material-symbols-outlined">arrow_forward</span>
+</a>
+</div>
+</article>
+<!-- Article 5 -->
+<article class="card-hover bg-white rounded-2xl overflow-hidden shadow-[0_4px_20px_rgba(184,0,73,0.05)] border-t-4 border-primary">
+<div class="relative h-56 overflow-hidden">
+<img alt="Ετήσια Επίδειξη" class="w-full h-full object-cover" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCBwza4fyIJWBlPV3UzTjSpYFKTjxSTBPpKihUlC8HB2PNsxKwEf5d1JNkVji6OjZnFDjntYftQzPY394SZOtOrPIPby1ua67KLNboWjsIy77T8_aA7z7vbaEvYWco69r_iNWgfrY1CzSk2cH72aFPsIXFeBsjMLBhI56ytKDl6P9iW2_JUo0ErfRzhj3y76NKISzBr9FySZnwUio4b7iAhS3nMxQOtx_9IlGp-uxRcFEFTo98Xv451qw"/>
+<div class="absolute top-4 left-4 bg-white/90 backdrop-blur px-3 py-1 rounded-lg font-label-md text-primary shadow-sm border border-primary/10">
+                        10 Ιουνίου 2025
+                    </div>
+</div>
+<div class="p-6">
+<h3 class="font-display-lg text-headline-md text-on-surface mb-3 line-clamp-2">Ετήσια Επίδειξη Συλλόγου</h3>
+<p class="text-on-surface-variant font-body-md mb-6 line-clamp-3">
+                        Μια μαγευτική βραδιά γεμάτη ρυθμό, κίνηση και συναίσθημα. Οι αθλήτριες όλων των τμημάτων παρουσίασαν τη δουλειά τους.
+                    </p>
+<a class="inline-flex items-center gap-2 text-primary font-label-md hover:gap-3 transition-all" href="#">
+                        Διαβάστε περισσότερα
+                        <span class="material-symbols-outlined">arrow_forward</span>
+</a>
+</div>
+</article>
+<!-- Article 6 -->
+<article class="card-hover bg-white rounded-2xl overflow-hidden shadow-[0_4px_20px_rgba(184,0,73,0.05)] border-t-4 border-secondary">
+<div class="relative h-56 overflow-hidden">
+<img alt="Τοπικός Αγώνας" class="w-full h-full object-cover" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBtLVL9vqDZtSNYobkPBpNiS5QvbocRIyvoH6_P8qvdKq6vLRsPElXDUA-RHHC0y-32WhvEEr11Y60C3Bmjm-FE9UU-g-r-aSVJRSJWLs-BcyfmHtHieBzUum2D-yLJ6QDsPZ4ydTjH9B8vG4m8XURgG16TcwwnZjhHGWozvB37hkhRCxznoltoOxn6Z4SxU_DXl1hIajRBQatzbzwtbWW9iQZaaEXxYivcVA3xOP1Sn6s_A8Aofzn1RA"/>
+<div class="absolute top-4 left-4 bg-white/90 backdrop-blur px-3 py-1 rounded-lg font-label-md text-secondary shadow-sm border border-secondary/10">
+                        5 Μαρτίου 2025
+                    </div>
+</div>
+<div class="p-6">
+<h3 class="font-display-lg text-headline-md text-on-surface mb-3 line-clamp-2">Συμμετοχή σε τοπικό αγώνα</h3>
+<p class="text-on-surface-variant font-body-md mb-6 line-clamp-3">
+                        Πολύτιμες εμπειρίες αποκόμισαν οι μικρότερες αθλήτριές μας συμμετέχοντας στο περιφερειακό πρωτάθλημα συλλόγων.
+                    </p>
+<a class="inline-flex items-center gap-2 text-secondary font-label-md hover:gap-3 transition-all" href="#">
+                        Διαβάστε περισσότερα
+                        <span class="material-symbols-outlined">arrow_forward</span>
+</a>
+</div>
+</article>
+</div>
+<!-- Pagination -->
+<div class="mt-20 mb-20 flex justify-center items-center gap-4">
+<button class="flex items-center gap-2 border-2 border-primary/20 text-primary/50 px-6 py-2.5 rounded-xl font-label-md cursor-not-allowed">
+<span class="material-symbols-outlined">chevron_left</span>
+                Προηγούμενα
+            </button>
+<div class="flex gap-2">
+<button class="w-10 h-10 rounded-lg bg-primary text-on-primary font-label-md flex items-center justify-center">1</button>
+<button class="w-10 h-10 rounded-lg text-on-surface-variant font-label-md flex items-center justify-center hover:bg-primary/5 hover:text-primary transition-colors">2</button>
+<button class="w-10 h-10 rounded-lg text-on-surface-variant font-label-md flex items-center justify-center hover:bg-primary/5 hover:text-primary transition-colors">3</button>
+</div>
+<button class="flex items-center gap-2 border-2 border-primary text-primary px-6 py-2.5 rounded-xl font-label-md hover:bg-primary/5 transition-all">
+                Επόμενα
+                <span class="material-symbols-outlined">chevron_right</span>
+</button>
+</div>
+</main>
+<!-- Footer Section -->
+<footer class="bg-surface-container-highest dark:bg-surface-container-lowest border-t border-outline-variant/30">
+<div class="grid grid-cols-1 md:grid-cols-4 gap-gutter px-gutter py-section-padding w-full max-w-container-max-width mx-auto">
+<div class="col-span-1 md:col-span-1">
+<div class="flex items-center gap-3 mb-6">
+<img alt="ΓΑΣ ΕΥΝΙΚΗ Logo" class="h-10 w-10 object-contain" src="https://lh3.googleusercontent.com/aida/AP1WRLsd6F_5ATqchePDsvAwj09ABL3eWYobdJlROr41n3xeZ_Eq45Mp76rtusbY8sWGWcGMJr_dhem2odaVyioLV_G7eKrPf3xb09qDSj3Q75jx07IqzKIGISJMA1okUD5bZxAy0QDU2cr-P5JSn-y_MBUuUn2WBIMjspA4zCZO6PYFXJxlffRhX-4rsMaD17JfW-idVy0M_nhL2_7X6B-FFWM4ViYvCbx6XqBcIFe-ldhfRgTlSPzew1DqVsMh"/>
+<span class="font-display-lg text-headline-md font-bold text-on-surface">ΓΑΣ ΕΥΝΙΚΗ</span>
+</div>
+<p class="text-on-surface-variant font-body-md">
+                    Προωθούμε τον αθλητισμό και τις αξίες του μέσα από τη ρυθμική γυμναστική στην Ελευσίνα.
+                </p>
+</div>
+<div class="flex flex-col gap-4">
+<h4 class="font-headline-md text-on-surface mb-2">Σύνδεσμοι</h4>
+<a class="text-on-surface-variant hover:text-secondary transition-colors font-body-md" href="#">Αρχική</a>
+<a class="text-on-surface-variant hover:text-secondary transition-colors font-body-md" href="#">Ο Σύλλογος</a>
+<a class="text-primary font-bold font-body-md" href="#">Νέα</a>
+<a class="text-on-surface-variant hover:text-secondary transition-colors font-body-md" href="#">Τμήματα</a>
+</div>
+<div class="flex flex-col gap-4">
+<h4 class="font-headline-md text-on-surface mb-2">Χρήσιμα</h4>
+<a class="text-on-surface-variant hover:text-secondary transition-colors font-body-md" href="#">Εγγραφές</a>
+<a class="text-on-surface-variant hover:text-secondary transition-colors font-body-md" href="#">Επικοινωνία</a>
+<a class="text-on-surface-variant hover:text-secondary transition-colors font-body-md" href="#">Ε.Γ.Ο.</a>
+<a class="text-on-surface-variant hover:text-secondary transition-colors font-body-md" href="#">F.I.G.</a>
+</div>
+<div class="flex flex-col gap-4">
+<h4 class="font-headline-md text-on-surface mb-2">Social Media</h4>
+<div class="flex gap-4">
+<a class="w-10 h-10 rounded-full bg-primary/10 flex items-center justify-center text-primary hover:bg-primary hover:text-on-primary transition-all" href="#">
+<span class="material-symbols-outlined">public</span>
+</a>
+<a class="w-10 h-10 rounded-full bg-primary/10 flex items-center justify-center text-primary hover:bg-primary hover:text-on-primary transition-all" href="#">
+<span class="material-symbols-outlined">share</span>
+</a>
+</div>
+</div>
+</div>
+<div class="border-t border-outline-variant/20 py-8 px-gutter text-center">
+<p class="text-on-surface-variant font-body-md">© 2024 Γας Ευνίκη Ελευσίνας. Με την επιφύλαξη παντός δικαιώματος.</p>
+</div>
+</footer>
+<script>
+        // Micro-interaction for smooth scrolling and hover effects
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                if(target) {
+                    target.scrollIntoView({
+                        behavior: 'smooth'
+                    });
+                }
+            });
+        });
+    </script>
+</body></html>

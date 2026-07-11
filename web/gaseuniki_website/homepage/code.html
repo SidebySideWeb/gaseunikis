@@ -1,0 +1,535 @@
+<!DOCTYPE html><html class="light" lang="el" style=""><head>
+<meta charset="utf-8">
+<meta content="width=device-width, initial-scale=1.0" name="viewport">
+<title>ΓΑΣ ΕΥΝΙΚΗ ΕΛΕΥΣΙΝΑΣ | Ρυθμική Γυμναστική</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;600;700;800&amp;family=Nunito+Sans:wght@300;400;600;700&amp;display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet">
+<script id="tailwind-config">
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            "colors": {
+                    "on-error-container": "#93000a",
+                    "tertiary-fixed": "#ffdf9e",
+                    "primary-fixed-dim": "#ffb2be",
+                    "background": "#f9f9f9",
+                    "secondary-container": "#fe4ea2",
+                    "primary-container": "#e2165f",
+                    "surface": "#f9f9f9",
+                    "inverse-primary": "#ffb2be",
+                    "on-surface": "#1a1c1c",
+                    "surface-bright": "#f9f9f9",
+                    "on-tertiary-fixed": "#261a00",
+                    "tertiary": "#765700",
+                    "surface-container-high": "#e8e8e8",
+                    "primary-fixed": "#ffd9de",
+                    "on-background": "#1a1c1c",
+                    "on-tertiary-container": "#fffbff",
+                    "secondary-fixed-dim": "#ffb0cc",
+                    "on-primary-container": "#fffbff",
+                    "on-tertiary": "#ffffff",
+                    "on-secondary": "#ffffff",
+                    "surface-dim": "#dadada",
+                    "secondary-fixed": "#ffd9e4",
+                    "primary": "#b80049",
+                    "on-secondary-fixed-variant": "#8d0051",
+                    "inverse-on-surface": "#f0f1f1",
+                    "surface-variant": "#e2e2e2",
+                    "surface-container-lowest": "#ffffff",
+                    "on-secondary-fixed": "#3e0021",
+                    "tertiary-fixed-dim": "#ebc166",
+                    "secondary": "#b7046c",
+                    "surface-container-highest": "#e2e2e2",
+                    "on-tertiary-fixed-variant": "#5b4300",
+                    "on-surface-variant": "#5b3f43",
+                    "error-container": "#ffdad6",
+                    "outline-variant": "#e4bdc2",
+                    "tertiary-container": "#916f1c",
+                    "on-error": "#ffffff",
+                    "surface-container": "#eeeeee",
+                    "on-primary": "#ffffff",
+                    "on-primary-fixed": "#400014",
+                    "on-primary-fixed-variant": "#900038",
+                    "on-secondary-container": "#5c0033",
+                    "surface-tint": "#bc004b",
+                    "surface-container-low": "#f3f3f4",
+                    "outline": "#8f6f73",
+                    "inverse-surface": "#2f3131",
+                    "error": "#ba1a1a"
+            },
+            "borderRadius": {
+                    "DEFAULT": "0.25rem",
+                    "lg": "0.5rem",
+                    "xl": "0.75rem",
+                    "full": "9999px"
+            },
+            "spacing": {
+                    "gutter": "24px",
+                    "container-max-width": "1200px",
+                    "unit": "8px",
+                    "margin-mobile": "16px",
+                    "section-padding": "80px",
+                    "margin-desktop": "40px"
+            },
+            "fontFamily": {
+                    "display-lg": ["Plus Jakarta Sans"],
+                    "body-md": ["Nunito Sans"],
+                    "headline-lg": ["Plus Jakarta Sans"],
+                    "headline-md": ["Plus Jakarta Sans"],
+                    "headline-lg-mobile": ["Plus Jakarta Sans"],
+                    "body-lg": ["Nunito Sans"],
+                    "label-md": ["Plus Jakarta Sans"]
+            },
+            "fontSize": {
+                    "display-lg": ["48px", {"lineHeight": "1.2", "letterSpacing": "-0.02em", "fontWeight": "700"}],
+                    "body-md": ["16px", {"lineHeight": "1.6", "fontWeight": "400"}],
+                    "headline-lg": ["32px", {"lineHeight": "1.3", "fontWeight": "700"}],
+                    "headline-md": ["24px", {"lineHeight": "1.4", "fontWeight": "600"}],
+                    "headline-lg-mobile": ["28px", {"lineHeight": "1.3", "fontWeight": "700"}],
+                    "body-lg": ["18px", {"lineHeight": "1.6", "fontWeight": "400"}],
+                    "label-md": ["14px", {"lineHeight": "1.2", "fontWeight": "600"}]
+            }
+          },
+        },
+      }
+    </script>
+<style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+        .ribbon-bg {
+            background-image: radial-gradient(at 0% 0%, rgba(233, 30, 99, 0.08) 0%, transparent 50%),
+                              radial-gradient(at 100% 100%, rgba(255, 79, 163, 0.12) 0%, transparent 50%);
+        }
+        .glass-card {
+            background: rgba(255, 255, 255, 0.85);
+            backdrop-filter: blur(12px);
+            border: 1px solid rgba(233, 30, 99, 0.1);
+        }
+        .kinetic-shadow {
+            box-shadow: 0 4px 20px rgba(233, 30, 99, 0.08);
+        }
+        .hover-lift {
+            transition: transform 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+        }
+        .hover-lift:hover {
+            transform: translateY(-8px) scale(1.02);
+        }
+        .custom-scrollbar::-webkit-scrollbar {
+            width: 6px;
+        }
+        .custom-scrollbar::-webkit-scrollbar-track {
+            background: transparent;
+        }
+        .custom-scrollbar::-webkit-scrollbar-thumb {
+            background: #e2165f;
+            border-radius: 10px;
+        }
+    </style>
+</head>
+<body class="bg-background text-on-surface font-body-md selection:bg-primary-fixed selection:text-on-primary-fixed custom-scrollbar overflow-x-hidden" style="margin: 0px; padding: 0px; min-height: 100vh; display: flex; flex-direction: column;">
+<!-- TopNavBar (Updated from SCREEN_24) -->
+<header class="fixed top-0 left-0 right-0 z-50 bg-white shadow-sm border-b border-primary/5">
+<nav class="flex justify-between items-center px-gutter py-4 w-full max-w-container-max-width mx-auto">
+<div class="flex items-center gap-3">
+<img alt="ΓΑΣ ΕΥΝΙΚΗ Logo" class="h-10 w-10 md:h-12 md:w-12 object-contain" src="https://lh3.googleusercontent.com/aida/AP1WRLsd6F_5ATqchePDsvAwj09ABL3eWYobdJlROr41n3xeZ_Eq45Mp76rtusbY8sWGWcGMJr_dhem2odaVyioLV_G7eKrPf3xb09qDSj3Q75jx07IqzKIGISJMA1okUD5bZxAy0QDU2cr-P5JSn-y_MBUuUn2WBIMjspA4zCZO6PYFXJxlffRhX-4rsMaD17JfW-idVy0M_nhL2_7X6B-FFWM4ViYvCbx6XqBcIFe-ldhfRgTlSPzew1DqVsMh">
+<span class="font-display-lg text-headline-md font-bold text-primary">ΓΑΣ ΕΥΝΙΚΗ</span>
+</div>
+<!-- Desktop Nav -->
+<div class="hidden md:flex items-center gap-8 font-display-lg text-label-md">
+<a class="text-primary border-b-2 border-primary pb-1" href="#">Αρχική</a>
+<a class="text-on-surface-variant hover:text-primary transition-colors" href="#">Ο Σύλλογος</a>
+<a class="text-on-surface-variant hover:text-primary transition-colors" href="#">Νέα</a>
+<a class="text-on-surface-variant hover:text-primary transition-colors" href="#">Τμήματα</a>
+<a class="text-on-surface-variant hover:text-primary transition-colors" href="#">Επιτυχίες</a>
+<a class="text-on-surface-variant hover:text-primary transition-colors" href="#">Εγγραφές</a>
+<a class="text-on-surface-variant hover:text-primary transition-colors" href="#">Επικοινωνία</a>
+</div>
+<div class="flex items-center gap-4">
+<button class="bg-primary text-on-primary px-6 py-2 rounded-xl font-label-md active:scale-95 transition-transform duration-200">Εγγραφή</button>
+<button class="md:hidden text-primary">
+<span class="material-symbols-outlined" style="font-size: 32px;">menu</span>
+</button>
+</div>
+</nav>
+</header>
+<main class="mt-[80px]">
+<!-- Hero Section -->
+<section class="relative min-h-[85vh] flex items-center overflow-hidden ribbon-bg">
+<div class="absolute inset-0 z-0 transition-all duration-700 opacity-100 translate-y-0">
+<div class="absolute inset-0 bg-gradient-to-r from-background via-background/40 to-transparent z-10"></div>
+<img alt="Professional rhythmic gymnast" class="w-full h-full object-cover object-center scale-105" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAHNr29ILzXhYB_dVtztjPvkIAzQsQWNhntlbjrX4tTtKdFMOw_upind0RPR1U3qa19K3jFXRVjmtTTWz5B-uvrgpT0Ihh4L_kGfy1uiQI6fKbg-c_x_Shes9U-2JI2sPvVNmKq6hdK7d6VMIo_ZjF5tcOF28itxus0HZDWQs0vvUsgLFq1XoG2Ce_P0PdUNh6Z_Gt5w6kcQqQjvKN7J44FMGRy8eEFkEaN5wKQDQCk3rInw22fHvxSnA">
+</div>
+<div class="relative z-20 w-full max-w-container-max-width mx-auto px-gutter py-section-padding transition-all duration-700 opacity-100 translate-y-0">
+<div class="max-w-2xl">
+<span class="inline-block px-4 py-1.5 rounded-full bg-primary-container text-on-primary-container font-label-md text-sm mb-6 tracking-wider uppercase">ΑΘΛΗΤΙΚΟΣ ΣΥΛΛΟΓΟΣ</span>
+<h1 class="font-display-lg text-display-lg text-on-surface mb-4 leading-tight">Γας Ευνίκη Ελευσίνας</h1>
+<h2 class="font-headline-md text-headline-md text-primary mb-8">Ρυθμική Γυμναστική &amp; Γυμναστική για Όλους</h2>
+<p class="font-body-lg text-body-lg text-on-surface-variant italic mb-10 border-l-4 border-primary pl-6">"Εκεί που το ταλέντο συναντά την αφοσίωση."</p>
+<div class="flex flex-wrap gap-4">
+<button class="bg-primary text-on-primary px-8 py-4 rounded-xl font-headline-md hover:shadow-lg transition-all active:scale-95">Δες τα Τμήματά μας</button>
+<button class="border-2 border-primary text-primary px-8 py-4 rounded-xl font-headline-md hover:bg-primary/5 transition-all active:scale-95">Κλείσε Δοκιμαστικό Μάθημα</button>
+</div>
+</div>
+</div>
+<!-- Kinetic Wave Decoration -->
+<div class="absolute bottom-0 left-0 w-full overflow-hidden leading-none transition-all duration-700 opacity-100 translate-y-0">
+<svg class="relative block w-full h-24" data-name="Layer 1" preserveAspectRatio="none" viewBox="0 0 1200 120" xmlns="http://www.w3.org/2000/svg">
+<path class="fill-surface" d="M321.39,56.44c58-10.79,114.16-30.13,172-41.86,82.39-16.72,168.19-17.73,250.45-.39C823.78,31,906.67,72,985.66,92.83c70.05,18.48,146.53,26.09,214.34,3V120H0V95.8C58.47,105,123.82,108,187,97.77,235.39,89.92,279.16,70.52,321.39,56.44Z"></path>
+</svg>
+</div>
+</section>
+<!-- Welcome Section -->
+<section class="py-section-padding bg-surface">
+<div class="max-w-container-max-width mx-auto px-gutter grid md:grid-cols-2 gap-16 items-center transition-all duration-700 opacity-100 translate-y-0">
+<div class="relative group">
+<div class="absolute -top-4 -left-4 w-24 h-24 bg-primary/20 rounded-2xl -z-10 group-hover:translate-x-2 group-hover:translate-y-2 transition-transform"></div>
+<div class="absolute -bottom-4 -right-4 w-24 h-24 bg-secondary-fixed rounded-2xl -z-10 group-hover:-translate-x-2 group-hover:-translate-y-2 transition-transform"></div>
+<img alt="Gymnastics coach" class="rounded-2xl shadow-xl w-full h-[500px] object-cover border border-primary/10" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAloaIZqUIsLO1D_TZLaSKR_MlllVhc87FwuSEX05U0SGdi4dNh-Ik_Dp_gH2MB71u0XUXn7dMxjVcjclqIM_wMQbk6P1DX8xyWmMDRgv682kP2ZpE230p34Uo6xf0_gcF0WSjH_aG3pWv29U_gdNlyVqkAGa1OBArp54QmfeAWU4IwdNFMvE04cQvww1Gpx3JlYzs-1wDn7zG1oUgVR4Ngh_TV57AO30gRPus5O6HRv8l-Apcs2l0k8g">
+</div>
+<div>
+<h2 class="font-headline-lg text-headline-lg text-on-surface mb-6">Καλωσορίσατε στον ΓΑΣ Ευνίκη</h2>
+<p class="font-body-lg text-body-lg text-on-surface-variant mb-6 leading-relaxed">
+                        Με πολυετή εμπειρία και βαθιά αγάπη για το άθλημα, ο Σύλλογός μας αποτελεί ένα πρότυπο κέντρο καλλιέργειας της Ρυθμικής Γυμναστικής και της Γυμναστικής για Όλους στην Ελευσίνα.
+                    </p>
+<p class="font-body-lg text-body-lg text-on-surface-variant mb-8 leading-relaxed">
+                        Αναγνωρισμένοι από την <strong>Ελληνική Γυμναστική Ομοσπονδία (Ε.Γ.Ο.)</strong> και τη <strong>Γενική Γραμματεία Αθλητισμού (Γ.Γ.Α.)</strong>, προσφέρουμε ένα ασφαλές και σύγχρονο περιβάλλον όπου κάθε παιδί μπορεί να ανακαλύψει τις δυνατότητές του.
+                    </p>
+<div class="flex gap-8 border-t border-primary/10 pt-8">
+<div class="text-center">
+<span class="block font-display-lg text-headline-lg text-primary">15+</span>
+<span class="text-label-md text-on-surface-variant uppercase">Χρόνια Εμπειρίας</span>
+</div>
+<div class="text-center">
+<span class="block font-display-lg text-headline-lg text-primary">E.Γ.Ο.</span>
+<span class="text-label-md text-on-surface-variant uppercase">Πιστοποίηση</span>
+</div>
+</div>
+</div>
+</div>
+</section>
+<!-- Programs (Τμήματα) Bento Grid -->
+<section class="py-section-padding ribbon-bg">
+<div class="max-w-container-max-width mx-auto px-gutter transition-all duration-700 opacity-100 translate-y-0">
+<div class="text-center mb-16">
+<h2 class="font-headline-lg text-headline-lg text-on-surface mb-4">Τα Τμήματά μας</h2>
+<div class="h-1.5 w-24 bg-primary mx-auto rounded-full"></div>
+</div>
+<div class="grid md:grid-cols-2 gap-gutter">
+<!-- Card 1: Rhythmic -->
+<div class="glass-card rounded-[2rem] p-10 kinetic-shadow border-t-4 border-primary group hover-lift">
+<div class="flex justify-between items-start mb-8">
+<div>
+<h3 class="font-headline-lg text-headline-lg text-primary mb-2">Ρυθμική Γυμναστική</h3>
+<p class="text-on-surface-variant">Η τέχνη της κίνησης, της μουσικής και των οργάνων.</p>
+</div>
+<span class="material-symbols-outlined text-primary text-5xl opacity-30 group-hover:opacity-100 transition-opacity">female</span>
+</div>
+<div class="space-y-6 mb-10">
+<div>
+<h4 class="font-label-md text-secondary uppercase tracking-wider mb-3">Αγωνιστικά Τμήματα</h4>
+<ul class="grid grid-cols-2 gap-2 text-body-md">
+<li class="flex items-center gap-2"><span class="w-1.5 h-1.5 bg-primary rounded-full"></span> Ηλικίες 8-15</li>
+<li class="flex items-center gap-2"><span class="w-1.5 h-1.5 bg-primary rounded-full"></span> Ηλικίες 6-8</li>
+</ul>
+</div>
+<div>
+<h4 class="font-label-md text-secondary uppercase tracking-wider mb-3">Τμήματα Μαζικού Αθλητισμού</h4>
+<ul class="grid grid-cols-2 gap-3 text-body-md">
+<li class="bg-primary/5 p-2 rounded-lg border border-primary/10">Νήπια (3-5 ετών)</li>
+<li class="bg-primary/5 p-2 rounded-lg border border-primary/10">Ακαδημίες (4-6 ετών)</li>
+<li class="bg-primary/5 p-2 rounded-lg border border-primary/10">Προχωρημένα (6-10)</li>
+<li class="bg-primary/5 p-2 rounded-lg border border-primary/10">Εφηβικό (12-16)</li>
+</ul>
+</div>
+</div>
+<a class="inline-flex items-center gap-2 text-primary font-bold hover:underline" href="#">
+                            Μάθετε Περισσότερα <span class="material-symbols-outlined">arrow_forward</span>
+</a>
+</div>
+<!-- Card 2: Gymnastics for All -->
+<div class="glass-card rounded-[2rem] p-10 kinetic-shadow border-t-4 border-secondary group hover-lift">
+<div class="flex justify-between items-start mb-8">
+<div>
+<h3 class="font-headline-lg text-headline-lg text-secondary mb-2">Γυμναστική για Όλους</h3>
+<p class="text-on-surface-variant">Ομαδικότητα, θέαμα και χαρά της συμμετοχής.</p>
+</div>
+<span class="material-symbols-outlined text-secondary text-5xl opacity-30 group-hover:opacity-100 transition-opacity">groups</span>
+</div>
+<div class="space-y-6 mb-10">
+<div>
+<h4 class="font-label-md text-primary uppercase tracking-wider mb-3">Αγωνιστικές Ομάδες Contest</h4>
+<div class="grid grid-cols-1 gap-4">
+<div class="flex items-center justify-between p-4 bg-secondary/10 rounded-xl border border-secondary/20">
+<span class="font-bold text-on-surface">Team 1 (Elite)</span>
+<span class="material-symbols-outlined text-primary">workspace_premium</span>
+</div>
+<div class="flex items-center justify-between p-4 bg-secondary/10 rounded-xl border border-secondary/20">
+<span class="font-bold text-on-surface">Team 2 (Junior)</span>
+<span class="material-symbols-outlined text-primary">workspace_premium</span>
+</div>
+<div class="flex items-center justify-between p-4 bg-secondary/10 rounded-xl border border-secondary/20">
+<span class="font-bold text-on-surface">Team 3 (Development)</span>
+<span class="material-symbols-outlined text-primary">workspace_premium</span>
+</div>
+</div>
+</div>
+</div>
+<a class="inline-flex items-center gap-2 text-secondary font-bold hover:underline" href="#">
+                            Μάθετε Περισσότερα <span class="material-symbols-outlined">arrow_forward</span>
+</a>
+</div>
+</div>
+</div>
+</section>
+<!-- Moments Gallery -->
+<section class="py-section-padding bg-on-surface text-surface">
+<div class="max-w-container-max-width mx-auto px-gutter transition-all duration-700 opacity-100 translate-y-0">
+<div class="flex flex-col md:flex-row justify-between items-end mb-12 gap-6">
+<div>
+<h2 class="font-headline-lg text-headline-lg mb-2">Στιγμές από την Προπόνηση</h2>
+<p class="text-surface/70">Η καθημερινή μας προσπάθεια σε εικόνες.</p>
+</div>
+</div>
+<div class="grid md:grid-cols-3 gap-8">
+<div class="group relative overflow-hidden rounded-2xl h-[400px] ring-1 ring-primary/20">
+<img alt="Gymnast expression" class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110" src="https://lh3.googleusercontent.com/aida-public/AB6AXuB0zkWfbW4FFhW5ZqlfS0yYewA3tI0MCEZyMsVBMPLrrZ5x_v40QjZOhzQFRCu6SHEkmQKfpyO0O7iFzp6iGCmJYD5booSLi1OH09sbR9GkLasvY_j-lqX62qTodnCx1rH_sBcqSdmBJKCIDDA_ozsXIUYbPm2rVO_vmJbvtL3V3L8WjGuT5R7IfpgF_drVWS6m6zjAnTsRz-nISKpx-PnCv6T9CLkZHXqVVoK9oU3lISFVMsz7P5g4vw">
+<div class="absolute inset-0 bg-gradient-to-t from-black/90 via-black/20 to-transparent flex items-end p-8">
+<h3 class="font-headline-md text-white border-l-4 border-primary pl-4">Έκφραση</h3>
+</div>
+</div>
+<div class="group relative overflow-hidden rounded-2xl h-[400px] ring-1 ring-primary/20">
+<img alt="Team choreography" class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110" src="https://lh3.googleusercontent.com/aida-public/AB6AXuC9gB4jtZ8rlt9ucDR6haFitClFl32FRJgKBWIPEQWgBcqhdbgom3lISBxb7x2padR9B4K-FV7Iypok8G_V4dMK1n4q6LCnpyFbDyW4R2D5BFx8V66ARSdSKO8BGs3-3Mub_7yGqZcs8CeaNkNLgqIbgl5f53-EURDCcuxt2boHtzPJKh6TmcDt2AAfW4Affim17p3lwln8sOT3mjDI42O7jV9rEzWi8M80iHm2c-QyVrm2mo5IQ-ZRnw">
+<div class="absolute inset-0 bg-gradient-to-t from-black/90 via-black/20 to-transparent flex items-end p-8">
+<h3 class="font-headline-md text-white border-l-4 border-primary pl-4">Ομαδική Χορογραφία</h3>
+</div>
+</div>
+<div class="group relative overflow-hidden rounded-2xl h-[400px] ring-1 ring-primary/20">
+<img alt="Competitive spirit" class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDCVsmPwcANTcHFxiAWvMsEkziaSQr3JRfzkeYjPQsOvIe5s4LgqEPAHNi-OJm5hr9CvrKB0VNT7no_Kh1SjoBbnsz_7HDnJvoFJDqRKO-xAVrZwOhkh2KIoHiIOY0bL7ikvKz1wVZDaO_XZQq5sRhUI2A0e1k_Ffznb4fy_HACYvVmL2u1uzvGzqshlPpnB0gDaX7t49JvR_qBjFbG5IVSo8k2OZQepEu9DU1j4Kjr7UQjaZSD_oLzpQ">
+<div class="absolute inset-0 bg-gradient-to-t from-black/90 via-black/20 to-transparent flex items-end p-8">
+<h3 class="font-headline-md text-white border-l-4 border-primary pl-4">Αγωνιστικό Πνεύμα</h3>
+</div>
+</div>
+</div>
+</div>
+</section>
+<!-- Achievements Section -->
+<section class="py-section-padding bg-surface-container-low overflow-hidden relative">
+<div class="absolute right-0 top-1/2 -translate-y-1/2 opacity-10 pointer-events-none transition-all duration-700 opacity-100 translate-y-0">
+<span class="material-symbols-outlined text-[400px] text-primary">emoji_events</span>
+</div>
+<div class="max-w-container-max-width mx-auto px-gutter relative z-10 transition-all duration-700 opacity-100 translate-y-0"><div class="text-center mb-12"><h2 class="font-display-lg text-display-lg text-on-surface mb-4">Οι Επιτυχίες μας</h2><p class="font-body-lg text-on-surface-variant max-w-2xl mx-auto">Διακρίσεις που επιβραβεύουν την προσπάθεια και το ήθος των αθλητριών μας.</p></div><div class="grid grid-cols-1 md:grid-cols-3 gap-8 mb-12"><!-- Card 1: Athanasiou -->
+<div class="bg-white rounded-2xl overflow-hidden shadow-sm hover:shadow-md border border-primary/5 transition-shadow group flex flex-col">
+<div class="h-48 overflow-hidden relative">
+<img alt="Αθανασίου Κωνσταντίνα" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAHNr29ILzXhYB_dVtztjPvkIAzQsQWNhntlbjrX4tTtKdFMOw_upind0RPR1U3qa19K3jFXRVjmtTTWz5B-uvrgpT0Ihh4L_kGfy1uiQI6fKbg-c_x_Shes9U-2JI2sPvVNmKq6hdK7d6VMIo_ZjF5tcOF28itxus0HZDWQs0vvUsgLFq1XoG2Ce_P0PdUNh6Z_Gt5w6kcQqQjvKN7J44FMGRy8eEFkEaN5wKQDQCk3rInw22fHvxSnA">
+<div class="absolute top-4 right-4 bg-primary text-white px-3 py-1 rounded-full text-xs font-bold">2026</div>
+</div>
+<div class="p-6 flex-grow">
+<div class="flex items-center gap-2 mb-3">
+<span class="material-symbols-outlined text-primary">emoji_events</span>
+<h3 class="font-headline-md text-on-surface text-lg font-bold">Αθανασίου Κωνσταντίνα</h3>
+</div>
+<p class="text-on-surface-variant text-sm">Πρωταθλήτρια Ελλάδος 2026 (4η συνεχόμενη χρονιά)</p>
+</div>
+</div>
+<!-- Card 2: Adam -->
+<div class="bg-white rounded-2xl overflow-hidden shadow-sm hover:shadow-md border border-primary/5 transition-shadow group flex flex-col">
+<div class="h-48 overflow-hidden relative">
+<img alt="Αδάμ Σωτηρία" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" src="https://lh3.googleusercontent.com/aida-public/AB6AXuB0zkWfbW4FFhW5ZqlfS0yYewA3tI0MCEZyMsVBMPLrrZ5x_v40QjZOhzQFRCu6SHEkmQKfpyO0O7iFzp6iGCmJYD5booSLi1OH09sbR9GkLasvY_j-lqX62qTodnCx1rH_sBcqSdmBJKCIDDA_ozsXIUYbPm2rVO_vmJbvtL3V3L8WjGuT5R7IfpgF_drVWS6m6zjAnTsRz-nISKpx-PnCv6T9CLkZHXqVVoK9oU3lISFVMsz7P5g4vw">
+<div class="absolute top-4 right-4 bg-primary text-white px-3 py-1 rounded-full text-xs font-bold">2026</div>
+</div>
+<div class="p-6 flex-grow">
+<div class="flex items-center gap-2 mb-3">
+<span class="material-symbols-outlined text-primary">workspace_premium</span>
+<h3 class="font-headline-md text-on-surface text-lg font-bold">Αδάμ Σωτηρία</h3>
+</div>
+<p class="text-on-surface-variant text-sm">Χρυσή Βαλκανιονίκης &amp; Πρωταθλήτρια Ελλάδος 2026</p>
+</div>
+</div>
+<!-- Card 3: Gymnastics for All -->
+<div class="bg-white rounded-2xl overflow-hidden shadow-sm hover:shadow-md border border-primary/5 transition-shadow group flex flex-col">
+<div class="h-48 overflow-hidden relative">
+<img alt="Γυμναστική για Όλους" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" src="https://lh3.googleusercontent.com/aida-public/AB6AXuC9gB4jtZ8rlt9ucDR6haFitClFl32FRJgKBWIPEQWgBcqhdbgom3lISBxb7x2padR9B4K-FV7Iypok8G_V4dMK1n4q6LCnpyFbDyW4R2D5BFx8V66ARSdSKO8BGs3-3Mub_7yGqZcs8CeaNkNLgqIbgl5f53-EURDCcuxt2boHtzPJKh6TmcDt2AAfW4Affim17p3lwln8sOT3mjDI42O7jV9rEzWi8M80iHm2c-QyVrm2mo5IQ-ZRnw">
+<div class="absolute top-4 right-4 bg-primary text-white px-3 py-1 rounded-full text-xs font-bold">2026</div>
+</div>
+<div class="p-6 flex-grow">
+<div class="flex items-center gap-2 mb-3">
+<span class="material-symbols-outlined text-primary">military_tech</span>
+<h3 class="font-headline-md text-on-surface text-lg font-bold">Γυμναστική για Όλους</h3>
+</div>
+<p class="font-bold text-primary text-sm mb-1">Μεγάλο Τμήμα</p>
+<p class="text-on-surface-variant text-sm">Χρυσό Μετάλλιο, Αγώνας Ομοσπονδίας</p>
+</div>
+</div></div><div class="flex flex-col md:flex-row items-center justify-center gap-12 mb-12"><div class="text-center"><span class="block text-5xl font-bold text-primary mb-2">230</span><span class="text-label-md text-on-surface-variant uppercase tracking-wider">Ενεργές Αθλήτριες</span></div><div class="text-center"><span class="block text-5xl font-bold text-primary mb-2">45+</span><span class="text-label-md text-on-surface-variant uppercase tracking-wider">Μετάλλια το 2026</span></div></div><div class="text-center"><button class="bg-primary text-on-primary px-10 py-4 rounded-xl font-headline-md hover:shadow-lg transition-all active:scale-95">Δείτε Όλες τις Επιτυχίες</button></div></div>
+</section>
+<!-- News Section -->
+<section class="py-section-padding bg-surface">
+<div class="max-w-container-max-width mx-auto px-gutter transition-all duration-700 opacity-100 translate-y-0">
+<div class="flex justify-between items-center mb-12">
+<h2 class="font-headline-lg text-headline-lg text-on-surface">Τελευταία Νέα</h2>
+<button class="text-primary font-bold flex items-center gap-2 hover:translate-x-1 transition-transform">
+                        Όλα τα Νέα <span class="material-symbols-outlined">chevron_right</span>
+</button>
+</div>
+<div class="grid md:grid-cols-3 gap-gutter">
+<!-- News Card 1 -->
+<article class="bg-white rounded-2xl overflow-hidden shadow-sm hover:shadow-md border border-primary/5 transition-shadow group">
+<div class="h-48 overflow-hidden">
+<img alt="Registrations" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" src="https://lh3.googleusercontent.com/aida-public/AB6AXuD8ULA881KCO9kqsOyJ_l3KVyQ0vD4195eZ6D3txWxfncO3DVR889V1fgwrfeEB2IXVyEvnbxeXeKLxebnxf9GTz26FVnlLcjNMG8vhtuh68x9HKUfQTfk7_bP4ajhTwOQc0vE5-jm6rvgPd2qDrWC57FSwimofdvz95UFTKBfH8WfL3GkZUtsmJXpNecR2blyMxxCjkE-bj7bpgJbJjA_zo7lGGtNJVqLZf1dED7GK_HoBzBMIPN0xYA">
+</div>
+<div class="p-6">
+<time class="text-sm text-primary font-bold">1 Ιουλίου 2026</time>
+<h3 class="font-headline-md text-on-surface mt-2 mb-4 group-hover:text-primary transition-colors">Εγγραφές 2026-2027</h3>
+<p class="text-on-surface-variant text-sm mb-4 line-clamp-2">Ξεκίνησαν οι προ-εγγραφές για τη νέα αθλητική χρονιά. Εξασφαλίστε τη θέση σας στα τμήματα μας.</p>
+<a class="text-primary font-bold text-sm flex items-center gap-1" href="#">Διαβάστε περισσότερα <span class="material-symbols-outlined text-sm">arrow_forward</span></a>
+</div>
+</article>
+<!-- News Card 2 -->
+<article class="bg-white rounded-2xl overflow-hidden shadow-sm hover:shadow-md border border-primary/5 transition-shadow group">
+<div class="h-48 overflow-hidden">
+<img alt="Championship success" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAdX5bD6q03hy98Y_-FhVtG09jrQyd1MlH_Gdk945H_xRzdecLcqVByHk3fwO0vif-SRfJm2SAG5kH72C_DwFW5ukTwdjZdReW0NLZ-34POj2qKjlKy9ooWNvgn3c-q8bcaCqeMdpRlyk5e5KGmadwuLsRoQywdVXVt-Srm00aoy4b2Oz60brtuDGMcq6NqGOr9sZwxeZvQMlS5zISrCMWO3lksxGFiXleGkb1sU2-BC9IbHAjA3JWxRg">
+</div>
+<div class="p-6">
+<time class="text-sm text-primary font-bold">15 Ιουνίου 2026</time>
+<h3 class="font-headline-md text-on-surface mt-2 mb-4 group-hover:text-primary transition-colors">Επιτυχημένη παρουσία στο Πανελλήνιο</h3>
+<p class="text-on-surface-variant text-sm mb-4 line-clamp-2">Με 5 μετάλλια και εξαιρετικές εμφανίσεις ολοκληρώθηκε η συμμετοχή μας στο Πανελλήνιο Πρωτάθλημα.</p>
+<a class="text-primary font-bold text-sm flex items-center gap-1" href="#">Διαβάστε περισσότερα <span class="material-symbols-outlined text-sm">arrow_forward</span></a>
+</div>
+</article>
+<!-- News Card 3 -->
+<article class="bg-white rounded-2xl overflow-hidden shadow-sm hover:shadow-md border border-primary/5 transition-shadow group">
+<div class="h-48 overflow-hidden">
+<img alt="Start of season" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDoWZTyXrrOJnChYl5uVFKTp6egy4YU1Ai6XgjGIvh5JyrLZmEPraXqIh_F2Xnw3VUlsEhCAk5PDMAqSO8fTyeoIWNC3Gwk8DVnj_idfjat3bFv2D5PrZebO8pLAONtGn6V2udw8_lbWgiDxqRnV8G2Qk4-Jd1H8x24t4mbHuAoXqhxnR_MHngLB0Jocw4YgtlmY0zRtOBce1TTrfS7w2kC5TMa64RCqBeRTWznf1BzNYneauC7HEX3qg">
+</div>
+<div class="p-6">
+<time class="text-sm text-primary font-bold">1 Σεπτεμβρίου 2025</time>
+<h3 class="font-headline-md text-on-surface mt-2 mb-4 group-hover:text-primary transition-colors">Έναρξη χρονιάς</h3>
+<p class="text-on-surface-variant text-sm mb-4 line-clamp-2">Καλωσορίζουμε παλιές και νέες αθλήτριες στην πρώτη προπόνηση της σεζόν. Καλή αρχή σε όλες!</p>
+<a class="text-primary font-bold text-sm flex items-center gap-1" href="#">Διαβάστε περισσότερα <span class="material-symbols-outlined text-sm">arrow_forward</span></a>
+</div>
+</article>
+</div>
+</div>
+</section>
+<!-- Why Choose Us -->
+<section class="py-section-padding ribbon-bg relative overflow-hidden">
+<div class="max-w-container-max-width mx-auto px-gutter grid md:grid-cols-2 gap-16 transition-all duration-700 opacity-100 translate-y-0">
+<div>
+<h2 class="font-headline-lg text-headline-lg text-on-surface mb-8">Γιατί να μας επιλέξετε</h2>
+<div class="space-y-6">
+<div class="flex gap-4">
+<div class="w-10 h-10 rounded-full bg-primary/10 flex items-center justify-center shrink-0 border border-primary/20">
+<span class="material-symbols-outlined text-primary" style="font-variation-settings: 'wght' 700">check</span>
+</div>
+<div>
+<h4 class="font-headline-md text-on-surface text-lg">Αναγνώριση Γ.Γ.Α.</h4>
+<p class="text-on-surface-variant">Πλήρης πιστοποίηση από τη Γενική Γραμματεία Αθλητισμού.</p>
+</div>
+</div>
+<div class="flex gap-4">
+<div class="w-10 h-10 rounded-full bg-primary/10 flex items-center justify-center shrink-0 border border-primary/20">
+<span class="material-symbols-outlined text-primary" style="font-variation-settings: 'wght' 700">check</span>
+</div>
+<div>
+<h4 class="font-headline-md text-on-surface text-lg">Καθηγητές Φυσικής Αγωγής</h4>
+<p class="text-on-surface-variant">Εξειδικευμένοι προπονητές με πανεπιστημιακή μόρφωση.</p>
+</div>
+</div>
+<div class="flex gap-4">
+<div class="w-10 h-10 rounded-full bg-primary/10 flex items-center justify-center shrink-0 border border-primary/20">
+<span class="material-symbols-outlined text-primary" style="font-variation-settings: 'wght' 700">check</span>
+</div>
+<div>
+<h4 class="font-headline-md text-on-surface text-lg">Για όλες τις ηλικίες</h4>
+<p class="text-on-surface-variant">Τμήματα από 3 έως 18 ετών, προσαρμοσμένα στις ανάγκες κάθε παιδιού.</p>
+</div>
+</div>
+<div class="flex gap-4">
+<div class="w-10 h-10 rounded-full bg-primary/10 flex items-center justify-center shrink-0 border border-primary/20">
+<span class="material-symbols-outlined text-primary" style="font-variation-settings: 'wght' 700">check</span>
+</div>
+<div>
+<h4 class="font-headline-md text-on-surface text-lg">Παιδαγωγική Προσέγγιση</h4>
+<p class="text-on-surface-variant">Έμφαση στη διαμόρφωση του χαρακτήρα και την αυτοπεποίθηση.</p>
+</div>
+</div>
+<div class="flex gap-4">
+<div class="w-10 h-10 rounded-full bg-primary/10 flex items-center justify-center shrink-0 border border-primary/20">
+<span class="material-symbols-outlined text-primary" style="font-variation-settings: 'wght' 700">check</span>
+</div>
+<div>
+<h4 class="font-headline-md text-on-surface text-lg">Σύγχρονες Μέθοδοι</h4>
+<p class="text-on-surface-variant">Προπονητικά προγράμματα βασισμένα στα τελευταία διεθνή πρότυπα.</p>
+</div>
+</div>
+</div>
+</div>
+<div class="relative">
+<img alt="Club benefits collage" class="rounded-3xl shadow-2xl w-full h-full object-cover border border-primary/10" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBGVY_iwUhm0vNMQ8nU1TOezlxVrsUyJ6bYOsxriDBvJHo_yfVVTEqy4G0A2n1SHq7uvquZFPAQz3qaKIGeUmjWa_MDSQqEE9xDTdY2wMoEH192wpB4_lm9kJF52wnEb-Cf92lhvM9ue4YJye6V4vtymwAZqOr9gO2JlxCZifpP-T4Qu8P21mh47dP3ATafdDKFtIpycUiqez_T7oo5Dy965O71Flc0JhTgRrOPl_XMM0I0Osvde_Dbiw">
+</div>
+</div>
+</section>
+<!-- Sponsors -->
+<section class="py-16 bg-surface-container border-y border-primary/5">
+<div class="max-w-container-max-width mx-auto px-gutter transition-all duration-700 opacity-100 translate-y-0">
+<p class="text-center font-label-md text-primary uppercase tracking-widest mb-10 font-bold">Οι Χορηγοί μας</p>
+<div class="flex flex-wrap justify-center items-center gap-16 grayscale opacity-60 hover:grayscale-0 hover:opacity-100 transition-all">
+<div class="text-2xl font-bold font-display-lg text-on-surface">ΚΑΡΠΑΘΙΟΣ Development</div>
+<div class="text-2xl font-bold font-display-lg text-on-surface">AKROR Group</div>
+<div class="w-32 h-12 bg-surface-variant/50 rounded-lg flex items-center justify-center italic text-on-surface-variant border border-on-surface/5">Sponsor Logo</div>
+<div class="w-32 h-12 bg-surface-variant/50 rounded-lg flex items-center justify-center italic text-on-surface-variant border border-on-surface/5">Sponsor Logo</div>
+</div>
+</div>
+</section>
+<!-- Final CTA -->
+<section class="py-section-padding">
+<div class="max-w-container-max-width mx-auto px-gutter transition-all duration-700 opacity-100 translate-y-0">
+<div class="relative rounded-[2.5rem] overflow-hidden bg-gradient-to-br from-primary to-secondary p-12 md:p-20 text-center text-on-primary shadow-2xl">
+<div class="absolute top-0 right-0 p-8 opacity-10">
+<span class="material-symbols-outlined text-[150px]">fitness_center</span>
+</div>
+<h2 class="font-display-lg text-display-lg mb-6">Έλα κι εσύ στην οικογένεια της Ευνίκης!</h2>
+<p class="font-body-lg text-xl mb-10 max-w-2xl mx-auto opacity-90">Ξεκίνα σήμερα ένα ταξίδι γεμάτο ρυθμό, πειθαρχία και χαρά. Η πρώτη προπόνηση είναι δωρεάν!</p>
+<button class="bg-surface text-primary px-10 py-5 rounded-2xl font-display-lg text-xl hover:shadow-xl transition-all active:scale-95 border border-primary/10">Επικοινώνησε μαζί μας</button>
+</div>
+</div>
+</section>
+</main>
+<!-- Footer (Updated from SCREEN_24) -->
+
+<!-- FAB for quick contact -->
+
+<script>
+        // Simple scroll reveal effect for sections
+        const observerOptions = {
+            threshold: 0.1
+        };
+
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('opacity-100', 'translate-y-0');
+                    entry.target.classList.remove('opacity-0', 'translate-y-10');
+                }
+            });
+        }, observerOptions);
+
+        document.querySelectorAll('section > div').forEach(section => {
+            section.classList.add('transition-all', 'duration-700', 'opacity-0', 'translate-y-10');
+            observer.observe(section);
+        });
+    </script>
+
+
+
+
+
+
+<footer class="bg-surface-container-highest dark:bg-surface-container-lowest text-on-surface dark:text-on-background font-body-md text-body-md">
+  
+  
+</footer>
+
+</body></html>

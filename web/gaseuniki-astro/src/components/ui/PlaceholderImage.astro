@@ -1,0 +1,41 @@
+---
+export interface Props {
+  alt: string;
+  src?: string;
+  aspectRatio?: 'video' | 'square' | 'portrait' | 'wide';
+  class?: string;
+  loading?: 'lazy' | 'eager';
+}
+
+const { alt, src, aspectRatio = 'video', class: className = '', loading = 'lazy' } = Astro.props;
+
+const aspectClasses = {
+  video: 'aspect-video',
+  square: 'aspect-square',
+  portrait: 'aspect-[3/4]',
+  wide: 'aspect-[21/9]',
+};
+---
+
+{
+  src ? (
+    <img
+      src={src}
+      alt={alt}
+      loading={loading}
+      class:list={[aspectClasses[aspectRatio], className]}
+    />
+  ) : (
+    <div
+      class:list={[
+        'flex items-center justify-center rounded-lg bg-surface-container text-on-surface-variant',
+        aspectClasses[aspectRatio],
+        className,
+      ]}
+      role="img"
+      aria-label={alt}
+    >
+      <span class="px-4 text-center font-body text-body-md opacity-70">{alt}</span>
+    </div>
+  )
+}

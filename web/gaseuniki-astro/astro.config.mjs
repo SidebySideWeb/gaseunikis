@@ -1,0 +1,41 @@
+// @ts-check
+import { defineConfig } from 'astro/config';
+import react from '@astrojs/react';
+import vercel from '@astrojs/vercel';
+import tailwindcss from '@tailwindcss/vite';
+import sitemap from '@astrojs/sitemap';
+import sanity from '@sanity/astro';
+
+// https://astro.build/config
+export default defineConfig({
+  site: 'https://gas-eyniki.gr',
+  // Static pages + on-demand API routes (Astro 7 replacement for legacy hybrid mode)
+  output: 'static',
+  adapter: vercel(),
+  vite: {
+    plugins: [tailwindcss()],
+  },
+  integrations: [
+    react(),
+    sitemap({
+      filter: (page) =>
+        !page.includes('/api/') &&
+        !page.includes('/posts/') &&
+        !page.includes('/placeholder'),
+      changefreq: 'weekly',
+      priority: 0.7,
+      lastmod: new Date(),
+      i18n: {
+        defaultLocale: 'el',
+        locales: {
+          el: 'el-GR',
+        },
+      },
+    }),
+    sanity({
+      projectId: '3cdkfsee',
+      dataset: 'production',
+      useCdn: false,
+    }),
+  ],
+});

@@ -1,0 +1,266 @@
+import {defineType, defineField} from 'sanity'
+
+export const homePage = defineType({
+  name: 'homePage',
+  title: 'Αρχική Σελίδα',
+  type: 'document',
+  groups: [
+    {name: 'hero', title: 'Hero'},
+    {name: 'about', title: 'Καλωσορίσατε'},
+    {name: 'sections', title: 'Τμήματα Preview'},
+    {name: 'gallery', title: 'Στιγμές Προπόνησης'},
+    {name: 'successes', title: 'Επιτυχίες Preview'},
+    {name: 'news', title: 'Νέα Preview'},
+    {name: 'why', title: 'Γιατί εμείς'},
+    {name: 'stats', title: 'Στατιστικά'},
+    {name: 'cta', title: 'CTA'},
+    {name: 'seo', title: 'SEO'},
+  ],
+  fields: [
+    defineField({
+      name: 'heroBadge',
+      title: 'Hero Badge',
+      type: 'string',
+      initialValue: 'ΑΘΛΗΤΙΚΟΣ ΣΥΛΛΟΓΟΣ',
+      group: 'hero',
+    }),
+    defineField({
+      name: 'heroHeading',
+      title: 'Κύριος Τίτλος',
+      type: 'string',
+      initialValue: 'Γας Ευνίκη Ελευσίνας',
+      group: 'hero',
+    }),
+    defineField({
+      name: 'heroSubheading',
+      title: 'Υπότιτλος',
+      type: 'string',
+      initialValue: 'Ρυθμική Γυμναστική & Γυμναστική για Όλους',
+      group: 'hero',
+    }),
+    defineField({
+      name: 'heroQuote',
+      title: 'Quote',
+      type: 'string',
+      initialValue: 'Εκεί που το ταλέντο συναντά την αφοσίωση.',
+      group: 'hero',
+    }),
+    defineField({
+      name: 'heroPrimaryCtaLabel',
+      title: 'Κύριο CTA κουμπί',
+      type: 'string',
+      initialValue: 'Δες τα Τμήματά μας',
+      group: 'hero',
+    }),
+    defineField({
+      name: 'heroPrimaryCtaUrl',
+      title: 'Κύριο CTA URL',
+      type: 'string',
+      initialValue: '/tmimata',
+      group: 'hero',
+    }),
+    defineField({
+      name: 'heroSecondaryCtaLabel',
+      title: 'Δευτερεύον CTA κουμπί',
+      type: 'string',
+      initialValue: 'Κλείσε Δοκιμαστικό Μάθημα',
+      group: 'hero',
+    }),
+    defineField({
+      name: 'heroSecondaryCtaUrl',
+      title: 'Δευτερεύον CTA URL',
+      type: 'string',
+      initialValue: '/egrafes',
+      group: 'hero',
+    }),
+    defineField({
+      name: 'heroImage',
+      title: 'Hero Εικόνα',
+      type: 'image',
+      options: {hotspot: true},
+      fields: [{name: 'alt', type: 'string', title: 'Alt text'}],
+      group: 'hero',
+    }),
+
+    defineField({
+      name: 'aboutHeading',
+      title: 'Τίτλος',
+      type: 'string',
+      initialValue: 'Καλωσορίσατε στον ΓΑΣ Ευνίκη',
+      group: 'about',
+    }),
+    defineField({
+      name: 'aboutText',
+      title: 'Κείμενο',
+      type: 'text',
+      rows: 4,
+      initialValue:
+        'Με πολυετή εμπειρία και βαθιά αγάπη για το άθλημα, ο Σύλλογός μας αποτελεί ένα πρότυπο κέντρο καλλιέργειας της Ρυθμικής Γυμναστικής και της Γυμναστικής για Όλους στην Ελευσίνα.',
+      group: 'about',
+    }),
+    defineField({
+      name: 'aboutAccreditedBy',
+      title: 'Αναγνωρισμένοι από',
+      type: 'string',
+      initialValue: 'Αναγνωρισμένοι από',
+      group: 'about',
+    }),
+    defineField({
+      name: 'yearsExperience',
+      title: 'Χρόνια Εμπειρίας',
+      type: 'string',
+      initialValue: '30+',
+      group: 'about',
+    }),
+
+    defineField({
+      name: 'sectionsHeading',
+      title: 'Τίτλος Τμημάτων',
+      type: 'string',
+      initialValue: 'Τα Τμήματά μας',
+      group: 'sections',
+    }),
+
+    defineField({
+      name: 'galleryHeading',
+      title: 'Τίτλος Gallery',
+      type: 'string',
+      initialValue: 'Στιγμές από την Προπόνηση',
+      group: 'gallery',
+    }),
+    defineField({
+      name: 'galleryImages',
+      title: 'Φωτογραφίες',
+      type: 'array',
+      of: [{type: 'galleryImage'}],
+      group: 'gallery',
+    }),
+
+    defineField({
+      name: 'successesHeading',
+      title: 'Τίτλος',
+      type: 'string',
+      initialValue: 'Οι Επιτυχίες μας',
+      group: 'successes',
+    }),
+    defineField({
+      name: 'successesSubheading',
+      title: 'Υπότιτλος',
+      type: 'text',
+      rows: 2,
+      initialValue:
+        'Διακρίσεις που επιβραβεύουν την προσπάθεια και το ήθος των αθλητριών μας.',
+      group: 'successes',
+    }),
+    defineField({
+      name: 'successesCtaLabel',
+      title: 'CTA κουμπί',
+      type: 'string',
+      initialValue: 'Δείτε Όλες τις Επιτυχίες',
+      group: 'successes',
+    }),
+    defineField({
+      name: 'successesCtaUrl',
+      title: 'CTA URL',
+      type: 'string',
+      initialValue: '/epitychies',
+      group: 'successes',
+    }),
+    defineField({
+      name: 'featuredSuccesses',
+      title: 'Επιλεγμένες Επιτυχίες (για preview)',
+      type: 'array',
+      of: [{type: 'reference', to: [{type: 'epitychies'}]}],
+      group: 'successes',
+    }),
+    defineField({
+      name: 'stats',
+      title: 'Στατιστικά (π.χ. "Ενεργές Αθλήτριες", "Μετάλλια")',
+      type: 'array',
+      of: [{type: 'statItem'}],
+      group: 'stats',
+    }),
+
+    defineField({
+      name: 'newsHeading',
+      title: 'Τίτλος',
+      type: 'string',
+      initialValue: 'Τελευταία Νέα',
+      group: 'news',
+    }),
+    defineField({
+      name: 'newsCtaLabel',
+      title: 'CTA',
+      type: 'string',
+      initialValue: 'Όλα τα Νέα',
+      group: 'news',
+    }),
+    defineField({
+      name: 'newsCtaUrl',
+      title: 'CTA URL',
+      type: 'string',
+      initialValue: '/nea',
+      group: 'news',
+    }),
+
+    defineField({
+      name: 'whyHeading',
+      title: 'Τίτλος',
+      type: 'string',
+      initialValue: 'Γιατί να μας επιλέξετε',
+      group: 'why',
+    }),
+    defineField({
+      name: 'whyItems',
+      title: 'Λόγοι Επιλογής',
+      type: 'array',
+      of: [{type: 'valueCard'}],
+      group: 'why',
+    }),
+    defineField({
+      name: 'sponsorsHeading',
+      title: 'Τίτλος Χορηγών',
+      type: 'string',
+      initialValue: 'Οι Χορηγοί μας',
+      group: 'why',
+    }),
+
+    defineField({
+      name: 'ctaHeading',
+      title: 'Τίτλος',
+      type: 'string',
+      initialValue: 'Έλα κι εσύ στην οικογένεια της Ευνίκης!',
+      group: 'cta',
+    }),
+    defineField({
+      name: 'ctaText',
+      title: 'Κείμενο',
+      type: 'text',
+      rows: 3,
+      initialValue:
+        'Ξεκίνα σήμερα ένα ταξίδι γεμάτο ρυθμό, πειθαρχία και χαρά. Η πρώτη προπόνηση είναι δωρεάν!',
+      group: 'cta',
+    }),
+    defineField({
+      name: 'ctaButtonLabel',
+      title: 'Κουμπί',
+      type: 'string',
+      initialValue: 'Επικοινώνησε μαζί μας',
+      group: 'cta',
+    }),
+    defineField({
+      name: 'ctaButtonUrl',
+      title: 'URL',
+      type: 'string',
+      initialValue: '/epikoinonia',
+      group: 'cta',
+    }),
+
+    defineField({name: 'seo', title: 'SEO', type: 'seo', group: 'seo'}),
+  ],
+  preview: {
+    prepare() {
+      return {title: 'Αρχική Σελίδα'}
+    },
+  },
+})

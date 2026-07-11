@@ -1,0 +1,80 @@
+---
+import type { ScheduleSlot } from '../../lib/types';
+
+interface Props {
+  address: string;
+  phone: string;
+  email: string;
+  hours: ScheduleSlot[];
+  facebookUrl?: string;
+  instagramUrl?: string;
+}
+
+const { address, phone, email, hours, facebookUrl, instagramUrl } = Astro.props;
+---
+
+<div class="lg:col-span-5 space-y-8">
+  <div class="grid grid-cols-1 sm:grid-cols-2 gap-6">
+    <div class="bg-surface-container-lowest p-6 rounded-xl card-soft-shadow border-t-4 border-primary group hover:-translate-y-1 transition-all duration-300">
+      <span class="material-symbols-outlined text-primary mb-4 block text-3xl">location_on</span>
+      <h3 class="font-display text-headline-md mb-2">Διεύθυνση</h3>
+      <p class="text-on-surface-variant font-body-md">{address}</p>
+    </div>
+
+    <div class="bg-surface-container-lowest p-6 rounded-xl card-soft-shadow border-t-4 border-primary group hover:-translate-y-1 transition-all duration-300">
+      <span class="material-symbols-outlined text-primary mb-4 block text-3xl">call</span>
+      <h3 class="font-display text-headline-md mb-2">Τηλέφωνο</h3>
+      <p class="text-on-surface-variant font-body-md">
+        <a href={`tel:${phone.replace(/\s/g, '')}`} class="hover:text-primary transition-colors">{phone}</a>
+      </p>
+    </div>
+
+    <div class="bg-surface-container-lowest p-6 rounded-xl card-soft-shadow border-t-4 border-primary group hover:-translate-y-1 transition-all duration-300">
+      <span class="material-symbols-outlined text-primary mb-4 block text-3xl">mail</span>
+      <h3 class="font-display text-headline-md mb-2">Email</h3>
+      <p class="text-on-surface-variant font-body-md break-all">
+        <a href={`mailto:${email}`} class="hover:text-primary transition-colors">{email}</a>
+      </p>
+    </div>
+
+    <div class="bg-surface-container-lowest p-6 rounded-xl card-soft-shadow border-t-4 border-primary group hover:-translate-y-1 transition-all duration-300">
+      <span class="material-symbols-outlined text-primary mb-4 block text-3xl">share</span>
+      <h3 class="font-display text-headline-md mb-2">Social Media</h3>
+      <div class="flex gap-3">
+        {facebookUrl ? (
+          <a href={facebookUrl} class="text-on-surface-variant hover:text-secondary transition-colors font-bold" target="_blank" rel="noopener noreferrer">FB</a>
+        ) : (
+          <span class="text-on-surface-variant font-bold">FB</span>
+        )}
+        <span class="text-outline" aria-hidden="true">|</span>
+        {instagramUrl ? (
+          <a href={instagramUrl} class="text-on-surface-variant hover:text-secondary transition-colors font-bold" target="_blank" rel="noopener noreferrer">IG</a>
+        ) : (
+          <span class="text-on-surface-variant font-bold">IG</span>
+        )}
+      </div>
+    </div>
+  </div>
+
+  <div class="bg-primary p-8 rounded-2xl text-on-primary shadow-xl relative overflow-hidden group">
+    <div class="absolute -right-8 -bottom-8 opacity-10 rotate-12 transition-transform duration-700 group-hover:scale-110" aria-hidden="true">
+      <span class="material-symbols-outlined text-[120px]">schedule</span>
+    </div>
+    <h3 class="font-display text-headline-md mb-6 flex items-center gap-2">
+      <span class="material-symbols-outlined">schedule</span>
+      Ωράριο Λειτουργίας
+    </h3>
+    <ul class="space-y-4 relative z-10 font-body-md">
+      {hours.map((slot) => (
+        <li class="flex justify-between items-center border-b border-white/20 pb-2 last:border-b-0">
+          <span>{slot.day}</span>
+          {slot.hours === 'Κλειστά' ? (
+            <span class="bg-white/20 px-3 py-1 rounded-full text-sm">{slot.hours}</span>
+          ) : (
+            <span class="font-bold">{slot.hours}</span>
+          )}
+        </li>
+      ))}
+    </ul>
+  </div>
+</div>

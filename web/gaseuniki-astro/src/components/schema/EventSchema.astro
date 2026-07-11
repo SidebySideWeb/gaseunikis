@@ -1,0 +1,39 @@
+---
+import { buildAbsoluteUrl, resolveSiteOrigin } from '../../lib/site-url';
+
+interface Props {
+  name: string;
+  description: string;
+  startDate: string;
+  location: string;
+  url: string;
+}
+
+const { name, description, startDate, location, url } = Astro.props;
+const siteOrigin = resolveSiteOrigin(Astro.site);
+
+const schema = {
+  '@context': 'https://schema.org',
+  '@type': 'SportsEvent',
+  name,
+  description,
+  startDate,
+  location: {
+    '@type': 'Place',
+    name: location,
+    address: {
+      '@type': 'PostalAddress',
+      addressLocality: 'Ελευσίνα',
+      addressCountry: 'GR',
+    },
+  },
+  url: buildAbsoluteUrl(url, siteOrigin),
+  organizer: {
+    '@type': 'SportsClub',
+    name: 'ΓΑΣ Ευνίκη Ελευσίνας',
+    url: siteOrigin,
+  },
+};
+---
+
+<script type="application/ld+json" set:html={JSON.stringify(schema)} />

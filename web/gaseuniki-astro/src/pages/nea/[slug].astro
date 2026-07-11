@@ -1,0 +1,78 @@
+---
+import Layout from '../../layouts/Layout.astro';
+import BreadcrumbSchema from '../../components/schema/BreadcrumbSchema.astro';
+import { client } from '../../lib/sanity';
+import { newsPostBySlugQuery, newsPostSlugsQuery } from '../../lib/queries';
+import { resolveImageUrl } from '../../lib/image';
+import { homeNewsFallbacks } from '../../lib/stitch-images';
+import type { NewsItem } from '../../lib/types';
+
+export async function getStaticPaths() {
+  try {
+    const slugs = await client.fetch<Array<{ slug: string }>>(newsPostSlugsQuery);
+
+    if (!slugs?.length) {
+      return [{ params: { slug: 'placeholder' } }];
+    }
+
+    return slugs.map(({ slug }) => ({ params: { slug } }));
+  } catch {
+    return [{ params: { slug: 'placeholder' } }];
+  }
+}
+
+const { slug } = Astro.params;
+
+let post: (NewsItem & { seo?: { title?: string; description?: string; noIndex?: boolean } }) | null = null;
+
+if (slug && slug !== 'placeholder') {
+  post = await client.fetch(newsPostBySlugQuery, { slug });
+}
+
+const pageTitle = post?.seo?.title ?? post?.title ?? 'Νέο Άρθρο';
+const pageDescription =
+  post?.seo?.description ?? post?.excerpt ?? 'Άρθρο νέων του ΓΑΣ Ευνίκη Ελευσίνας.';
+const ogImage = post?.featuredImage
+  ? resolveImageUrl(post.featuredImage, homeNewsFallbacks[0])
+  : undefined;
+---
+
+<Layout
+  title={pageTitle}
+  description={pageDescription}
+  ogImage={ogImage}
+  currentPath={`/nea/${slug}`}
+  noIndex={post?.seo?.noIndex}
+>
+  <BreadcrumbSchema
+    slot="schema"
+    items={[
+      { name: 'Αρχική', url: '/' },
+      { name: 'Νέα', url: '/nea' },
+      { name: post?.title ?? 'Άρθρο', url: `/nea/${slug}` },
+    ]}
+  />
+  <main class="pt-32 pb-section-padding px-gutter">
+    <article class="max-w-container-max-width mx-auto">
+      {post ? (
+        <>
+          <h1 class="font-display text-display-lg text-primary mb-6">{post.title}</h1>
+          {post.publishedDate && (
+            <time datetime={post.publishedDate} class="text-sm font-bold text-primary mb-4 block">
+              {post.publishedDate}
+            </time>
+          )}
+          {post.excerpt && <p class="text-on-surface-variant text-body-lg mb-8">{post.excerpt}</p>}
+        </>
+      ) : (
+        <>
+          <h1 class="font-display text-display-lg text-primary mb-6">Νέο Άρθρο</h1>
+          <p class="text-on-surface-variant text-body-lg mb-4">
+            Η σελίδα άρθρου για «{slug}» θα συνδεθεί με το Sanity σύντομα.
+          </p>
+        </>
+      )}
+      <a href="/nea" class="text-primary font-bold hover:underline">← Επιστροφή στα Νέα</a>
+    </article>
+  </main>
+</Layout>

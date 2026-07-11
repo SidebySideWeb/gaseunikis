@@ -1,0 +1,62 @@
+---
+import PlaceholderImage from '../ui/PlaceholderImage.astro';
+import type { Program } from '../../lib/types';
+import { stitchImages } from '../../lib/stitch-images';
+
+interface Props {
+  heading: string;
+  description: string;
+  items: Program[];
+}
+
+const { heading, description, items } = Astro.props;
+
+const borderColors = ['border-primary', 'border-secondary', 'border-primary-container'];
+const iconColors = ['text-primary', 'text-secondary', 'text-primary-container'];
+const bgColors = ['bg-primary/10', 'bg-secondary/10', 'bg-primary-container/10'];
+const labelColors = ['text-primary', 'text-secondary', 'text-primary-container'];
+const defaultIcons = ['group_work', 'theater_comedy', 'military_tech'];
+---
+
+<section class="mb-section-padding px-gutter bg-surface-container-low py-section-padding relative">
+  <div class="max-w-container-max-width mx-auto">
+    <div class="flex flex-col md:flex-row-reverse gap-12 items-center mb-16">
+      <div class="w-full md:w-1/2">
+        <div class="relative">
+          <div class="absolute -bottom-4 -right-4 w-32 h-32 bg-secondary-container/40 rounded-full opacity-40 -z-10" aria-hidden="true"></div>
+          <PlaceholderImage
+            src={stitchImages.gymnasticsGroup}
+            alt="Ομάδα νεαρών αθλητριών γυμναστικής"
+            class="w-full aspect-[4/3] rounded-3xl shadow-xl ring-4 ring-secondary/5"
+          />
+        </div>
+      </div>
+      <div class="w-full md:w-1/2">
+        <div class="inline-flex items-center gap-2 text-secondary font-bold mb-4">
+          <span class="material-symbols-outlined">groups</span>
+          <span class="uppercase tracking-widest text-xs">Gymnastics For All</span>
+        </div>
+        <h2 class="font-display text-headline-lg mb-6 text-on-surface">{heading}</h2>
+        <p class="text-body-lg text-on-surface-variant leading-relaxed">{description}</p>
+      </div>
+    </div>
+
+    <div class="grid grid-cols-1 md:grid-cols-3 gap-8 mb-12">
+      {items.map((item, index) => (
+        <article class={`glass-card p-8 rounded-3xl border-l-8 ${borderColors[index % 3]} shadow-sm group hover:-translate-y-2 transition-all duration-300`}>
+          <div class={`${iconColors[index % 3]} mb-4 ${bgColors[index % 3]} w-14 h-14 rounded-2xl flex items-center justify-center`}>
+            <span class="material-symbols-outlined text-4xl">{item.icon ?? defaultIcons[index % 3]}</span>
+          </div>
+          <h4 class="font-display text-headline-md mb-2">{item.name}</h4>
+          <p class="text-on-surface-variant mb-6 text-sm">{item.description}</p>
+          {item.schedule && (
+            <div class={`mt-auto space-y-2 pt-4 border-t ${index === 0 ? 'border-primary/10' : index === 1 ? 'border-secondary/10' : 'border-primary-container/10'}`}>
+              <div class={`text-[10px] font-bold ${labelColors[index % 3]} uppercase tracking-widest`}>Πρόγραμμα</div>
+              <div class="text-on-surface font-bold text-sm">{item.schedule}</div>
+            </div>
+          )}
+        </article>
+      ))}
+    </div>
+  </div>
+</section>

@@ -1,0 +1,24 @@
+---
+interface Props {
+  size?: 'sm' | 'md';
+}
+
+const { size = 'md' } = Astro.props;
+---
+
+<span
+  class:list={[
+    'flex shrink-0 items-center justify-center rounded-xl bg-primary/10 text-primary',
+    size === 'sm' ? 'h-10 w-10' : 'h-10 w-10 md:h-12 md:w-12',
+  ]}
+  aria-hidden="true"
+>
+  <span
+    class:list={[
+      'material-symbols-outlined',
+      size === 'sm' ? 'text-3xl' : 'text-3xl md:text-4xl',
+    ]}
+  >
+    sports_gymnastics
+  </span>
+</span>

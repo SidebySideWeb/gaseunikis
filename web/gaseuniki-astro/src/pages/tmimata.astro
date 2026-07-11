@@ -1,0 +1,72 @@
+---
+import Layout from '../layouts/Layout.astro';
+import BreadcrumbSchema from '../components/schema/BreadcrumbSchema.astro';
+import SectionsHero from '../components/sections/SectionsHero.astro';
+import RhythmicSection from '../components/sections/RhythmicSection.astro';
+import GymnasticsSection from '../components/sections/GymnasticsSection.astro';
+import SectionsCoaches from '../components/sections/SectionsCoaches.astro';
+import { client } from '../lib/sanity';
+import { sectionsPageQuery } from '../lib/queries';
+import { defaultSectionsCoaches } from '../lib/fallbacks';
+import type { SectionsPage } from '../lib/types';
+
+const defaultPage: SectionsPage = {
+  heroHeading: 'Τμήματα',
+  heroText:
+    'Ανακαλύψτε τα προγράμματά μας και βρείτε το ιδανικό τμήμα για το παιδί σας. Προσφέρουμε εξειδικευμένη εκπαίδευση σε ένα περιβάλλον που προάγει την πειθαρχία και τη δημιουργικότητα.',
+  rhythmicHeading: 'Ρυθμική Γυμναστική',
+  rhythmicDescription:
+    'Η Ρυθμική Γυμναστική είναι ο απόλυτος συνδυασμός τεχνικής αρτιότητας και καλλιτεχνικής έκφρασης. Μέσα από τη χρήση οργάνων όπως το σχοινάκι, το στεφάνι, η μπάλα, οι κορύνες και η κορδέλα.',
+  rhythmicCategoryHeading: 'Αγωνιστικά Τμήματα',
+  rhythmicCompetitive: [],
+  rhythmicMassHeading: 'Τμήματα Μαζικού Αθλητισμού',
+  rhythmicMass: [],
+  gymnHeading: 'Γυμναστική για Όλους',
+  gymnDescription:
+    'Εστίαση στην ομαδικότητα και τη συμμετοχή σε μεγάλα φεστιβάλ γυμναστικής. Έμφαση σε εντυπωσιακές χορογραφίες που συνδυάζουν ακροβατικά.',
+  gymSections: [],
+  coachesHeading: 'Η Ομάδα μας',
+  coachesDescription:
+    'Το τεχνικό μας επιτελείο αποτελείται από διπλωματούχους προπονήτριες με πάθος για την ανάδειξη νέων ταλέντων.',
+  coaches: [],
+};
+
+const fetched = await client.fetch<SectionsPage | null>(sectionsPageQuery);
+const page = { ...defaultPage, ...fetched };
+
+const pageTitle = page.seo?.title ?? 'Τμήματα';
+const pageDescription =
+  page.seo?.description ??
+  'Ρυθμική Γυμναστική και Γυμναστική για Όλους. Αγωνιστικά τμήματα, τμήματα μαζικού αθλητισμού και ομάδες φεστιβάλ για ηλικίες 3 έως 18 ετών.';
+---
+
+<Layout title={pageTitle} description={pageDescription} currentPath="/tmimata" noIndex={page.seo?.noIndex}>
+  <BreadcrumbSchema
+    slot="schema"
+    items={[
+      { name: 'Αρχική', url: '/' },
+      { name: 'Τμήματα', url: '/tmimata' },
+    ]}
+  />
+  <main class="pt-24 ribbon-bg overflow-x-hidden">
+    <SectionsHero heading={page.heroHeading ?? ''} text={page.heroText ?? ''} />
+    <RhythmicSection
+      heading={page.rhythmicHeading ?? ''}
+      description={page.rhythmicDescription ?? ''}
+      categoryHeading={page.rhythmicCategoryHeading ?? ''}
+      competitive={page.rhythmicCompetitive ?? []}
+      massHeading={page.rhythmicMassHeading ?? ''}
+      mass={page.rhythmicMass ?? []}
+    />
+    <GymnasticsSection
+      heading={page.gymnHeading ?? ''}
+      description={page.gymnDescription ?? ''}
+      items={page.gymSections ?? []}
+    />
+    <SectionsCoaches
+      heading={page.coachesHeading ?? ''}
+      description={page.coachesDescription ?? ''}
+      coaches={page.coaches?.length ? page.coaches : defaultSectionsCoaches}
+    />
+  </main>
+</Layout>

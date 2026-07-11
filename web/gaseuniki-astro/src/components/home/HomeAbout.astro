@@ -1,0 +1,47 @@
+---
+import PlaceholderImage from '../ui/PlaceholderImage.astro';
+import { stitchImages } from '../../lib/stitch-images';
+
+interface Props {
+  heading: string;
+  text: string;
+  accreditedBy: string;
+  yearsExperience: string;
+}
+
+const { heading, text, accreditedBy, yearsExperience } = Astro.props;
+---
+
+<section class="bg-surface py-section-padding">
+  <div class="container-page grid items-center gap-16 md:grid-cols-2">
+    <div class="group relative">
+      <div class="absolute -left-4 -top-4 -z-10 h-24 w-24 rounded-2xl bg-primary/20 transition-transform group-hover:translate-x-2 group-hover:translate-y-2"></div>
+      <div class="absolute -bottom-4 -right-4 -z-10 h-24 w-24 rounded-2xl bg-secondary-container/30 transition-transform group-hover:-translate-x-2 group-hover:-translate-y-2"></div>
+      <PlaceholderImage
+        src={stitchImages.aboutCoach}
+        alt="Προπονήτρια γυμναστικής"
+        class="h-[500px] w-full rounded-2xl border border-primary/10 object-cover shadow-xl"
+      />
+    </div>
+
+    <div>
+      <h2 class="mb-6 font-display text-headline-lg text-on-surface">{heading}</h2>
+      <p class="mb-6 font-body text-body-lg leading-relaxed text-on-surface-variant">{text}</p>
+      <p class="mb-8 font-body text-body-lg leading-relaxed text-on-surface-variant">
+        {accreditedBy} την <strong>Ελληνική Γυμναστική Ομοσπονδία (Ε.Γ.Ο.)</strong> και τη
+        <strong>Γενική Γραμματεία Αθλητισμού (Γ.Γ.Α.)</strong>, προσφέρουμε ένα ασφαλές και σύγχρονο
+        περιβάλλον όπου κάθε παιδί μπορεί να ανακαλύψει τις δυνατότητές του.
+      </p>
+      <div class="flex gap-8 border-t border-primary/10 pt-8">
+        <div class="text-center">
+          <span class="block font-display text-headline-lg text-primary">{yearsExperience}</span>
+          <span class="font-display text-label-md uppercase text-on-surface-variant">Χρόνια Εμπειρίας</span>
+        </div>
+        <div class="text-center">
+          <span class="block font-display text-headline-lg text-primary">E.Γ.Ο.</span>
+          <span class="font-display text-label-md uppercase text-on-surface-variant">Πιστοποίηση</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>

@@ -1,0 +1,265 @@
+@import '@fontsource/nunito/400.css';
+@import '@fontsource/nunito/600.css';
+@import '@fontsource/nunito/700.css';
+@import '@fontsource/nunito/800.css';
+@import 'material-symbols/outlined.css';
+
+@import "tailwindcss";
+@plugin "@tailwindcss/typography";
+
+@theme {
+  /* Brand */
+  --color-primary: #E91E63;
+  --color-primary-light: #FF4FA3;
+  --color-primary-dark: #b80049;
+  --color-primary-container: #e2165f;
+  --color-on-primary: #ffffff;
+
+  /* Achievement — gold, use ONLY for medals/trophies */
+  --color-achievement: #C9A24B;
+  --color-achievement-light: #F0D080;
+
+  /* Secondary */
+  --color-secondary: #b7046c;
+  --color-secondary-container: #fe4ea2;
+  --color-on-secondary: #ffffff;
+
+  /* Surface */
+  --color-surface: #f9f9f9;
+  --color-surface-dim: #dadada;
+  --color-surface-bright: #f9f9f9;
+  --color-surface-lowest: #ffffff;
+  --color-surface-low: #f3f3f4;
+  --color-surface-container: #eeeeee;
+  --color-surface-high: #e8e8e8;
+  --color-surface-highest: #e2e2e2;
+  --color-surface-container-lowest: #ffffff;
+  --color-surface-container-low: #f3f3f4;
+  --color-surface-container-high: #e8e8e8;
+  --color-surface-container-highest: #e2e2e2;
+
+  /* Text */
+  --color-on-surface: #1a1c1c;
+  --color-on-surface-variant: #5b3f43;
+  --color-inverse-surface: #2f3131;
+  --color-inverse-on-surface: #f0f1f1;
+
+  /* Outline */
+  --color-outline: #8f6f73;
+  --color-outline-variant: #e4bdc2;
+
+  /* Error */
+  --color-error: #ba1a1a;
+  --color-on-error: #ffffff;
+  --color-error-container: #ffdad6;
+
+  /* Background */
+  --color-background: #f9f9f9;
+
+  /* Typography */
+  --font-display: "Nunito", ui-sans-serif, system-ui, sans-serif;
+  --font-body: "Nunito", ui-sans-serif, system-ui, sans-serif;
+
+  --text-display-lg: 3rem;
+  --text-display-lg--line-height: 1.2;
+  --text-display-lg--letter-spacing: -0.02em;
+  --text-display-lg--font-weight: 700;
+
+  --text-display-lg-mobile: 2rem;
+  --text-display-lg-mobile--line-height: 1.25;
+  --text-display-lg-mobile--letter-spacing: -0.02em;
+  --text-display-lg-mobile--font-weight: 700;
+
+  --text-headline-lg: 2rem;
+  --text-headline-lg--line-height: 1.3;
+  --text-headline-lg--font-weight: 700;
+
+  --text-headline-lg-mobile: 1.75rem;
+  --text-headline-lg-mobile--line-height: 1.3;
+  --text-headline-lg-mobile--font-weight: 700;
+
+  --text-headline-md: 1.5rem;
+  --text-headline-md--line-height: 1.4;
+  --text-headline-md--font-weight: 600;
+
+  --text-body-lg: 1.125rem;
+  --text-body-lg--line-height: 1.6;
+  --text-body-lg--font-weight: 400;
+
+  --text-body-md: 1rem;
+  --text-body-md--line-height: 1.6;
+  --text-body-md--font-weight: 400;
+
+  --text-label-md: 0.875rem;
+  --text-label-md--line-height: 1.2;
+  --text-label-md--font-weight: 600;
+
+  --text-label-caps: 0.75rem;
+  --text-label-caps--line-height: 1;
+  --text-label-caps--letter-spacing: 0.1em;
+  --text-label-caps--font-weight: 700;
+
+  /* Spacing */
+  --spacing-gutter: 1.5rem;
+  --spacing-container-max-width: 75rem;
+  --spacing-unit: 0.5rem;
+  --spacing-margin-mobile: 1rem;
+  --spacing-margin-desktop: 2.5rem;
+  --spacing-section-padding: 5rem;
+  --spacing-stack-sm: 0.75rem;
+  --spacing-stack-md: 1.5rem;
+  --spacing-stack-lg: 3rem;
+
+  /* Radii */
+  --radius-sm: 0.25rem;
+  --radius-DEFAULT: 0.5rem;
+  --radius-md: 0.75rem;
+  --radius-lg: 1rem;
+  --radius-xl: 1.5rem;
+  --radius-full: 9999px;
+
+  /* Shadows — fuchsia-tinted per design system */
+  --shadow-card: 0 4px 20px 0 rgba(233, 30, 99, 0.05);
+  --shadow-card-hover: 0 8px 30px 0 rgba(233, 30, 99, 0.10);
+  --shadow-float: 0 8px 30px 0 rgba(233, 30, 99, 0.10);
+}
+
+:root {
+  /* Brand */
+  --color-primary: #E91E63;
+  --color-primary-light: #FF4FA3;
+  --color-primary-dark: #b80049;
+  --color-primary-container: #e2165f;
+  --color-on-primary: #ffffff;
+
+  /* Achievement — gold, use ONLY for medals/trophies */
+  --color-achievement: #C9A24B;
+  --color-achievement-light: #F0D080;
+
+  /* Secondary */
+  --color-secondary: #b7046c;
+  --color-secondary-container: #fe4ea2;
+
+  /* Surface */
+  --color-surface: #f9f9f9;
+  --color-surface-container: #eeeeee;
+  --color-surface-low: #f3f3f4;
+  --color-surface-high: #e8e8e8;
+  --color-surface-lowest: #ffffff;
+  --color-background: #f9f9f9;
+
+  /* Text */
+  --color-on-surface: #1a1c1c;
+  --color-on-surface-variant: #5b3f43;
+  --color-outline: #8f6f73;
+  --color-outline-variant: #e4bdc2;
+
+  /* Error */
+  --color-error: #ba1a1a;
+  --color-error-container: #ffdad6;
+
+  /* Shadows — fuchsia-tinted per design system */
+  --shadow-card: 0 4px 20px 0 rgba(233, 30, 99, 0.05);
+  --shadow-card-hover: 0 8px 30px 0 rgba(233, 30, 99, 0.10);
+
+  /* Spacing */
+  --section-padding: 80px;
+  --container-max: 1200px;
+  --gutter: 24px;
+
+  /* Typography */
+  --font-display: 'Nunito', sans-serif;
+  --font-body: 'Nunito', sans-serif;
+}
+
+@layer base {
+  html {
+    scroll-behavior: smooth;
+  }
+
+  body {
+    font-family: var(--font-body);
+    font-size: 16px;
+    line-height: 1.6;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    @apply bg-background text-on-surface;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+  }
+
+  :lang(el) body {
+    line-height: 1.7;
+  }
+
+  h1,
+  h2,
+  h3,
+  h4,
+  h5,
+  h6 {
+    font-family: var(--font-display);
+    font-weight: 700;
+    line-height: 1.25;
+    letter-spacing: 0;
+  }
+
+  ::selection {
+    @apply bg-primary-light/30 text-on-surface;
+  }
+}
+
+@layer components {
+  .material-symbols-outlined {
+    user-select: none;
+  }
+
+  .gradient-primary {
+    background: linear-gradient(135deg, #E91E63 0%, #FF4FA3 100%);
+  }
+
+  .gradient-primary-soft {
+    background: linear-gradient(
+      135deg,
+      rgba(233, 30, 99, 0.08) 0%,
+      rgba(255, 79, 163, 0.05) 100%
+    );
+  }
+
+  .ribbon-bg {
+    background-image: url("data:image/svg+xml,%3Csvg width='1440' height='200' viewBox='0 0 1440 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M0,100 C360,180 720,20 1440,100 L1440,200 L0,200 Z' fill='%23E91E63' opacity='0.05'/%3E%3C/svg%3E");
+    background-repeat: no-repeat;
+    background-size: cover;
+  }
+
+  .glass-card {
+    background: rgba(255, 255, 255, 0.85);
+    backdrop-filter: blur(12px);
+    border: 1px solid rgba(233, 30, 99, 0.1);
+  }
+
+  .hover-lift {
+    transition: transform 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+  }
+
+  .hover-lift:hover {
+    transform: translateY(-8px) scale(1.02);
+  }
+
+  .container-page {
+    @apply mx-auto w-full max-w-container-max-width px-gutter;
+  }
+
+  .custom-scrollbar::-webkit-scrollbar {
+    width: 6px;
+  }
+
+  .custom-scrollbar::-webkit-scrollbar-track {
+    background: transparent;
+  }
+
+  .custom-scrollbar::-webkit-scrollbar-thumb {
+    @apply bg-primary-container rounded-full;
+  }
+}

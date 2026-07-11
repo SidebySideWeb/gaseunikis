@@ -1,0 +1,18 @@
+---
+interface Props {
+  heading: string;
+  label: string;
+  text: string;
+}
+
+const { heading, label, text } = Astro.props;
+---
+
+<header class="max-w-container-max-width mx-auto px-gutter text-center mb-16">
+  <div class="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-gradient-to-r from-achievement to-achievement-light text-white mb-6 shadow-card">
+    <span class="material-symbols-outlined text-lg">workspace_premium</span>
+    <span class="text-label-md font-bold uppercase tracking-widest">{label}</span>
+  </div>
+  <h1 class="font-display text-display-lg text-on-surface mb-6">{heading}</h1>
+  <p class="font-body text-body-lg text-on-surface-variant max-w-2xl mx-auto">{text}</p>
+</header>

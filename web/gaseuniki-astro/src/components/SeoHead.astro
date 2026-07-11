@@ -1,0 +1,47 @@
+---
+import { buildAbsoluteUrl, resolveSiteOrigin } from '../lib/site-url';
+
+export interface Props {
+  title: string;
+  description: string;
+  ogImage?: string;
+  defaultOgImage?: string;
+  noIndex?: boolean;
+  canonicalUrl?: string;
+}
+
+const {
+  title,
+  description,
+  ogImage,
+  defaultOgImage = '/images/og-default.jpg',
+  noIndex = false,
+  canonicalUrl,
+} = Astro.props;
+
+const siteOrigin = resolveSiteOrigin(Astro.site);
+const siteName = 'ΓΑΣ Ευνίκη Ελευσίνας';
+const documentTitle = title.includes(siteName) ? title : `${title} | ${siteName}`;
+const resolvedCanonical = canonicalUrl ?? Astro.url.href;
+const resolvedOgImage = buildAbsoluteUrl(ogImage ?? defaultOgImage, siteOrigin);
+const ogUrl = Astro.url.href;
+---
+
+<title>{documentTitle}</title>
+
+<meta name="description" content={description} />
+<link rel="canonical" href={resolvedCanonical} />
+<meta name="robots" content={noIndex ? 'noindex, nofollow' : 'index, follow'} />
+
+<meta property="og:type" content="website" />
+<meta property="og:url" content={ogUrl} />
+<meta property="og:title" content={title} />
+<meta property="og:description" content={description} />
+<meta property="og:image" content={resolvedOgImage} />
+<meta property="og:locale" content="el_GR" />
+<meta property="og:site_name" content={siteName} />
+
+<meta name="twitter:card" content="summary_large_image" />
+<meta name="twitter:title" content={title} />
+<meta name="twitter:description" content={description} />
+<meta name="twitter:image" content={resolvedOgImage} />

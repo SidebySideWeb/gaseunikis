@@ -1,0 +1,40 @@
+---
+import { stitchImages } from '../../lib/stitch-images';
+
+interface Props {
+  heading: string;
+  text: string;
+  buttonLabel: string;
+  address: string;
+}
+
+const { text, buttonLabel, address } = Astro.props;
+
+const mapsQuery = encodeURIComponent(address);
+const mapsDirectionsUrl = `https://www.google.com/maps/dir/?api=1&destination=${mapsQuery}`;
+---
+
+<section class="px-gutter pb-section-padding">
+  <div class="max-w-container-max-width mx-auto rounded-3xl overflow-hidden shadow-2xl relative h-[450px] group border-8 border-surface-container-lowest">
+    <img
+      src={stitchImages.contactMap}
+      alt="Χάρτης τοποθεσίας ΓΑΣ ΕΥΝΙΚΗ στην Ελευσίνα"
+      class="w-full h-full object-cover"
+      loading="lazy"
+    />
+
+    <div class="absolute bottom-6 left-6 right-6 md:right-auto md:w-80 bg-surface/90 backdrop-blur-md p-6 rounded-2xl shadow-xl border border-primary/20 animate-float pointer-events-auto">
+      <h4 class="font-display text-headline-md text-primary mb-2">ΓΑΣ ΕΥΝΙΚΗ</h4>
+      <p class="text-on-surface-variant font-body-md text-sm mb-4">{text}</p>
+      <a
+        href={mapsDirectionsUrl}
+        target="_blank"
+        rel="noopener noreferrer"
+        class="flex items-center gap-2 text-primary font-label-md hover:underline"
+      >
+        {buttonLabel}
+        <span class="material-symbols-outlined text-sm">open_in_new</span>
+      </a>
+    </div>
+  </div>
+</section>

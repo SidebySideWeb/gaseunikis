@@ -1,0 +1,36 @@
+---
+interface Props {
+  heading: string;
+  text: string;
+  registrationPeriodLabel: string;
+  registrationPeriodText: string;
+  trainingsStartLabel: string;
+  trainingsStartText: string;
+}
+
+const {
+  heading,
+  text,
+  registrationPeriodLabel,
+  registrationPeriodText,
+  trainingsStartLabel,
+  trainingsStartText,
+} = Astro.props;
+---
+
+<header class="relative pt-32 pb-20 md:pt-48 md:pb-24 overflow-hidden ribbon-bg">
+  <div class="max-w-container-max-width mx-auto px-gutter text-center relative z-10">
+    <h1 class="font-display text-display-lg md:text-[56px] text-primary mb-4">{heading}</h1>
+    <p class="font-display text-headline-md text-on-surface-variant max-w-2xl mx-auto">{text}</p>
+    <div class="mt-12 flex flex-col md:flex-row justify-center gap-6">
+      <div class="bg-surface-container-low border-l-4 border-primary p-6 rounded-xl text-left max-w-md shadow-sm">
+        <p class="text-label-md font-bold text-primary mb-2 uppercase tracking-wider">{registrationPeriodLabel}</p>
+        <p class="text-on-surface-variant">{registrationPeriodText}</p>
+      </div>
+      <div class="bg-surface-container-low border-l-4 border-secondary p-6 rounded-xl text-left max-w-md shadow-sm">
+        <p class="text-label-md font-bold text-secondary mb-2 uppercase tracking-wider">{trainingsStartLabel}</p>
+        <p class="text-on-surface-variant">{trainingsStartText}</p>
+      </div>
+    </div>
+  </div>
+</header>

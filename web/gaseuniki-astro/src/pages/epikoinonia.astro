@@ -1,0 +1,80 @@
+---
+import Layout from '../layouts/Layout.astro';
+import BreadcrumbSchema from '../components/schema/BreadcrumbSchema.astro';
+import ContactHero from '../components/contact/ContactHero.astro';
+import ContactInfo from '../components/contact/ContactInfo.astro';
+import ContactForm from '../components/contact/ContactForm';
+import ContactMap from '../components/contact/ContactMap.astro';
+import { client } from '../lib/sanity';
+import { contactPageQuery, siteSettingsQuery } from '../lib/queries';
+import { defaultSiteSettings } from '../lib/fallbacks';
+import type { ContactPage, SiteSettings } from '../lib/types';
+
+const defaultPage: ContactPage = {
+  heroHeading: 'Επικοινωνία',
+  heroText:
+    'Είμαστε πάντα στη διάθεσή σας για οποιαδήποτε πληροφορία σχετικά με τα προγράμματα και τις εγγραφές του συλλόγου μας.',
+  heroCallToAction: 'Ελάτε σε Επαφή',
+  formHeading: 'Στείλτε μας μήνυμα',
+  formSubmitLabel: 'Αποστολή Μηνύματος',
+  mapHeading: 'ΓΑΣ ΕΥΝΙΚΗ',
+  mapText:
+    'Βρείτε μας στην καρδιά της Ελευσίνας. Εύκολη πρόσβαση για όλους τους αθλητές μας.',
+  mapButtonLabel: 'Οδηγίες Χάρτη',
+};
+
+const [fetchedPage, fetchedSettings] = await Promise.all([
+  client.fetch<ContactPage | null>(contactPageQuery),
+  client.fetch<SiteSettings | null>(siteSettingsQuery),
+]);
+
+const page = { ...defaultPage, ...fetchedPage };
+const settings = { ...defaultSiteSettings, ...fetchedSettings };
+
+const pageTitle = page.seo?.title ?? 'Επικοινωνία';
+const pageDescription =
+  page.seo?.description ??
+  'Επικοινωνήστε με τον ΓΑΣ Ευνίκη Ελευσίνας. Διεύθυνση: Χαριλάου και Παγκάλου 5, Ελευσίνα. Τηλ: 698 444 6065.';
+---
+
+<Layout title={pageTitle} description={pageDescription} currentPath="/epikoinonia" noIndex={page.seo?.noIndex}>
+  <BreadcrumbSchema
+    slot="schema"
+    items={[
+      { name: 'Αρχική', url: '/' },
+      { name: 'Επικοινωνία', url: '/epikoinonia' },
+    ]}
+  />
+  <main class="pt-24 min-h-screen ribbon-bg flex-1">
+    <ContactHero
+      heading={page.heroHeading ?? ''}
+      text={page.heroText ?? ''}
+      callToAction={page.heroCallToAction ?? ''}
+    />
+
+    <section class="pb-section-padding px-gutter max-w-container-max-width mx-auto">
+      <div class="grid grid-cols-1 lg:grid-cols-12 gap-12 items-start">
+        <ContactInfo
+          address={settings.address ?? ''}
+          phone={settings.phone ?? ''}
+          email={settings.email ?? ''}
+          hours={settings.openingHours ?? []}
+          facebookUrl={settings.facebookUrl}
+          instagramUrl={settings.instagramUrl}
+        />
+        <ContactForm
+          client:load
+          formHeading={page.formHeading ?? ''}
+          formSubmitLabel={page.formSubmitLabel ?? ''}
+        />
+      </div>
+    </section>
+
+    <ContactMap
+      heading={page.mapHeading ?? ''}
+      text={page.mapText ?? ''}
+      buttonLabel={page.mapButtonLabel ?? ''}
+      address={settings.address ?? ''}
+    />
+  </main>
+</Layout>

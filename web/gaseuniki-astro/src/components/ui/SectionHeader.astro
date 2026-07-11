@@ -1,0 +1,46 @@
+---
+export interface Props {
+  label?: string;
+  heading: string;
+  subtext?: string;
+  align?: 'left' | 'center';
+  class?: string;
+}
+
+const { label, heading, subtext, align = 'center', class: className = '' } = Astro.props;
+---
+
+<div
+  class:list={[
+    align === 'center' ? 'text-center' : 'text-left',
+    className,
+  ]}
+>
+  {
+    label && (
+      <p class="mb-3 font-display text-label-caps uppercase tracking-widest text-primary">
+        {label}
+      </p>
+    )
+  }
+  <h2 class="font-display text-headline-lg text-on-surface">{heading}</h2>
+  {
+    subtext && (
+      <p
+        class:list={[
+          'mt-4 max-w-2xl font-body text-body-lg text-on-surface-variant',
+          align === 'center' ? 'mx-auto' : '',
+        ]}
+      >
+        {subtext}
+      </p>
+    )
+  }
+  <div
+    class:list={[
+      'mt-4 h-1.5 w-24 rounded-full bg-primary',
+      align === 'center' ? 'mx-auto' : '',
+    ]}
+    aria-hidden="true"
+  />
+</div>

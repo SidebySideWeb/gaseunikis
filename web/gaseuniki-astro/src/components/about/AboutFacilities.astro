@@ -1,0 +1,39 @@
+---
+import PlaceholderImage from '../ui/PlaceholderImage.astro';
+import type { GalleryImage } from '../../lib/types';
+import { getFacilityFallback } from '../../lib/stitch-images';
+import { resolveImageUrl } from '../../lib/image';
+
+interface Props {
+  heading: string;
+  label: string;
+  description: string;
+  images: GalleryImage[];
+}
+
+const { heading, label, description, images } = Astro.props;
+---
+
+<section class="bg-surface-container-lowest py-24">
+  <div class="container-page text-center">
+    <h2 class="mb-6 font-display text-headline-md text-primary">{heading}</h2>
+    <p class="mx-auto mb-12 max-w-3xl font-body text-body-lg leading-relaxed text-on-surface-variant">{description}</p>
+
+    <div class="grid grid-cols-1 gap-gutter sm:grid-cols-2 md:grid-cols-4">
+      {images.map((item, index) => (
+        <figure class="flex flex-col gap-2">
+          <div class="h-64 overflow-hidden rounded-xl border border-primary/20 bg-surface-container-lowest shadow-card">
+            <PlaceholderImage
+              src={resolveImageUrl(item.image, getFacilityFallback(index))}
+              alt={item.image?.alt ?? `${label} ${index + 1}`}
+              class="h-full w-full object-cover"
+            />
+          </div>
+          <figcaption class="font-display text-label-caps uppercase tracking-widest text-primary">
+            {item.caption ?? label}
+          </figcaption>
+        </figure>
+      ))}
+    </div>
+  </div>
+</section>

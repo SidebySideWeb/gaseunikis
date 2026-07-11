@@ -1,0 +1,130 @@
+---
+import Layout from '../layouts/Layout.astro';
+import BreadcrumbSchema from '../components/schema/BreadcrumbSchema.astro';
+import FAQSchema from '../components/schema/FAQSchema.astro';
+import RegistrationHero from '../components/registration/RegistrationHero.astro';
+import RegistrationSteps from '../components/registration/RegistrationSteps.astro';
+import RegistrationDocuments from '../components/registration/RegistrationDocuments.astro';
+import RegistrationForm from '../components/registration/RegistrationForm';
+import { client } from '../lib/sanity';
+import { registrationPageQuery, siteSettingsQuery } from '../lib/queries';
+import type { RegistrationPage, SiteSettings } from '../lib/types';
+
+const defaultPage: RegistrationPage = {
+  heroHeading: 'Εγγραφές 2024-2025',
+  heroText:
+    'Γίνε μέλος του ΓΑΣ ΕΥΝΙΚΗ και ξεκίνησε το ταξίδι σου στον κόσμο της γυμναστικής και του αθλητισμού!',
+  registrationPeriodLabel: 'Περίοδος Εγγραφών',
+  registrationPeriodText:
+    'Οι εγγραφές πραγματοποιούνται καθημερινά στο κλειστό γυμναστήριο «Ι. Φωκιανός» από τις 17:00 έως τις 20:30.',
+  trainingsStartLabel: 'Έναρξη Προπονήσεων',
+  trainingsStartText:
+    'Οι προπονήσεις για όλα τα τμήματα (Ρυθμική, Ενόργανη, Τραμπολίνο) ξεκινούν την 1η Σεπτεμβρίου.',
+  registrationSteps: [],
+  documentsHeading: 'Απαραίτητα Έγγραφα',
+  requiredDocuments: [],
+  formHeading: 'Φόρμα Εκδήλωσης Ενδιαφέροντος',
+  formDescription:
+    'Συμπληρώστε τα στοιχεία σας και θα επικοινωνήσουμε μαζί σας για να οριστικοποιήσουμε την εγγραφή και το πρόγραμμα προπονήσεων.',
+  formSubmitLabel: 'Αποστολή Αίτησης',
+  privacyCheckboxLabel:
+    'Αποδέχομαι την επεξεργασία των δεδομένων μου για τους σκοπούς της εγγραφής σύμφωνα με την πολιτική απορρήτου του συλλόγου.',
+};
+
+const defaultSettings: Pick<SiteSettings, 'phone' | 'address'> = {
+  phone: '698 444 6065',
+  address: 'Χαριλάου & Παγκάλου 5, Ελευσίνα',
+};
+
+const [fetchedPage, fetchedSettings] = await Promise.all([
+  client.fetch<RegistrationPage | null>(registrationPageQuery),
+  client.fetch<SiteSettings | null>(siteSettingsQuery),
+]);
+
+const page = { ...defaultPage, ...fetchedPage };
+const settings = { ...defaultSettings, ...fetchedSettings };
+
+const pageTitle = page.seo?.title ?? 'Εγγραφές 2024-2025';
+const pageDescription =
+  page.seo?.description ??
+  'Εγγραφές στον ΓΑΣ Ευνίκη Ελευσίνας. Πληροφορίες για τμήματα, δικαιολογητικά και διαδικασία εγγραφής.';
+
+const faqItems = [
+  ...(page.registrationSteps ?? []).map((step) => ({
+    question: step.title,
+    answer: step.description ?? '',
+  })),
+  ...(page.requiredDocuments ?? []).map((document) => ({
+    question: `Απαιτείται: ${document}`,
+    answer: 'Το έγγραφο πρέπει να προσκομιστεί κατά την εγγραφή στον σύλλογο.',
+  })),
+  {
+    question: page.registrationPeriodLabel ?? 'Περίοδος Εγγραφών',
+    answer: page.registrationPeriodText ?? '',
+  },
+  {
+    question: page.trainingsStartLabel ?? 'Έναρξη Προπονήσεων',
+    answer: page.trainingsStartText ?? '',
+  },
+].filter((item) => item.question && item.answer);
+---
+
+<Layout title={pageTitle} description={pageDescription} currentPath="/egrafes" noIndex={page.seo?.noIndex}>
+  <BreadcrumbSchema
+    slot="schema"
+    items={[
+      { name: 'Αρχική', url: '/' },
+      { name: 'Εγγραφές', url: '/egrafes' },
+    ]}
+  />
+  {faqItems.length > 0 ? <FAQSchema slot="schema" items={faqItems} /> : null}
+
+  <RegistrationHero
+    heading={page.heroHeading ?? ''}
+    text={page.heroText ?? ''}
+    registrationPeriodLabel={page.registrationPeriodLabel ?? ''}
+    registrationPeriodText={page.registrationPeriodText ?? ''}
+    trainingsStartLabel={page.trainingsStartLabel ?? ''}
+    trainingsStartText={page.trainingsStartText ?? ''}
+  />
+
+  <main class="flex-grow max-w-container-max-width mx-auto px-gutter py-12">
+    <div class="grid grid-cols-1 lg:grid-cols-12 gap-10">
+      <div class="lg:col-span-5 space-y-8">
+        <RegistrationSteps steps={page.registrationSteps ?? []} />
+        <RegistrationDocuments
+          heading={page.documentsHeading ?? ''}
+          documents={page.requiredDocuments ?? []}
+          downloadLabel={page.downloadFormLabel}
+          downloadUrl={page.downloadFormUrl}
+        />
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-1 gap-4">
+          <div class="p-6 bg-white border border-outline-variant rounded-2xl flex items-center gap-4 shadow-sm">
+            <span class="material-symbols-outlined text-secondary text-[32px]">call</span>
+            <div>
+              <p class="text-xs text-on-surface-variant font-bold uppercase tracking-widest">Τηλέφωνο</p>
+              <p class="font-bold">{settings.phone}</p>
+            </div>
+          </div>
+          <div class="p-6 bg-white border border-outline-variant rounded-2xl flex items-center gap-4 shadow-sm">
+            <span class="material-symbols-outlined text-primary text-[32px]">location_on</span>
+            <div>
+              <p class="text-xs text-on-surface-variant font-bold uppercase tracking-widest">Διεύθυνση</p>
+              <p class="font-bold">{settings.address}</p>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="lg:col-span-7">
+        <RegistrationForm
+          client:load
+          formHeading={page.formHeading ?? ''}
+          formDescription={page.formDescription ?? ''}
+          formSubmitLabel={page.formSubmitLabel ?? ''}
+          privacyCheckboxLabel={page.privacyCheckboxLabel ?? ''}
+        />
+      </div>
+    </div>
+  </main>
+</Layout>

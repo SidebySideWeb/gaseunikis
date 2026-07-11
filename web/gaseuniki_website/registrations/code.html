@@ -1,0 +1,412 @@
+<!DOCTYPE html>
+
+<html class="light h-full" lang="el"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Εγγραφές | ΓΑΣ ΕΥΝΙΚΗ</title>
+<!-- Fonts -->
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;600;700;800&amp;family=Nunito+Sans:wght@300;400;600;700&amp;display=swap" rel="stylesheet"/>
+<!-- Icons -->
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<!-- Tailwind -->
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<script id="tailwind-config">
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            "colors": {
+                    "on-primary-fixed": "#400014",
+                    "error": "#ba1a1a",
+                    "surface-container-lowest": "#ffffff",
+                    "secondary-fixed-dim": "#ffb0cc",
+                    "outline": "#8f6f73",
+                    "tertiary-fixed": "#ffdf9e",
+                    "on-surface": "#1a1c1c",
+                    "secondary-container": "#fe4ea2",
+                    "primary-fixed-dim": "#ffb2be",
+                    "on-secondary-fixed-variant": "#8d0051",
+                    "surface-bright": "#f9f9f9",
+                    "inverse-surface": "#2f3131",
+                    "secondary": "#b7046c",
+                    "on-primary-fixed-variant": "#900038",
+                    "on-background": "#1a1c1c",
+                    "inverse-on-surface": "#f0f1f1",
+                    "surface-container-high": "#e8e8e8",
+                    "surface-variant": "#e2e2e2",
+                    "tertiary": "#765700",
+                    "on-tertiary-fixed-variant": "#5b4300",
+                    "surface-container-low": "#f3f3f4",
+                    "primary": "#b80049",
+                    "on-tertiary-container": "#fffbff",
+                    "on-tertiary": "#ffffff",
+                    "outline-variant": "#e4bdc2",
+                    "on-tertiary-fixed": "#261a00",
+                    "on-surface-variant": "#5b3f43",
+                    "on-error-container": "#93000a",
+                    "error-container": "#ffdad6",
+                    "tertiary-fixed-dim": "#ebc166",
+                    "inverse-primary": "#ffb2be",
+                    "on-error": "#ffffff",
+                    "surface-container": "#eeeeee",
+                    "primary-fixed": "#ffd9de",
+                    "tertiary-container": "#916f1c",
+                    "on-primary": "#ffffff",
+                    "secondary-fixed": "#ffd9e4",
+                    "primary-container": "#e2165f",
+                    "surface-container-highest": "#e2e2e2",
+                    "surface-tint": "#bc004b",
+                    "surface": "#f9f9f9",
+                    "on-secondary": "#ffffff",
+                    "on-secondary-container": "#5c0033",
+                    "on-primary-container": "#fffbff",
+                    "on-secondary-fixed": "#3e0021",
+                    "background": "#f9f9f9",
+                    "surface-dim": "#dadada"
+            },
+            "borderRadius": {
+                    "DEFAULT": "0.25rem",
+                    "lg": "0.5rem",
+                    "xl": "0.75rem",
+                    "full": "9999px"
+            },
+            "spacing": {
+                    "gutter": "24px",
+                    "container-max-width": "1200px",
+                    "unit": "8px",
+                    "margin-mobile": "16px",
+                    "section-padding": "80px",
+                    "margin-desktop": "40px"
+            },
+            "fontFamily": {
+                    "display-lg": ["Plus Jakarta Sans"],
+                    "body-md": ["Nunito Sans"],
+                    "headline-lg": ["Plus Jakarta Sans"],
+                    "headline-md": ["Plus Jakarta Sans"],
+                    "headline-lg-mobile": ["Plus Jakarta Sans"],
+                    "body-lg": ["Nunito Sans"],
+                    "label-md": ["Plus Jakarta Sans"]
+            },
+            "fontSize": {
+                    "display-lg": ["48px", {"lineHeight": "1.2", "letterSpacing": "-0.02em", "fontWeight": "700"}],
+                    "body-md": ["16px", {"lineHeight": "1.6", "fontWeight": "400"}],
+                    "headline-lg": ["32px", {"lineHeight": "1.3", "fontWeight": "700"}],
+                    "headline-md": ["24px", {"lineHeight": "1.4", "fontWeight": "600"}],
+                    "headline-lg-mobile": ["28px", {"lineHeight": "1.3", "fontWeight": "700"}],
+                    "body-lg": ["18px", {"lineHeight": "1.6", "fontWeight": "400"}],
+                    "label-md": ["14px", {"lineHeight": "1.2", "fontWeight": "600"}]
+            }
+          },
+        },
+      }
+    </script>
+<style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+        .ribbon-bg {
+            background: radial-gradient(circle at 10% 20%, rgba(233, 30, 99, 0.08) 0%, transparent 50%),
+                        radial-gradient(circle at 90% 80%, rgba(255, 79, 163, 0.1) 0%, transparent 50%);
+        }
+        .glass-card {
+            background: rgba(255, 255, 255, 0.8);
+            backdrop-filter: blur(12px);
+            border: 1px solid rgba(255, 255, 255, 0.3);
+        }
+        .hover-lift {
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+        .hover-lift:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 20px 40px rgba(233, 30, 99, 0.12);
+        }
+        ::-webkit-scrollbar { width: 8px; }
+        ::-webkit-scrollbar-track { background: #f1f1f1; }
+        ::-webkit-scrollbar-thumb { background: #b80049; border-radius: 10px; }
+    </style>
+</head>
+<body class="bg-background text-on-surface font-body-md selection:bg-primary-fixed selection:text-on-primary-fixed flex flex-col min-h-screen">
+<!-- TopNavBar from COMPONENTS_5 -->
+<header class="fixed top-0 left-0 right-0 z-50 bg-surface/90 dark:bg-surface-dim/90 backdrop-blur-md shadow-sm">
+<nav class="flex justify-between items-center px-gutter py-4 w-full max-w-container-max-width mx-auto">
+<div class="flex items-center gap-3">
+<img alt="ΓΑΣ ΕΥΝΙΚΗ Logo" class="h-10 w-10 md:h-12 md:w-12 object-contain" src="https://lh3.googleusercontent.com/aida/AP1WRLsd6F_5ATqchePDsvAwj09ABL3eWYobdJlROr41n3xeZ_Eq45Mp76rtusbY8sWGWcGMJr_dhem2odaVyioLV_G7eKrPf3xb09qDSj3Q75jx07IqzKIGISJMA1okUD5bZxAy0QDU2cr-P5JSn-y_MBUuUn2WBIMjspA4zCZO6PYFXJxlffRhX-4rsMaD17JfW-idVy0M_nhL2_7X6B-FFWM4ViYvCbx6XqBcIFe-ldhfRgTlSPzew1DqVsMh"/>
+<span class="font-display-lg text-headline-md font-bold text-primary dark:text-primary-fixed-dim uppercase tracking-tight">ΓΑΣ ΕΥΝΙΚΗ</span>
+</div>
+<!-- Desktop Nav -->
+<div class="hidden md:flex items-center gap-8 font-display-lg text-label-md">
+<a class="text-on-surface-variant dark:text-outline hover:text-primary dark:hover:text-primary-fixed-dim transition-colors" href="#">Αρχική</a>
+<a class="text-on-surface-variant dark:text-outline hover:text-primary dark:hover:text-primary-fixed-dim transition-colors" href="#">Ο Σύλλογος</a>
+<a class="text-on-surface-variant dark:text-outline hover:text-primary dark:hover:text-primary-fixed-dim transition-colors" href="#">Νέα</a>
+<a class="text-on-surface-variant dark:text-outline hover:text-primary dark:hover:text-primary-fixed-dim transition-colors" href="#">Τμήματα</a>
+<a class="text-primary dark:text-primary-fixed-dim border-b-2 border-primary dark:border-primary-fixed-dim pb-1" href="#">Εγγραφές</a>
+<a class="text-on-surface-variant dark:text-outline hover:text-primary dark:hover:text-primary-fixed-dim transition-colors" href="#">Επικοινωνία</a>
+</div>
+<div class="flex items-center gap-4">
+<button class="bg-primary text-on-primary px-6 py-2 rounded-xl font-label-md active:scale-95 transition-transform duration-200 hover:bg-primary-container">Εγγραφή</button>
+<button class="md:hidden text-primary">
+<span class="material-symbols-outlined" style="font-size: 32px;">menu</span>
+</button>
+</div>
+</nav>
+</header>
+<!-- Hero Section -->
+<header class="relative pt-32 pb-20 md:pt-48 md:pb-24 overflow-hidden ribbon-bg">
+<div class="absolute top-0 right-0 w-1/3 h-full opacity-10 pointer-events-none">
+<svg class="w-full h-full" viewbox="0 0 200 200" xmlns="http://www.w3.org/2000/svg">
+<path d="M44.7,-76.4C58.1,-69.2,69.2,-58.1,76.4,-44.7C83.7,-31.3,87.1,-15.7,86.2,-0.5C85.3,14.6,80.1,29.3,72.4,42.4C64.6,55.5,54.4,67.1,41.7,74.5C29.1,81.9,14.5,85.1,0.2,84.8C-14.2,84.5,-28.4,80.6,-41.4,73.5C-54.4,66.4,-66.2,56.1,-73.9,43.3C-81.6,30.5,-85.2,15.2,-85.1,0.1C-84.9,-15.1,-81.1,-30.1,-73,-43.3C-64.9,-56.4,-52.6,-67.7,-38.7,-74.6C-24.8,-81.4,-9.4,-83.8,3.2,-89.4C15.8,-94.9,31.3,-83.7,44.7,-76.4Z" fill="#E91E63" transform="translate(100 100)"></path>
+</svg>
+</div>
+<div class="max-w-container-max-width mx-auto px-gutter text-center relative z-10">
+<h1 class="font-display-lg text-display-lg md:text-[56px] text-primary mb-4 animate-fade-in-up">Εγγραφές 2024-2025</h1>
+<p class="font-headline-md text-headline-md text-on-surface-variant max-w-2xl mx-auto">Γίνε μέλος του ΓΑΣ ΕΥΝΙΚΗ και ξεκίνησε το ταξίδι σου στον κόσμο της γυμναστικής και του αθλητισμού!</p>
+<div class="mt-12 flex flex-col md:flex-row justify-center gap-6">
+<div class="bg-surface-container-low border-l-4 border-primary p-6 rounded-xl text-left max-w-md shadow-sm">
+<p class="text-label-md font-bold text-primary mb-2 uppercase tracking-wider">Περίοδος Εγγραφών</p>
+<p class="text-on-surface-variant">Οι εγγραφές πραγματοποιούνται καθημερινά στο κλειστό γυμναστήριο «Ι. Φωκιανός» από τις 17:00 έως τις 20:30.</p>
+</div>
+<div class="bg-surface-container-low border-l-4 border-secondary p-6 rounded-xl text-left max-w-md shadow-sm">
+<p class="text-label-md font-bold text-secondary mb-2 uppercase tracking-wider">Έναρξη Προπονήσεων</p>
+<p class="text-on-surface-variant">Οι προπονήσεις για όλα τα τμήματα (Ρυθμική, Ενόργανη, Τραμπολίνο) ξεκινούν την 1η Σεπτεμβρίου.</p>
+</div>
+</div>
+</div>
+</header>
+<!-- Main Content -->
+<main class="flex-grow max-w-container-max-width mx-auto px-gutter py-12">
+<div class="grid grid-cols-1 lg:grid-cols-12 gap-10">
+<!-- Left: Sidebar Info -->
+<div class="lg:col-span-5 space-y-8">
+<section class="bg-white p-8 rounded-2xl shadow-sm border border-surface-container-highest">
+<h2 class="font-headline-md text-headline-md mb-6 flex items-center gap-3">
+<span class="material-symbols-outlined text-primary">assignment_add</span>
+                        Βήματα Εγγραφής
+                    </h2>
+<div class="space-y-6">
+<div class="flex gap-4">
+<div class="flex-shrink-0 w-8 h-8 rounded-full bg-primary-fixed text-primary flex items-center justify-center font-bold">1</div>
+<div>
+<h4 class="font-bold text-on-surface">Επιλογή Τμήματος</h4>
+<p class="text-sm text-on-surface-variant">Ενημερωθείτε για τα διαθέσιμα τμήματα ανάλογα με την ηλικία και το επίπεδο του αθλητή.</p>
+</div>
+</div>
+<div class="flex gap-4">
+<div class="flex-shrink-0 w-8 h-8 rounded-full bg-primary-fixed text-primary flex items-center justify-center font-bold">2</div>
+<div>
+<h4 class="font-bold text-on-surface">Συγκέντρωση Δικαιολογητικών</h4>
+<p class="text-sm text-on-surface-variant">Βεβαιωθείτε ότι έχετε όλα τα απαραίτητα έγγραφα που αναφέρονται παρακάτω.</p>
+</div>
+</div>
+<div class="flex gap-4">
+<div class="flex-shrink-0 w-8 h-8 rounded-full bg-primary-fixed text-primary flex items-center justify-center font-bold">3</div>
+<div>
+<h4 class="font-bold text-on-surface">Κατάθεση Αίτησης</h4>
+<p class="text-sm text-on-surface-variant">Επισκεφθείτε τη γραμματεία μας ή συμπληρώστε την online φόρμα ενδιαφέροντος.</p>
+</div>
+</div>
+</div>
+</section>
+<section class="bg-surface-container p-8 rounded-2xl">
+<h3 class="font-headline-md text-headline-md mb-6 flex items-center gap-3">
+<span class="material-symbols-outlined text-secondary">verified</span>
+                        Απαραίτητα Έγγραφα
+                    </h3>
+<ul class="space-y-4">
+<li class="flex items-start gap-3">
+<span class="material-symbols-outlined text-primary text-[20px] mt-0.5">check_circle</span>
+<span class="text-body-md font-medium text-on-surface">Κάρτα Υγείας Αθλητή (υπογεγραμμένη από καρδιολόγο)</span>
+</li>
+<li class="flex items-start gap-3">
+<span class="material-symbols-outlined text-primary text-[20px] mt-0.5">check_circle</span>
+<span class="text-body-md font-medium text-on-surface">Πιστοποιητικό Γέννησης</span>
+</li>
+<li class="flex items-start gap-3">
+<span class="material-symbols-outlined text-primary text-[20px] mt-0.5">check_circle</span>
+<span class="text-body-md font-medium text-on-surface">2 Φωτογραφίες ταυτότητας (για την έκδοση δελτίου)</span>
+</li>
+<li class="flex items-start gap-3">
+<span class="material-symbols-outlined text-primary text-[20px] mt-0.5">check_circle</span>
+<span class="text-body-md font-medium text-on-surface">Αριθμός ΑΜΚΑ αθλητή</span>
+</li>
+</ul>
+<div class="mt-8">
+<a class="inline-flex items-center gap-2 text-primary font-bold hover:underline" href="#">
+<span class="material-symbols-outlined">download</span>
+                            Κατεβάστε το Έντυπο Αίτησης (PDF)
+                        </a>
+</div>
+</section>
+<!-- Contact Bento -->
+<div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-1 gap-4">
+<div class="p-6 bg-white border border-outline-variant rounded-2xl flex items-center gap-4 shadow-sm">
+<span class="material-symbols-outlined text-secondary text-[32px]">call</span>
+<div>
+<p class="text-xs text-on-surface-variant font-bold uppercase tracking-widest">Τηλέφωνο</p>
+<p class="font-bold">698 444 6065</p>
+</div>
+</div>
+<div class="p-6 bg-white border border-outline-variant rounded-2xl flex items-center gap-4 shadow-sm">
+<span class="material-symbols-outlined text-primary text-[32px]">location_on</span>
+<div>
+<p class="text-xs text-on-surface-variant font-bold uppercase tracking-widest">Διεύθυνση</p>
+<p class="font-bold">Χαριλάου &amp; Παγκάλου 5, Ελευσίνα</p>
+</div>
+</div>
+</div>
+</div>
+<!-- Right: Registration Form -->
+<div class="lg:col-span-7">
+<section class="bg-white p-8 md:p-12 rounded-3xl shadow-xl border-t-8 border-primary relative overflow-hidden">
+<div class="absolute -top-10 -right-10 w-40 h-40 bg-primary/5 rounded-full blur-3xl"></div>
+<h2 class="font-headline-lg text-headline-lg mb-2">Φόρμα Εκδήλωσης Ενδιαφέροντος</h2>
+<p class="text-on-surface-variant mb-10">Συμπληρώστε τα στοιχεία σας και θα επικοινωνήσουμε μαζί σας για να οριστικοποιήσουμε την εγγραφή και το πρόγραμμα προπονήσεων.</p>
+<form class="space-y-6" id="enrollmentForm">
+<div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+<div class="space-y-2">
+<label class="font-label-md text-on-surface-variant">Ονοματεπώνυμο Αθλητή *</label>
+<input class="w-full px-5 py-4 rounded-xl border-outline-variant focus:border-primary focus:ring-primary bg-surface-container-low transition-all" placeholder="π.χ. Άννα Παπαδοπούλου" required="" type="text"/>
+</div>
+<div class="space-y-2">
+<label class="font-label-md text-on-surface-variant">Ημερομηνία Γέννησης *</label>
+<input class="w-full px-5 py-4 rounded-xl border-outline-variant focus:border-primary focus:ring-primary bg-surface-container-low transition-all" required="" type="date"/>
+</div>
+</div>
+<div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+<div class="space-y-2">
+<label class="font-label-md text-on-surface-variant">Όνομα Κηδεμόνα *</label>
+<input class="w-full px-5 py-4 rounded-xl border-outline-variant focus:border-primary focus:ring-primary bg-surface-container-low transition-all" placeholder="π.χ. Γεώργιος Παπαδόπουλος" required="" type="text"/>
+</div>
+<div class="space-y-2">
+<label class="font-label-md text-on-surface-variant">Τηλέφωνο Επικοινωνίας *</label>
+<input class="w-full px-5 py-4 rounded-xl border-outline-variant focus:border-primary focus:ring-primary bg-surface-container-low transition-all" placeholder="69x xxxx xxx" required="" type="tel"/>
+</div>
+</div>
+<div class="space-y-2">
+<label class="font-label-md text-on-surface-variant">Διεύθυνση Email</label>
+<input class="w-full px-5 py-4 rounded-xl border-outline-variant focus:border-primary focus:ring-primary bg-surface-container-low transition-all" placeholder="your@email.com" type="email"/>
+</div>
+<div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+<div class="space-y-2">
+<label class="font-label-md text-on-surface-variant">Άθλημα Ενδιαφέροντος</label>
+<select class="w-full px-5 py-4 rounded-xl border-outline-variant focus:border-primary focus:ring-primary bg-surface-container-low transition-all">
+<option>Ρυθμική Γυμναστική</option>
+<option>Ενόργανη Γυμναστική</option>
+<option>Τραμπολίνο</option>
+<option>Αεροβική Γυμναστική</option>
+<option>Αγωνιστικό Τμήμα</option>
+</select>
+</div>
+<div class="space-y-2">
+<label class="font-label-md text-on-surface-variant">Προηγούμενη Εμπειρία;</label>
+<select class="w-full px-5 py-4 rounded-xl border-outline-variant focus:border-primary focus:ring-primary bg-surface-container-low transition-all">
+<option>Όχι (Αρχάριο επίπεδο)</option>
+<option>Ναι (1-2 χρόνια)</option>
+<option>Ναι (3+ χρόνια)</option>
+</select>
+</div>
+</div>
+<div class="space-y-2">
+<label class="font-label-md text-on-surface-variant">Μήνυμα / Σημειώσεις</label>
+<textarea class="w-full px-5 py-4 rounded-xl border-outline-variant focus:border-primary focus:ring-primary bg-surface-container-low transition-all" placeholder="Οποιαδήποτε πληροφορία θέλετε να μοιραστείτε..." rows="4"></textarea>
+</div>
+<div class="flex items-start gap-3">
+<input class="mt-1 h-5 w-5 text-primary border-outline-variant rounded focus:ring-primary" required="" type="checkbox"/>
+<label class="text-sm text-on-surface-variant">Αποδέχομαι την επεξεργασία των δεδομένων μου για τους σκοπούς της εγγραφής σύμφωνα με την πολιτική απορρήτου του συλλόγου.</label>
+</div>
+<button class="w-full bg-secondary text-on-secondary font-bold py-5 rounded-2xl hover:shadow-lg hover:bg-primary transition-all active:scale-95 text-body-lg flex justify-center items-center gap-2" type="submit">
+                            Αποστολή Αίτησης
+                            <span class="material-symbols-outlined">send</span>
+</button>
+</form>
+</section>
+</div>
+</div>
+</main>
+<!-- Footer from COMPONENTS_5 -->
+<footer class="bg-surface-container-highest dark:bg-surface-container-lowest mt-auto">
+<div class="grid grid-cols-1 md:grid-cols-4 gap-gutter px-gutter py-section-padding w-full max-w-container-max-width mx-auto">
+<div class="space-y-4">
+<div class="flex items-center gap-2">
+<img alt="Logo" class="h-10 w-10 object-contain" src="https://lh3.googleusercontent.com/aida/AP1WRLsd6F_5ATqchePDsvAwj09ABL3eWYobdJlROr41n3xeZ_Eq45Mp76rtusbY8sWGWcGMJr_dhem2odaVyioLV_G7eKrPf3xb09qDSj3Q75jx07IqzKIGISJMA1okUD5bZxAy0QDU2cr-P5JSn-y_MBUuUn2WBIMjspA4zCZO6PYFXJxlffRhX-4rsMaD17JfW-idVy0M_nhL2_7X6B-FFWM4ViYvCbx6XqBcIFe-ldhfRgTlSPzew1DqVsMh"/>
+<span class="font-display-lg text-headline-md font-bold text-on-surface dark:text-on-background">ΓΑΣ ΕΥΝΙΚΗ</span>
+</div>
+<p class="text-on-surface-variant text-body-md">Προάγουμε τον αθλητισμό και το ήθος στην Ελευσίνα από το 1993. Μέλος της Ελληνικής Γυμναστικής Ομοσπονδίας.</p>
+<div class="flex gap-4">
+<a class="text-primary hover:text-secondary transition-colors" href="#"><span class="material-symbols-outlined">facebook</span></a>
+<a class="text-primary hover:text-secondary transition-colors" href="#"><span class="material-symbols-outlined">share</span></a>
+</div>
+</div>
+<div>
+<h4 class="font-bold text-on-surface mb-6">Πλοήγηση</h4>
+<ul class="space-y-3 font-body-md">
+<li><a class="text-on-surface-variant hover:text-secondary transition-colors" href="#">Αρχική</a></li>
+<li><a class="text-on-surface-variant hover:text-secondary transition-colors" href="#">Ο Σύλλογος</a></li>
+<li><a class="text-on-surface-variant hover:text-secondary transition-colors" href="#">Νέα</a></li>
+<li><a class="text-primary font-bold" href="#">Εγγραφές</a></li>
+</ul>
+</div>
+<div>
+<h4 class="font-bold text-on-surface mb-6">Τμήματα</h4>
+<ul class="space-y-3 font-body-md">
+<li><a class="text-on-surface-variant hover:text-secondary transition-colors" href="#">Ρυθμική Γυμναστική</a></li>
+<li><a class="text-on-surface-variant hover:text-secondary transition-colors" href="#">Ενόργανη Γυμναστική</a></li>
+<li><a class="text-on-surface-variant hover:text-secondary transition-colors" href="#">Τραμπολίνο</a></li>
+<li><a class="text-on-surface-variant hover:text-secondary transition-colors" href="#">Αεροβική</a></li>
+</ul>
+</div>
+<div>
+<h4 class="font-bold text-on-surface mb-6">Σύνδεσμοι</h4>
+<ul class="space-y-3 font-body-md">
+<li><a class="text-on-surface-variant hover:text-secondary transition-colors focus:underline underline-offset-4" href="#">Ε.Γ.Ο.</a></li>
+<li><a class="text-on-surface-variant hover:text-secondary transition-colors focus:underline underline-offset-4" href="#">F.I.G.</a></li>
+<li><a class="text-on-surface-variant hover:text-secondary transition-colors focus:underline underline-offset-4" href="#">Επικοινωνία</a></li>
+</ul>
+</div>
+</div>
+<div class="border-t border-outline-variant/30 py-6">
+<div class="max-w-container-max-width mx-auto px-gutter flex flex-col md:flex-row justify-between items-center gap-4 text-xs text-on-surface-variant">
+<p>© 2024 Γας Ευνίκη Ελευσίνας. Με την επιφύλαξη παντός δικαιώματος.</p>
+<div class="flex gap-6">
+<a class="hover:text-primary" href="#">Πολιτική Απορρήτου</a>
+<a class="hover:text-primary" href="#">Όροι Χρήσης</a>
+</div>
+</div>
+</div>
+</footer>
+<script>
+        // Form submission animation
+        document.getElementById('enrollmentForm').addEventListener('submit', (e) => {
+            e.preventDefault();
+            const btn = e.target.querySelector('button');
+            const originalHTML = btn.innerHTML;
+            
+            btn.innerHTML = '<span class="material-symbols-outlined animate-spin">sync</span> Αποστολή...';
+            btn.disabled = true;
+            
+            // Simulate API call
+            setTimeout(() => {
+                btn.innerHTML = '<span class="material-symbols-outlined">check_circle</span> Επιτυχής Καταχώρηση!';
+                btn.classList.replace('bg-secondary', 'bg-green-600');
+                e.target.reset();
+                
+                setTimeout(() => {
+                    btn.innerHTML = originalHTML;
+                    btn.classList.replace('bg-green-600', 'bg-secondary');
+                    btn.disabled = false;
+                }, 3000);
+            }, 1500);
+        });
+
+        // Header scroll behavior
+        window.addEventListener('scroll', () => {
+            const header = document.querySelector('header');
+            if (window.scrollY > 50) {
+                header.classList.add('py-2', 'shadow-lg');
+                header.querySelector('nav').classList.replace('py-4', 'py-2');
+            } else {
+                header.classList.remove('py-2', 'shadow-lg');
+                header.querySelector('nav').classList.replace('py-2', 'py-4');
+            }
+        });
+    </script>
+</body></html>

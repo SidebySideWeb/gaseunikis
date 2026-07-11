@@ -1,0 +1,75 @@
+---
+import Layout from '../layouts/Layout.astro';
+import BreadcrumbSchema from '../components/schema/BreadcrumbSchema.astro';
+import AboutHero from '../components/about/AboutHero.astro';
+import AboutHistory from '../components/about/AboutHistory.astro';
+import AboutSpirit from '../components/about/AboutSpirit.astro';
+import AboutPhilosophy from '../components/about/AboutPhilosophy.astro';
+import AboutCoaches from '../components/about/AboutCoaches.astro';
+import AboutFacilities from '../components/about/AboutFacilities.astro';
+import { getAboutPage } from '../lib/queries';
+import { defaultAboutPage } from '../lib/fallbacks';
+import type { AboutPage } from '../lib/types';
+
+let aboutPage: AboutPage | null = null;
+
+try {
+  aboutPage = await getAboutPage();
+} catch {
+  aboutPage = null;
+}
+
+const about = { ...defaultAboutPage, ...aboutPage };
+const facilitiesImages =
+  about.facilitiesImages?.length ? about.facilitiesImages : defaultAboutPage.facilitiesImages!;
+
+const pageTitle = about.seo?.title ?? 'Ο Σύλλογος';
+const pageDescription =
+  about.seo?.description ??
+  'Γνωρίστε τον ΓΑΣ Ευνίκη Ελευσίνας — ιστορία, φιλοσοφία, προπονητικό team και εγκαταστάσεις.';
+---
+
+<Layout
+  title={pageTitle}
+  description={pageDescription}
+  currentPath="/syllogos"
+  noIndex={about.seo?.noIndex}
+>
+  <BreadcrumbSchema
+    slot="schema"
+    items={[
+      { name: 'Αρχική', url: '/' },
+      { name: 'Ο Σύλλογος', url: '/syllogos' },
+    ]}
+  />
+  <AboutHero
+    label={about.heroLabel!}
+    heading={about.heroHeading!}
+    text={about.heroText!}
+    coreValues={about.coreValues ?? defaultAboutPage.coreValues!}
+  />
+  <AboutHistory
+    historyHeading={about.historyHeading!}
+    historyText={about.historyText!}
+    recognitionText={about.recognitionText!}
+    accreditationText={about.accreditationText!}
+  />
+  <AboutSpirit
+    label={about.spiritLabel!}
+    heading={about.spiritHeading!}
+    items={about.spiritItems ?? defaultAboutPage.spiritItems!}
+    quote={about.spiritQuote}
+  />
+  <AboutPhilosophy heading={about.philosophyHeading!} items={about.philosophyItems ?? defaultAboutPage.philosophyItems!} />
+  <AboutCoaches
+    heading={about.coachesHeading!}
+    description={about.coachesDescription!}
+    coaches={about.coaches ?? defaultAboutPage.coaches!}
+  />
+  <AboutFacilities
+    heading={about.facilitiesHeading!}
+    label={about.facilitiesLabel!}
+    description={about.facilitiesDescription!}
+    images={facilitiesImages}
+  />
+</Layout>

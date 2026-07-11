@@ -1,0 +1,41 @@
+---
+import CoachCard from '../ui/CoachCard.astro';
+import type { Coach } from '../../lib/types';
+
+interface Props {
+  heading: string;
+  description: string;
+  coaches?: Coach[];
+}
+
+const { heading, description, coaches = [] } = Astro.props;
+const hasCoaches = coaches.length > 0;
+---
+
+<section class="bg-surface px-gutter py-section-padding">
+  <div class="container-page text-center">
+    <div class="mb-6 inline-block rounded-full bg-primary/10 p-5 ring-8 ring-primary/5">
+      <span class="material-symbols-outlined text-4xl text-primary" aria-hidden="true">
+        sports_gymnastics
+      </span>
+    </div>
+    <h2 class="mb-4 font-display text-headline-lg">{heading}</h2>
+    <p class="mx-auto mb-12 max-w-2xl text-body-lg text-on-surface-variant">{description}</p>
+
+    {
+      hasCoaches ? (
+        <div class="mx-auto flex max-w-4xl flex-col gap-8 text-left">
+          {coaches.map((coach, index) => (
+            <CoachCard coach={coach} index={index} variant="detailed" />
+          ))}
+        </div>
+      ) : (
+        <div class="rounded-[2.5rem] border-2 border-dashed border-primary/20 bg-white p-12">
+          <p class="font-display text-headline-md text-primary/40">
+            Στοιχεία προπονητριών θα προστεθούν σύντομα
+          </p>
+        </div>
+      )
+    }
+  </div>
+</section>

@@ -1,0 +1,53 @@
+---
+export interface Props {
+  href?: string;
+  variant?: 'primary' | 'secondary' | 'ghost' | 'achievement';
+  size?: 'sm' | 'md' | 'lg';
+  type?: 'button' | 'submit' | 'reset';
+  class?: string;
+  disabled?: boolean;
+}
+
+const {
+  href,
+  variant = 'primary',
+  size = 'md',
+  type = 'button',
+  class: className = '',
+  disabled = false,
+} = Astro.props;
+
+const baseClasses = 'inline-flex items-center justify-center font-display transition-all duration-200';
+
+const variantClasses = {
+  primary:
+    'bg-primary text-on-primary hover:bg-primary-light rounded-lg font-semibold shadow-card hover:shadow-card-hover hover:scale-105',
+  secondary:
+    'border-2 border-primary text-primary bg-white hover:bg-primary hover:text-on-primary rounded-lg font-semibold',
+  ghost: 'text-primary hover:text-primary-dark underline font-semibold transition-colors duration-200',
+  achievement:
+    'bg-gradient-to-r from-achievement to-achievement-light text-white rounded-lg font-semibold shadow-card hover:shadow-card-hover',
+};
+
+const sizeClasses = {
+  sm: 'px-6 py-2 text-label-md',
+  md: 'px-6 py-3 text-label-md',
+  lg: 'px-6 py-3 text-label-md',
+};
+
+const classes = [baseClasses, variantClasses[variant], sizeClasses[size], className]
+  .filter(Boolean)
+  .join(' ');
+---
+
+{
+  href ? (
+    <a href={href} class={classes}>
+      <slot />
+    </a>
+  ) : (
+    <button type={type} class={classes} disabled={disabled}>
+      <slot />
+    </button>
+  )
+}

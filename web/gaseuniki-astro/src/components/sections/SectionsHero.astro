@@ -1,0 +1,13 @@
+---
+interface Props {
+  heading: string;
+  text: string;
+}
+
+const { heading, text } = Astro.props;
+---
+
+<section class="px-gutter py-16 md:py-24 text-center max-w-4xl mx-auto">
+  <h1 class="font-display text-display-lg mb-4 text-primary leading-tight">{heading}</h1>
+  <p class="font-body text-body-lg text-on-surface-variant">{text}</p>
+</section>

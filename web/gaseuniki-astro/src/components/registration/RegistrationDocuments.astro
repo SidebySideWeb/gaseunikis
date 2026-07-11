@@ -1,0 +1,33 @@
+---
+interface Props {
+  heading: string;
+  documents: string[];
+  downloadLabel?: string;
+  downloadUrl?: string;
+}
+
+const { heading, documents, downloadLabel, downloadUrl } = Astro.props;
+---
+
+<section class="bg-surface-container p-8 rounded-2xl">
+  <h3 class="font-display text-headline-md mb-6 flex items-center gap-3">
+    <span class="material-symbols-outlined text-secondary">verified</span>
+    {heading}
+  </h3>
+  <ul class="space-y-4">
+    {documents.map((doc) => (
+      <li class="flex items-start gap-3">
+        <span class="material-symbols-outlined text-primary text-xl mt-0.5">check_circle</span>
+        <span class="text-body-md font-medium text-on-surface">{doc}</span>
+      </li>
+    ))}
+  </ul>
+  {downloadUrl && downloadLabel && (
+    <div class="mt-8">
+      <a class="inline-flex items-center gap-2 text-primary font-bold hover:underline" href={downloadUrl} download>
+        <span class="material-symbols-outlined">download</span>
+        {downloadLabel}
+      </a>
+    </div>
+  )}
+</section>

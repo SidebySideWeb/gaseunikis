@@ -1,0 +1,48 @@
+---
+import PlaceholderImage from '../ui/PlaceholderImage.astro';
+import type { CoreValue } from '../../lib/types';
+import { stitchImages } from '../../lib/stitch-images';
+
+interface Props {
+  label: string;
+  heading: string;
+  text: string;
+  coreValues: CoreValue[];
+}
+
+const { label, heading, text, coreValues } = Astro.props;
+---
+
+<section class="relative overflow-hidden bg-surface-container-low pt-24">
+  <div class="container-page grid grid-cols-1 items-center gap-gutter py-12 md:grid-cols-12 md:py-24">
+    <div class="order-2 md:order-1 md:col-span-6">
+      <span class="mb-4 block font-display text-label-caps uppercase tracking-widest text-secondary">{label}</span>
+      <h1 class="mb-6 font-display text-display-lg-mobile text-primary md:text-display-lg">{heading}</h1>
+      <p class="mb-8 font-body text-body-lg leading-relaxed text-on-surface-variant">{text}</p>
+      <ul class="flex flex-wrap gap-4">
+        {coreValues.map((value) => (
+          <li class="flex items-center gap-2 rounded-full border border-primary/20 bg-primary/10 px-4 py-2">
+            <span class="material-symbols-outlined text-secondary" aria-hidden="true">{value.icon}</span>
+            <span class="font-display text-label-caps uppercase tracking-widest text-primary">{value.label}</span>
+          </li>
+        ))}
+      </ul>
+    </div>
+
+    <div class="order-1 md:order-2 md:col-span-6">
+      <div class="overflow-hidden rounded-2xl border-4 border-primary/10 shadow-card transition-transform duration-500 hover:rotate-0 md:rotate-2">
+        <PlaceholderImage
+          src={stitchImages.aboutHero}
+          alt="Προπόνηση ρυθμικής γυμναστικής στον ΓΑΣ Ευνίκη"
+          class="aspect-[4/5] w-full object-cover md:aspect-[16/11]"
+        />
+      </div>
+    </div>
+  </div>
+
+  <div class="opacity-20" aria-hidden="true">
+    <svg class="w-full" fill="none" viewBox="0 0 1200 100" xmlns="http://www.w3.org/2000/svg">
+      <path class="stroke-primary-container" d="M-100 50C200 -50 400 150 600 50C800 -50 1000 150 1300 50" stroke-width="1"></path>
+    </svg>
+  </div>
+</section>

@@ -1,0 +1,29 @@
+---
+import CoachCard from '../ui/CoachCard.astro';
+import type { Coach } from '../../lib/types';
+
+interface Props {
+  heading: string;
+  description: string;
+  coaches: Coach[];
+}
+
+const { heading, description, coaches } = Astro.props;
+---
+
+<section class="bg-surface-container-low py-24">
+  <div class="container-page">
+    <header class="mb-16 text-center">
+      <h2 class="mb-6 font-display text-headline-md text-primary">{heading}</h2>
+      <p class="mx-auto max-w-4xl font-body text-body-lg leading-relaxed text-on-surface-variant">
+        {description}
+      </p>
+    </header>
+
+    <div class="grid gap-gutter md:grid-cols-2 lg:grid-cols-3">
+      {coaches.map((coach, index) => (
+        <CoachCard coach={coach} index={index} variant="compact" />
+      ))}
+    </div>
+  </div>
+</section>

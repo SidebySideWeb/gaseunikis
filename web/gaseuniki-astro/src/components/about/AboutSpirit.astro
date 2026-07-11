@@ -1,0 +1,46 @@
+---
+import PlaceholderImage from '../ui/PlaceholderImage.astro';
+import type { SpiritItem } from '../../lib/types';
+import { getSpiritFallback } from '../../lib/stitch-images';
+
+interface Props {
+  label: string;
+  heading: string;
+  items: SpiritItem[];
+  quote?: string;
+}
+
+const { label, heading, items, quote } = Astro.props;
+
+const defaultQuote =
+  'Η ρυθμική γυμναστική δεν είναι απλώς άσκηση — είναι έκφραση, ρυθμός, χάρη και δύναμη.';
+---
+
+<section class="relative overflow-hidden bg-primary-container py-24 text-on-primary">
+  <div class="container-page text-center">
+    <span class="mb-4 block font-display text-label-caps uppercase tracking-widest text-primary-light">{label}</span>
+    <h2 class="mb-12 font-display text-headline-md">{heading}</h2>
+
+    <div class="mb-16 grid gap-gutter md:grid-cols-3">
+      {items.map((item, index) => (
+        <article class="group">
+          <div class="mb-6 h-64 overflow-hidden rounded-xl border border-white/20">
+            <PlaceholderImage
+              src={getSpiritFallback(index)}
+              alt={item.heading}
+              class="h-full w-full object-cover transition-transform duration-500 group-hover:scale-110"
+            />
+          </div>
+          <h3 class="mb-2 font-display text-headline-md text-on-primary">{item.heading}</h3>
+          <p class="text-on-primary/80">{item.text}</p>
+        </article>
+      ))}
+    </div>
+
+    <blockquote class="relative mx-auto max-w-3xl rounded-2xl border border-white/20 bg-white/10 px-8 py-12 font-display text-headline-md italic leading-relaxed backdrop-blur-sm">
+      <span class="material-symbols-outlined absolute left-4 top-4 text-5xl opacity-20" aria-hidden="true">format_quote</span>
+      "{quote ?? defaultQuote}"
+      <span class="material-symbols-outlined absolute bottom-4 right-4 text-5xl opacity-20" aria-hidden="true">format_quote</span>
+    </blockquote>
+  </div>
+</section>

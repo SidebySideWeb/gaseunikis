@@ -1,0 +1,79 @@
+---
+import PlaceholderImage from '../ui/PlaceholderImage.astro';
+import Button from '../ui/Button.astro';
+import SectionHeader from '../ui/SectionHeader.astro';
+import type { Achievement, Stat } from '../../lib/types';
+import { homeSuccessFallbacks } from '../../lib/stitch-images';
+import { resolveImageUrl } from '../../lib/image';
+
+interface Props {
+  heading: string;
+  subheading: string;
+  items: Achievement[];
+  stats: Stat[];
+  ctaLabel: string;
+  ctaUrl: string;
+}
+
+const { heading, subheading, items, stats, ctaLabel, ctaUrl } = Astro.props;
+
+const medalIconColors: Record<string, string> = {
+  gold: 'text-achievement',
+  silver: 'text-secondary',
+  bronze: 'text-primary-container',
+  special: 'text-achievement',
+  other: 'text-primary',
+};
+---
+
+<section class="relative overflow-hidden bg-surface-container-low py-section-padding">
+  <span class="material-symbols-outlined pointer-events-none absolute right-0 top-1/2 -translate-y-1/2 text-[400px] text-primary opacity-10" aria-hidden="true">
+    emoji_events
+  </span>
+
+  <div class="container-page relative z-10">
+    <SectionHeader heading={heading} subtext={subheading} align="center" />
+
+    <div class="mb-12 grid gap-8 md:grid-cols-3">
+      {items.map((item, index) => (
+        <article class="group flex flex-col overflow-hidden rounded-2xl border border-achievement/20 bg-surface-container-lowest shadow-card transition-shadow hover:shadow-card-hover">
+          <div class="relative h-48 overflow-hidden">
+            <PlaceholderImage
+              src={resolveImageUrl(item.image, homeSuccessFallbacks[index % homeSuccessFallbacks.length])}
+              alt={item.image?.alt ?? item.athleteName ?? item.title}
+              class="h-full w-full object-cover transition-transform duration-500 group-hover:scale-105"
+            />
+            {item.year && (
+              <span class="absolute right-4 top-4 rounded-full bg-achievement px-3 py-1 text-xs font-bold text-white">
+                {item.year}
+              </span>
+            )}
+          </div>
+          <div class="flex grow flex-col p-6">
+            <div class="mb-3 flex items-center gap-2">
+              <span class={`material-symbols-outlined ${medalIconColors[item.medalType ?? 'other'] ?? 'text-primary'}`} aria-hidden="true">
+                emoji_events
+              </span>
+              <h3 class="font-display text-headline-md text-on-surface">{item.athleteName ?? item.title}</h3>
+            </div>
+            {item.competition && <p class="mb-1 text-sm font-bold text-primary">{item.competition}</p>}
+            <p class="text-sm text-on-surface-variant">{item.description}</p>
+          </div>
+        </article>
+      ))}
+    </div>
+
+    <div class="mb-12 flex flex-col items-center justify-center gap-12 md:flex-row">
+      {stats.map((stat) => (
+        <div class="text-center">
+          <span class="mb-2 block text-5xl font-bold text-primary">{stat.value}</span>
+          <span class="font-display text-label-md uppercase tracking-wider text-on-surface-variant">{stat.label}</span>
+        </div>
+      ))}
+    </div>
+
+    <div class="text-center">
+      <Button href={ctaUrl} variant="primary" size="lg">{ctaLabel}</Button>
+    </div>
+  </div>
+</section>

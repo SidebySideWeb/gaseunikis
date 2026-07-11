@@ -1,0 +1,94 @@
+---
+import type { ScheduleSlot } from '../../lib/types';
+import { getImageUrl } from '../../lib/image';
+import { parseOpeningHours, stripUndefined } from '../../lib/utils';
+import { resolveSiteOrigin } from '../../lib/site-url';
+
+export interface LocalBusinessSettings {
+  clubName?: string;
+  clubFullName?: string;
+  foundedYear?: string;
+  phone?: string;
+  email?: string;
+  address?: string;
+  addressStreet?: string;
+  addressLocality?: string;
+  addressRegion?: string;
+  postalCode?: string;
+  facebookUrl?: string;
+  instagramUrl?: string;
+  egoUrl?: string;
+  logo?: { asset?: { url?: string } };
+  logoUrl?: string;
+  defaultOgImage?: { asset?: { url?: string } };
+  defaultOgImageUrl?: string;
+  openingHours?: ScheduleSlot[];
+}
+
+interface Props {
+  settings: LocalBusinessSettings;
+}
+
+const { settings } = Astro.props;
+const siteOrigin = resolveSiteOrigin(Astro.site);
+
+const clubFullName = settings.clubFullName ?? 'ΓΑΣ Ευνίκη Ελευσίνας';
+const clubName = settings.clubName ?? 'ΓΑΣ ΕΥΝΙΚΗ';
+const foundedYear = settings.foundedYear ?? '1993';
+const logo =
+  settings.logoUrl ?? getImageUrl(settings.logo) ?? `${siteOrigin}/images/logo.png`;
+const image =
+  settings.defaultOgImageUrl ??
+  getImageUrl(settings.defaultOgImage) ??
+  `${siteOrigin}/images/og-default.jpg`;
+
+const openingHours = settings.openingHours?.length
+  ? parseOpeningHours(settings.openingHours)
+  : parseOpeningHours([
+      { day: 'Δευτέρα - Παρασκευή', hours: '17:00 - 20:00' },
+      { day: 'Σάββατο', hours: '10:00 - 13:00' },
+    ]);
+
+const schema = stripUndefined({
+  '@context': 'https://schema.org',
+  '@type': 'SportsClub',
+  name: clubFullName,
+  alternateName: clubName,
+  url: siteOrigin,
+  logo,
+  image,
+  description: `Αθλητικός σύλλογος ρυθμικής γυμναστικής και γυμναστικής για Όλους στην Ελευσίνα από το ${foundedYear}.`,
+  telephone: settings.phone,
+  email: settings.email,
+  address: {
+    '@type': 'PostalAddress',
+    streetAddress: settings.addressStreet ?? 'Χαριλάου και Παγκάλου 5',
+    addressLocality: settings.addressLocality ?? 'Ελευσίνα',
+    addressRegion: settings.addressRegion ?? 'Αττική',
+    postalCode: settings.postalCode,
+    addressCountry: 'GR',
+  },
+  geo: {
+    '@type': 'GeoCoordinates',
+    latitude: 38.0407,
+    longitude: 23.5404,
+  },
+  areaServed: {
+    '@type': 'City',
+    name: settings.addressLocality ?? 'Ελευσίνα',
+  },
+  openingHoursSpecification: openingHours,
+  sameAs: [settings.facebookUrl, settings.instagramUrl].filter(Boolean),
+  sport: 'Rhythmic Gymnastics',
+  foundingDate: foundedYear,
+  memberOf: settings.egoUrl
+    ? {
+        '@type': 'SportsOrganization',
+        name: 'Ελληνική Γυμναστική Ομοσπονδία',
+        url: settings.egoUrl,
+      }
+    : undefined,
+});
+---
+
+<script type="application/ld+json" set:html={JSON.stringify(schema)} />

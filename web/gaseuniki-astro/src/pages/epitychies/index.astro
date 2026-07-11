@@ -1,0 +1,56 @@
+---
+import Layout from '../../layouts/Layout.astro';
+import BreadcrumbSchema from '../../components/schema/BreadcrumbSchema.astro';
+import SuccessesHero from '../../components/successes/SuccessesHero.astro';
+import SuccessesFilter from '../../components/successes/SuccessesFilter';
+import { client } from '../../lib/sanity';
+import { epitychiesPageQuery, epitychiesListQuery } from '../../lib/queries';
+import { resolveImageUrl } from '../../lib/image';
+import { achievementFallbacks } from '../../lib/stitch-images';
+import { defaultAchievements } from '../../lib/fallbacks';
+import type { EpitychiesPage, Achievement } from '../../lib/types';
+
+const defaultPage: EpitychiesPage = {
+  heroHeading: 'Οι Επιτυχίες μας',
+  heroLabel: 'Hall of Fame',
+  heroText:
+    'Κάθε μετάλλιο είναι αποτέλεσμα σκληρής δουλειάς, πειθαρχίας και αγάπης για το άθλημα. Δείτε τις διακρίσεις των αθλητριών και των ομάδων μας.',
+  filterLabels: ['Όλες', 'Ρυθμική Γυμναστική', 'Γυμναστική για Όλους'],
+};
+
+const [fetchedPage, achievements] = await Promise.all([
+  client.fetch<EpitychiesPage | null>(epitychiesPageQuery),
+  client.fetch<Achievement[]>(epitychiesListQuery),
+]);
+
+const page = { ...defaultPage, ...fetchedPage };
+
+const sourceAchievements = achievements?.length ? achievements : defaultAchievements;
+const displayAchievements = sourceAchievements.map((item, index) => ({
+  ...item,
+  imageUrl: resolveImageUrl(item.image, achievementFallbacks[index % achievementFallbacks.length]),
+}));
+
+const pageTitle = page.seo?.title ?? 'Οι Επιτυχίες μας';
+const pageDescription =
+  page.seo?.description ??
+  'Διακρίσεις, μετάλλια και επιτυχίες των αθλητριών και ομάδων του ΓΑΣ Ευνίκη σε πανελλήνια και διεθνή πρωταθλήματα.';
+---
+
+<Layout title={pageTitle} description={pageDescription} currentPath="/epitychies" noIndex={page.seo?.noIndex}>
+  <BreadcrumbSchema
+    slot="schema"
+    items={[
+      { name: 'Αρχική', url: '/' },
+      { name: 'Επιτυχίες', url: '/epitychies' },
+    ]}
+  />
+  <main class="pt-32 pb-section-padding">
+    <SuccessesHero
+      heading={page.heroHeading ?? ''}
+      label={page.heroLabel ?? ''}
+      text={page.heroText ?? ''}
+    />
+    <SuccessesFilter client:load items={displayAchievements} filterLabels={page.filterLabels ?? defaultPage.filterLabels!} />
+  </main>
+</Layout>
