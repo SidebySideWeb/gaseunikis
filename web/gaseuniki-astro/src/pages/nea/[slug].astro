@@ -4,30 +4,16 @@ import BreadcrumbSchema from '../../components/schema/BreadcrumbSchema.astro';
 import PlaceholderImage from '../../components/ui/PlaceholderImage.astro';
 import { PortableText } from 'astro-portabletext';
 import { client } from '../../lib/sanity';
-import { newsPostBySlugQuery, newsPostSlugsQuery } from '../../lib/queries';
+import { newsPostBySlugQuery } from '../../lib/queries';
 import { resolveImageUrl } from '../../lib/image';
 import { homeNewsFallbacks } from '../../lib/stitch-images';
 import type { NewsItem } from '../../lib/types';
-
-export async function getStaticPaths() {
-  try {
-    const slugs = await client.fetch<Array<{ slug: string }>>(newsPostSlugsQuery);
-
-    if (!slugs?.length) {
-      return [{ params: { slug: 'placeholder' } }];
-    }
-
-    return slugs.map(({ slug }) => ({ params: { slug } }));
-  } catch {
-    return [{ params: { slug: 'placeholder' } }];
-  }
-}
 
 const { slug } = Astro.params;
 
 let post: (NewsItem & { seo?: { title?: string; description?: string; noIndex?: boolean } }) | null = null;
 
-if (slug && slug !== 'placeholder') {
+if (slug) {
   post = await client.fetch(newsPostBySlugQuery, { slug });
 }
 

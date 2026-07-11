@@ -7,18 +7,6 @@ import { PortableText } from 'astro-portabletext';
 const POST_QUERY = `*[_type == "newsPost" && slug.current == $slug][0]`;
 const post = await sanityClient.fetch<SanityDocument>(POST_QUERY, Astro.params);
 
-export async function getStaticPaths() {
-  try {
-    const SLUGS_QUERY = `*[_type == "newsPost" && defined(slug.current)]{
-      "params": {"slug": slug.current}
-    }`;
-    const paths = await sanityClient.fetch<{ params: { slug: string } }[]>(SLUGS_QUERY);
-    return paths.length ? paths : [{ params: { slug: 'placeholder' } }];
-  } catch {
-    return [{ params: { slug: 'placeholder' } }];
-  }
-}
-
 const { projectId, dataset } = sanityClient.config();
 const urlFor = (source: SanityImageSource) =>
   projectId && dataset

@@ -10,8 +10,8 @@ import { SANITY_DATASET, SANITY_PROJECT_ID } from './src/lib/sanity-config.ts';
 // https://astro.build/config
 export default defineConfig({
   site: 'https://gas-eyniki.gr',
-  // Static pages + on-demand API routes (Astro 7 replacement for legacy hybrid mode)
-  output: 'static',
+  // Server-rendered pages: Sanity content updates appear on the next request (no redeploy).
+  output: 'server',
   adapter: vercel(),
   vite: {
     plugins: [tailwindcss()],

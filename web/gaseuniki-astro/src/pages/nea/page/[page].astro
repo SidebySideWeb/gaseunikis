@@ -23,28 +23,6 @@ const defaultPage: NewsIndexPage = {
     'Μείνετε ενημερωμένοι για ό,τι συμβαίνει στον σύλλογό μας, από αγωνιστικές επιτυχίες μέχρι νέες εγγραφές και εκδηλώσεις.',
 };
 
-export async function getStaticPaths() {
-  try {
-    const [fetchedPage, totalPosts] = await Promise.all([
-      client.fetch<NewsIndexPage | null>(newsIndexPageQuery),
-      client.fetch<number>(newsCountQuery),
-    ]);
-
-    const postsPerPage = getPostsPerPage(fetchedPage?.postsPerPage);
-    const totalPages = getTotalNewsPages(totalPosts, postsPerPage);
-
-    if (totalPages <= 1) {
-      return [];
-    }
-
-    return Array.from({ length: totalPages - 1 }, (_, index) => ({
-      params: { page: String(index + 2) },
-    }));
-  } catch {
-    return [];
-  }
-}
-
 const pageNumber = Number(Astro.params.page);
 const currentPage = Number.isFinite(pageNumber) && pageNumber > 1 ? pageNumber : 2;
 
@@ -70,6 +48,10 @@ try {
   posts = await client.fetch<NewsItem[]>(paginatedNewsQuery, { start, end });
 } catch {
   posts = [];
+}
+
+if (currentPage < 2 || currentPage > totalPages) {
+  return new Response(null, { status: 404, statusText: 'Not Found' });
 }
 
 const pageTitle = page.seo?.title ?? `Νέα & Ανακοινώσεις — Σελίδα ${currentPage}`;

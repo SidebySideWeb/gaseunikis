@@ -2,30 +2,16 @@
 import Layout from '../../layouts/Layout.astro';
 import BreadcrumbSchema from '../../components/schema/BreadcrumbSchema.astro';
 import { client } from '../../lib/sanity';
-import { epitychiesBySlugQuery, epitychiesSlugsQuery } from '../../lib/queries';
+import { epitychiesBySlugQuery } from '../../lib/queries';
 import { resolveImageUrl } from '../../lib/image';
 import { achievementFallbacks } from '../../lib/stitch-images';
 import type { Achievement } from '../../lib/types';
-
-export async function getStaticPaths() {
-  try {
-    const slugs = await client.fetch<Array<{ slug: string }>>(epitychiesSlugsQuery);
-
-    if (!slugs?.length) {
-      return [{ params: { slug: 'placeholder' } }];
-    }
-
-    return slugs.map(({ slug }) => ({ params: { slug } }));
-  } catch {
-    return [{ params: { slug: 'placeholder' } }];
-  }
-}
 
 const { slug } = Astro.params;
 
 let achievement: Achievement | null = null;
 
-if (slug && slug !== 'placeholder') {
+if (slug) {
   achievement = await client.fetch<Achievement | null>(epitychiesBySlugQuery, { slug });
 }
 
