@@ -51,6 +51,7 @@ export const defaultHomePage: HomePage = {
   sectionsCtaLabel: 'Μάθετε Περισσότερα',
   sectionsCtaUrl: '/tmimata',
   galleryHeading: 'Στιγμές από την Προπόνηση',
+  gallerySubheading: 'Η καθημερινή μας προσπάθεια σε εικόνες.',
   successesHeading: 'Οι Επιτυχίες μας',
   successesSubheading: 'Διακρίσεις που επιβραβεύουν την προσπάθεια και το ήθος των αθλητριών μας.',
   successesCtaLabel: 'Δείτε Όλες τις Επιτυχίες',

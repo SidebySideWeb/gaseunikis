@@ -160,6 +160,13 @@ export const homePage = defineType({
       group: 'gallery',
     }),
     defineField({
+      name: 'gallerySubheading',
+      title: 'Υπότιτλος Gallery',
+      type: 'string',
+      initialValue: 'Η καθημερινή μας προσπάθεια σε εικόνες.',
+      group: 'gallery',
+    }),
+    defineField({
       name: 'galleryImages',
       title: 'Φωτογραφίες',
       type: 'array',

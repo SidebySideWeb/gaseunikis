@@ -7,6 +7,7 @@ import GtmHead from '../components/GtmHead.astro';
 import GtmBody from '../components/GtmBody.astro';
 import { getSiteSettings } from '../lib/gaseuniki';
 import { defaultSiteSettings } from '../lib/fallbacks';
+import { fetchWithFallback } from '../lib/fetch-with-fallback';
 import { getImageUrl } from '../lib/image';
 import { buildAbsoluteUrl, resolveSiteOrigin } from '../lib/site-url';
 import '../styles/global.css';
@@ -25,14 +26,12 @@ const siteOrigin = resolveSiteOrigin(Astro.site);
 const canonicalUrl = buildAbsoluteUrl(currentPath, siteOrigin);
 const gtmId = (import.meta.env.PUBLIC_GTM_ID ?? '').trim();
 
-let siteSettings = defaultSiteSettings;
-
-try {
-  const fetched = await getSiteSettings();
-  siteSettings = { ...defaultSiteSettings, ...fetched };
-} catch {
-  /* use defaults */
-}
+const fetchedSettings = await fetchWithFallback(
+  () => getSiteSettings(),
+  null,
+  'siteSettings',
+);
+const siteSettings = { ...defaultSiteSettings, ...fetchedSettings };
 
 const defaultOgImage =
   siteSettings.defaultOgImageUrl ??

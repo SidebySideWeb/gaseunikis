@@ -6,17 +6,18 @@ import { resolveImageUrl } from '../../lib/image';
 
 interface Props {
   heading: string;
+  subheading: string;
   items: GalleryImage[];
 }
 
-const { heading, items } = Astro.props;
+const { heading, subheading, items } = Astro.props;
 ---
 
 <section class="bg-on-surface py-section-padding text-surface">
   <div class="container-page">
     <header class="mb-12">
       <h2 class="mb-2 font-display text-headline-lg">{heading}</h2>
-      <p class="text-surface/70">Η καθημερινή μας προσπάθεια σε εικόνες.</p>
+      <p class="text-surface/70">{subheading}</p>
     </header>
 
     <div class="grid gap-8 md:grid-cols-3">

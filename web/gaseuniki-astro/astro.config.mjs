@@ -5,6 +5,7 @@ import vercel from '@astrojs/vercel';
 import tailwindcss from '@tailwindcss/vite';
 import sitemap from '@astrojs/sitemap';
 import sanity from '@sanity/astro';
+import { SANITY_DATASET, SANITY_PROJECT_ID } from './src/lib/sanity-config.ts';
 
 // https://astro.build/config
 export default defineConfig({
@@ -33,8 +34,8 @@ export default defineConfig({
       },
     }),
     sanity({
-      projectId: '3cdkfsee',
-      dataset: 'production',
+      projectId: SANITY_PROJECT_ID,
+      dataset: SANITY_DATASET,
       useCdn: false,
     }),
   ],

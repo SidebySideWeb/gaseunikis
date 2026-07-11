@@ -170,6 +170,7 @@ export interface HomePage {
   sectionsCtaLabel?: string;
   sectionsCtaUrl?: string;
   galleryHeading?: string;
+  gallerySubheading?: string;
   galleryImages?: GalleryImage[];
   successesHeading?: string;
   successesSubheading?: string;

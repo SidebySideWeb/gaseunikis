@@ -9,6 +9,7 @@ import HomeNews from '../components/home/HomeNews.astro';
 import HomeWhy from '../components/home/HomeWhy.astro';
 import HomeCTA from '../components/home/HomeCTA.astro';
 import { getHomePage, getLatestNews, getSectionsPage } from '../lib/queries';
+import { fetchWithFallback } from '../lib/fetch-with-fallback';
 import { resolveImageUrl } from '../lib/image';
 import {
   defaultHomePage,
@@ -20,19 +21,11 @@ import {
 import { stitchImages } from '../lib/stitch-images';
 import type { Achievement, HomePage, NewsItem, SectionsPage } from '../lib/types';
 
-let homePage: HomePage | null = null;
-let latestNews: NewsItem[] = [];
-let sectionsPage: SectionsPage | null = null;
-
-try {
-  [homePage, latestNews, sectionsPage] = await Promise.all([
-    getHomePage(),
-    getLatestNews(),
-    getSectionsPage(),
-  ]);
-} catch {
-  /* fall back to defaults */
-}
+const [homePage, latestNews, sectionsPage] = await Promise.all([
+  fetchWithFallback(() => getHomePage(), null, 'homePage'),
+  fetchWithFallback(() => getLatestNews(), [], 'latestNews'),
+  fetchWithFallback(() => getSectionsPage(), null, 'sectionsPage'),
+]);
 
 const home = { ...defaultHomePage, ...homePage };
 const sections = { ...defaultSectionsPreview, ...sectionsPage };
@@ -87,7 +80,11 @@ const pageDescription =
     gymnDescription={sections.gymnDescription!}
     gymSections={sections.gymSections?.length ? sections.gymSections : defaultSectionsPreview.gymSections!}
   />
-  <HomeGallery heading={home.galleryHeading!} items={galleryItems} />
+  <HomeGallery
+    heading={home.galleryHeading!}
+    subheading={home.gallerySubheading!}
+    items={galleryItems}
+  />
   <HomeSuccesses
     heading={home.successesHeading!}
     subheading={home.successesSubheading!}
