@@ -8,8 +8,9 @@ import HomeSuccesses from '../components/home/HomeSuccesses.astro';
 import HomeNews from '../components/home/HomeNews.astro';
 import HomeWhy from '../components/home/HomeWhy.astro';
 import HomeCTA from '../components/home/HomeCTA.astro';
-import { getHomePage, getLatestNews, getSectionsPage } from '../lib/queries';
+import { getHomePage, getLatestNews, getSectionsPage, getFeaturedEpitychies } from '../lib/queries';
 import { fetchWithFallback } from '../lib/fetch-with-fallback';
+import { resolveHomeSuccesses, resolveLatestNews } from '../lib/home-content';
 import { resolveImageUrl } from '../lib/image';
 import {
   defaultHomePage,
@@ -21,17 +22,22 @@ import {
 import { stitchImages } from '../lib/stitch-images';
 import type { Achievement, HomePage, NewsItem, SectionsPage } from '../lib/types';
 
-const [homePage, latestNews, sectionsPage] = await Promise.all([
+const [homePage, latestNews, sectionsPage, featuredEpitychies] = await Promise.all([
   fetchWithFallback(() => getHomePage(), null, 'homePage'),
   fetchWithFallback(() => getLatestNews(), [], 'latestNews'),
   fetchWithFallback(() => getSectionsPage(), null, 'sectionsPage'),
+  fetchWithFallback(() => getFeaturedEpitychies(), [], 'featuredEpitychies'),
 ]);
 
 const home = { ...defaultHomePage, ...homePage };
 const sections = { ...defaultSectionsPreview, ...sectionsPage };
 const galleryItems = home.galleryImages?.length ? home.galleryImages : defaultGalleryItems;
-const successes = home.featuredSuccesses?.length ? home.featuredSuccesses : defaultFeaturedSuccesses;
-const news = latestNews.length ? latestNews : defaultLatestNews;
+const successes = resolveHomeSuccesses(
+  homePage?.featuredSuccesses,
+  featuredEpitychies,
+  defaultFeaturedSuccesses,
+);
+const news = resolveLatestNews(latestNews, defaultLatestNews);
 const stats = home.stats?.length ? home.stats : defaultHomePage.stats!;
 const sponsors = home.sponsors?.length ? home.sponsors : defaultHomePage.sponsors!;
 

@@ -3,6 +3,7 @@ import PlaceholderImage from '../ui/PlaceholderImage.astro';
 import type { NewsItem } from '../../lib/types';
 import { homeNewsFallbacks } from '../../lib/stitch-images';
 import { resolveImageUrl } from '../../lib/image';
+import { formatNewsDate, newsUrl } from '../../lib/home-content';
 
 interface Props {
   heading: string;
@@ -12,16 +13,6 @@ interface Props {
 }
 
 const { heading, ctaLabel, ctaUrl, posts } = Astro.props;
-
-const dateLabels: Record<string, string> = {
-  '2026-07-01': '1 Ιουλίου 2026',
-  '2026-06-15': '15 Ιουνίου 2026',
-  '2025-09-01': '1 Σεπτεμβρίου 2025',
-};
-
-function newsUrl(post: NewsItem) {
-  return post.slug?.current ? `/nea/${post.slug.current}` : '/nea';
-}
 ---
 
 <section class="bg-surface py-section-padding">
@@ -37,28 +28,30 @@ function newsUrl(post: NewsItem) {
     <div class="grid gap-gutter md:grid-cols-3">
       {posts.map((post, index) => (
         <article class="group overflow-hidden rounded-2xl border border-primary/5 bg-surface-container-lowest shadow-sm transition-shadow hover:shadow-md">
-          <div class="h-48 overflow-hidden">
-            <PlaceholderImage
-              src={resolveImageUrl(post.featuredImage, homeNewsFallbacks[index % homeNewsFallbacks.length])}
-              alt={post.featuredImage?.alt ?? post.title}
-              class="h-full w-full object-cover transition-transform duration-500 group-hover:scale-105"
-            />
-          </div>
-          <div class="p-6">
-            {post.publishedDate && (
-              <time datetime={post.publishedDate} class="text-sm font-bold text-primary">
-                {dateLabels[post.publishedDate] ?? post.publishedDate}
-              </time>
-            )}
-            <h3 class="mb-4 mt-2 font-display text-headline-md text-on-surface transition-colors group-hover:text-primary">
-              {post.title}
-            </h3>
-            {post.excerpt && <p class="mb-4 line-clamp-2 text-sm text-on-surface-variant">{post.excerpt}</p>}
-            <a href={newsUrl(post)} class="flex items-center gap-1 text-sm font-bold text-primary">
-              {post.readMoreLabel ?? 'Διαβάστε περισσότερα'}
-              <span class="material-symbols-outlined text-sm" aria-hidden="true">arrow_forward</span>
-            </a>
-          </div>
+          <a href={newsUrl(post)} class="block no-underline text-inherit">
+            <div class="h-48 overflow-hidden">
+              <PlaceholderImage
+                src={resolveImageUrl(post.featuredImage, homeNewsFallbacks[index % homeNewsFallbacks.length])}
+                alt={post.featuredImage?.alt ?? post.title}
+                class="h-full w-full object-cover transition-transform duration-500 group-hover:scale-105"
+              />
+            </div>
+            <div class="p-6">
+              {post.publishedDate && (
+                <time datetime={post.publishedDate} class="text-sm font-bold text-primary">
+                  {formatNewsDate(post.publishedDate)}
+                </time>
+              )}
+              <h3 class="mb-4 mt-2 font-display text-headline-md text-on-surface transition-colors group-hover:text-primary">
+                {post.title}
+              </h3>
+              {post.excerpt && <p class="mb-4 line-clamp-2 text-sm text-on-surface-variant">{post.excerpt}</p>}
+              <span class="flex items-center gap-1 text-sm font-bold text-primary">
+                {post.readMoreLabel ?? 'Διαβάστε περισσότερα'}
+                <span class="material-symbols-outlined text-sm" aria-hidden="true">arrow_forward</span>
+              </span>
+            </div>
+          </a>
         </article>
       ))}
     </div>
