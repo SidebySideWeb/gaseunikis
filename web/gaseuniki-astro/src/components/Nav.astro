@@ -2,11 +2,12 @@
 import NavMobile from './NavMobile';
 import Button from './ui/Button.astro';
 import ClubLogoMark from './ClubLogoMark.astro';
-import { client } from '../lib/sanity';
-import { siteSettingsQuery } from '../lib/queries';
-import { defaultNavLinks, defaultNavCta } from '../lib/nav-links';
+import { defaultSiteSettings } from '../lib/fallbacks';
+import { fetchWithFallback } from '../lib/fetch-with-fallback';
+import { getSiteSettings } from '../lib/queries';
+import { dedupeNavCtaFromLinks, resolveNavCta, resolveNavLinks } from '../lib/nav-links';
 import { getImageUrl } from '../lib/image';
-import type { NavLink, SiteSettings } from '../lib/types';
+import type { SiteSettings } from '../lib/types';
 
 export interface Props {
   currentPath: string;
@@ -14,17 +15,17 @@ export interface Props {
 
 const { currentPath } = Astro.props;
 
-let settings: SiteSettings | null = null;
+const fetchedSettings = await fetchWithFallback(
+  () => getSiteSettings(),
+  null,
+  'siteSettings (nav)',
+);
+const settings: SiteSettings = { ...defaultSiteSettings, ...fetchedSettings };
 
-try {
-  settings = await client.fetch<SiteSettings>(siteSettingsQuery);
-} catch {
-  settings = null;
-}
-
-const navLinks: NavLink[] = settings?.navLinks?.length ? settings.navLinks : defaultNavLinks;
-const navCtaLabel = settings?.navCtaLabel ?? defaultNavCta.label;
-const navCtaUrl = settings?.navCtaUrl ?? defaultNavCta.url;
+const navCta = resolveNavCta(settings);
+const navLinks = dedupeNavCtaFromLinks(resolveNavLinks(settings), navCta);
+const navCtaLabel = navCta.label;
+const navCtaUrl = navCta.url;
 const clubName = settings?.clubName ?? 'ΓΑΣ ΕΥΝΙΚΗ';
 const logoUrl =
   settings?.logoUrl ?? getImageUrl(settings?.logo, { width: 125, height: 125, quality: 90 });
@@ -46,7 +47,7 @@ function isActive(url: string): boolean {
       <span class="font-display text-headline-md font-bold text-primary">{clubName}</span>
     </a>
 
-    <div class="hidden items-center gap-8 font-display text-label-md md:flex">
+    <div class="hidden items-center gap-4 font-display text-label-md md:flex lg:gap-8">
       {
         navLinks.map((link) => (
           <a

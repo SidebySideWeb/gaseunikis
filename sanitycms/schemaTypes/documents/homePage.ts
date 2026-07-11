@@ -90,12 +90,30 @@ export const homePage = defineType({
       group: 'about',
     }),
     defineField({
+      name: 'aboutImage',
+      title: 'Εικόνα',
+      type: 'image',
+      options: {hotspot: true},
+      fields: [{name: 'alt', type: 'string', title: 'Alt text'}],
+      description: 'Φωτογραφία δίπλα στο κείμενο καλωσορίσματος',
+      group: 'about',
+    }),
+    defineField({
       name: 'aboutText',
       title: 'Κείμενο',
       type: 'text',
       rows: 4,
       initialValue:
         'Με πολυετή εμπειρία και βαθιά αγάπη για το άθλημα, ο Σύλλογός μας αποτελεί ένα πρότυπο κέντρο καλλιέργειας της Ρυθμικής Γυμναστικής και της Γυμναστικής για Όλους στην Ελευσίνα.',
+      group: 'about',
+    }),
+    defineField({
+      name: 'aboutSecondParagraph',
+      title: 'Δεύτερη παράγραφος',
+      type: 'text',
+      rows: 4,
+      initialValue:
+        'Αναγνωρισμένοι από την Ελληνική Γυμναστική Ομοσπονδία (Ε.Γ.Ο.) και τη Γενική Γραμματεία Αθλητισμού (Γ.Γ.Α.), προσφέρουμε ένα ασφαλές και σύγχρονο περιβάλλον όπου κάθε παιδί μπορεί να ανακαλύψει τις δυνατότητές του.',
       group: 'about',
     }),
     defineField({
@@ -110,23 +128,6 @@ export const homePage = defineType({
       title: 'Χρόνια Εμπειρίας',
       type: 'string',
       initialValue: '30+',
-      group: 'about',
-    }),
-    defineField({
-      name: 'aboutImage',
-      title: 'Εικόνα',
-      type: 'image',
-      options: {hotspot: true},
-      fields: [{name: 'alt', type: 'string', title: 'Alt text'}],
-      group: 'about',
-    }),
-    defineField({
-      name: 'aboutSecondParagraph',
-      title: 'Δεύτερη παράγραφος',
-      type: 'text',
-      rows: 4,
-      initialValue:
-        'Αναγνωρισμένοι από την Ελληνική Γυμναστική Ομοσπονδία (Ε.Γ.Ο.) και τη Γενική Γραμματεία Αθλητισμού (Γ.Γ.Α.), προσφέρουμε ένα ασφαλές και σύγχρονο περιβάλλον όπου κάθε παιδί μπορεί να ανακαλύψει τις δυνατότητές του.',
       group: 'about',
     }),
 

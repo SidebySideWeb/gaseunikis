@@ -53,7 +53,16 @@ export const siteSettings = defineType({
       title: 'Σύνδεσμοι πλοήγησης',
       type: 'array',
       of: [{type: 'navLink'}],
-      description: 'Αρχική | Ο Σύλλογος | Τμήματα | Επιτυχίες | Εγγραφές | Επικοινωνία',
+      description:
+        'Κύρια μενού (χωρίς Εγγραφές — αυτό είναι το κουμπί CTA). Προτεινόμενη σειρά: Αρχική, Ο Σύλλογος, Νέα, Τμήματα, Επιτυχίες, Επικοινωνία',
+      initialValue: [
+        {label: 'Αρχική', url: '/'},
+        {label: 'Ο Σύλλογος', url: '/syllogos'},
+        {label: 'Νέα', url: '/nea'},
+        {label: 'Τμήματα', url: '/tmimata'},
+        {label: 'Επιτυχίες', url: '/epitychies'},
+        {label: 'Επικοινωνία', url: '/epikoinonia'},
+      ],
       group: 'nav',
     }),
     defineField({

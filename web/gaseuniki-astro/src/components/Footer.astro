@@ -1,19 +1,18 @@
 ---
 import ClubLogoMark from './ClubLogoMark.astro';
-import { client } from '../lib/sanity';
-import { siteSettingsQuery } from '../lib/queries';
-import { buildFooterUsefulLinks } from '../lib/fallbacks';
-import { defaultNavLinks } from '../lib/nav-links';
+import { buildFooterUsefulLinks, defaultSiteSettings } from '../lib/fallbacks';
+import { fetchWithFallback } from '../lib/fetch-with-fallback';
+import { getSiteSettings } from '../lib/queries';
+import { dedupeNavCtaFromLinks, resolveNavCta, resolveNavLinks } from '../lib/nav-links';
 import { getImageUrl } from '../lib/image';
-import type { NavLink, SiteSettings } from '../lib/types';
+import type { SiteSettings } from '../lib/types';
 
-let settings: SiteSettings | null = null;
-
-try {
-  settings = await client.fetch<SiteSettings>(siteSettingsQuery);
-} catch {
-  settings = null;
-}
+const fetchedSettings = await fetchWithFallback(
+  () => getSiteSettings(),
+  null,
+  'siteSettings (footer)',
+);
+const settings: SiteSettings = { ...defaultSiteSettings, ...fetchedSettings };
 
 const clubName = settings?.clubName ?? 'ΓΑΣ ΕΥΝΙΚΗ';
 const logoUrl =
@@ -25,10 +24,9 @@ const tagline =
 const copyright =
   settings?.footerCopyright ??
   '© 2024 Γας Ευνίκη Ελευσίνας. Με την επιφύλαξη παντός δικαιώματος.';
-const navLinks: NavLink[] = settings?.navLinks?.length ? settings.navLinks : defaultNavLinks;
-
-const navigationLinks = navLinks.slice(0, 4);
-const usefulLinks = buildFooterUsefulLinks(settings ?? {});
+const navCta = resolveNavCta(settings);
+const navigationLinks = dedupeNavCtaFromLinks(resolveNavLinks(settings), navCta);
+const usefulLinks = buildFooterUsefulLinks(settings);
 ---
 
 <footer class="mt-auto border-t border-outline-variant/30 bg-surface-container-highest">

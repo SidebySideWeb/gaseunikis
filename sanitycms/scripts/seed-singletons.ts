@@ -30,9 +30,9 @@ const documents = [
     navLinks: [
       {_type: 'navLink', _key: 'nav-home', label: 'Αρχική', url: '/'},
       {_type: 'navLink', _key: 'nav-about', label: 'Ο Σύλλογος', url: '/syllogos'},
+      {_type: 'navLink', _key: 'nav-news', label: 'Νέα', url: '/nea'},
       {_type: 'navLink', _key: 'nav-sections', label: 'Τμήματα', url: '/tmimata'},
       {_type: 'navLink', _key: 'nav-successes', label: 'Επιτυχίες', url: '/epitychies'},
-      {_type: 'navLink', _key: 'nav-registration', label: 'Εγγραφές', url: '/egrafes'},
       {_type: 'navLink', _key: 'nav-contact', label: 'Επικοινωνία', url: '/epikoinonia'},
     ],
   },
