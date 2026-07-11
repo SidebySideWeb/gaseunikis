@@ -1,30 +1,36 @@
 ---
-import { stitchImages } from '../../lib/stitch-images';
-
 interface Props {
   heading: string;
   text: string;
   buttonLabel: string;
   address: string;
+  embedUrl?: string;
 }
 
-const { text, buttonLabel, address } = Astro.props;
+const DEFAULT_MAP_EMBED_URL =
+  'https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d207177.4027489784!2d23.46140147345618!3d38.02331283029153!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x14a1afd9ebd58963%3A0xceb5538911160fe2!2sPagkalou%205%2C%20Elefsina%20192%2000!5e1!3m2!1sen!2sgr!4v1783800600823!5m2!1sen!2sgr';
 
+const { heading, text, buttonLabel, address, embedUrl } = Astro.props;
+
+const mapEmbedUrl =
+  embedUrl?.includes('google.com/maps/embed') ? embedUrl : DEFAULT_MAP_EMBED_URL;
 const mapsQuery = encodeURIComponent(address);
 const mapsDirectionsUrl = `https://www.google.com/maps/dir/?api=1&destination=${mapsQuery}`;
 ---
 
 <section class="px-gutter pb-section-padding">
-  <div class="max-w-container-max-width mx-auto rounded-3xl overflow-hidden shadow-2xl relative h-[450px] group border-8 border-surface-container-lowest">
-    <img
-      src={stitchImages.contactMap}
-      alt="Χάρτης τοποθεσίας ΓΑΣ ΕΥΝΙΚΗ στην Ελευσίνα"
-      class="w-full h-full object-cover"
+  <div class="max-w-container-max-width mx-auto overflow-hidden rounded-3xl relative h-[450px] group border-8 border-surface-container-lowest shadow-2xl">
+    <iframe
+      src={mapEmbedUrl}
+      class="h-full w-full border-0"
+      allowfullscreen
       loading="lazy"
+      referrerpolicy="strict-origin-when-cross-origin"
+      title="Χάρτης τοποθεσίας ΓΑΣ ΕΥΝΙΚΗ στην Ελευσίνα"
     />
 
     <div class="absolute bottom-6 left-6 right-6 md:right-auto md:w-80 bg-surface/90 backdrop-blur-md p-6 rounded-2xl shadow-xl border border-primary/20 animate-float pointer-events-auto">
-      <h4 class="font-display text-headline-md text-primary mb-2">ΓΑΣ ΕΥΝΙΚΗ</h4>
+      <h4 class="font-display text-headline-md text-primary mb-2">{heading}</h4>
       <p class="text-on-surface-variant font-body-md text-sm mb-4">{text}</p>
       <a
         href={mapsDirectionsUrl}

@@ -12,6 +12,8 @@ interface Props {
   primaryCtaUrl: string;
   secondaryCtaLabel: string;
   secondaryCtaUrl: string;
+  imageUrl?: string;
+  imageAlt?: string;
 }
 
 const {
@@ -23,6 +25,8 @@ const {
   primaryCtaUrl,
   secondaryCtaLabel,
   secondaryCtaUrl,
+  imageUrl = stitchImages.hero,
+  imageAlt = 'Ρυθμική γυμναστική',
 } = Astro.props;
 ---
 
@@ -30,8 +34,8 @@ const {
   <div class="absolute inset-0 z-0">
     <div class="absolute inset-0 z-10 bg-gradient-to-r from-background via-background/40 to-transparent"></div>
     <PlaceholderImage
-      src={stitchImages.hero}
-      alt="Ρυθμική γυμναστική"
+      src={imageUrl}
+      alt={imageAlt}
       loading="eager"
       class="h-full w-full scale-105 object-cover object-center"
     />

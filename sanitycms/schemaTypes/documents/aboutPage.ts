@@ -156,6 +156,22 @@ export const aboutPage = defineType({
       of: [{type: 'valueCard'}],
       group: 'philosophy',
     }),
+    defineField({
+      name: 'philosophyImagePrimary',
+      title: 'Εικόνα 1',
+      type: 'image',
+      options: {hotspot: true},
+      fields: [{name: 'alt', type: 'string', title: 'Alt text'}],
+      group: 'philosophy',
+    }),
+    defineField({
+      name: 'philosophyImageSecondary',
+      title: 'Εικόνα 2',
+      type: 'image',
+      options: {hotspot: true},
+      fields: [{name: 'alt', type: 'string', title: 'Alt text'}],
+      group: 'philosophy',
+    }),
 
     defineField({
       name: 'coachesHeading',

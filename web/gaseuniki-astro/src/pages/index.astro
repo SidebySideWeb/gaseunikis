@@ -8,29 +8,43 @@ import HomeSuccesses from '../components/home/HomeSuccesses.astro';
 import HomeNews from '../components/home/HomeNews.astro';
 import HomeWhy from '../components/home/HomeWhy.astro';
 import HomeCTA from '../components/home/HomeCTA.astro';
-import { getHomePage, getLatestNews } from '../lib/queries';
+import { getHomePage, getLatestNews, getSectionsPage } from '../lib/queries';
+import { resolveImageUrl } from '../lib/image';
 import {
   defaultHomePage,
   defaultGalleryItems,
   defaultFeaturedSuccesses,
   defaultLatestNews,
+  defaultSectionsPreview,
 } from '../lib/fallbacks';
-import type { HomePage, Achievement, NewsItem } from '../lib/types';
+import { stitchImages } from '../lib/stitch-images';
+import type { Achievement, HomePage, NewsItem, SectionsPage } from '../lib/types';
 
 let homePage: HomePage | null = null;
 let latestNews: NewsItem[] = [];
+let sectionsPage: SectionsPage | null = null;
 
 try {
-  [homePage, latestNews] = await Promise.all([getHomePage(), getLatestNews()]);
+  [homePage, latestNews, sectionsPage] = await Promise.all([
+    getHomePage(),
+    getLatestNews(),
+    getSectionsPage(),
+  ]);
 } catch {
   /* fall back to defaults */
 }
 
 const home = { ...defaultHomePage, ...homePage };
+const sections = { ...defaultSectionsPreview, ...sectionsPage };
 const galleryItems = home.galleryImages?.length ? home.galleryImages : defaultGalleryItems;
 const successes = home.featuredSuccesses?.length ? home.featuredSuccesses : defaultFeaturedSuccesses;
 const news = latestNews.length ? latestNews : defaultLatestNews;
 const stats = home.stats?.length ? home.stats : defaultHomePage.stats!;
+const sponsors = home.sponsors?.length ? home.sponsors : defaultHomePage.sponsors!;
+
+const heroImageUrl = resolveImageUrl(home.heroImage, stitchImages.hero, { width: 1920, quality: 85 });
+const aboutImageUrl = resolveImageUrl(home.aboutImage, stitchImages.aboutCoach, { width: 900, quality: 85 });
+const whyImageUrl = resolveImageUrl(home.whyImage, stitchImages.whyUs, { width: 900, quality: 85 });
 
 const pageTitle = home.seo?.title ?? 'ΓΑΣ Ευνίκη Ελευσίνας';
 const pageDescription =
@@ -48,14 +62,31 @@ const pageDescription =
     primaryCtaUrl={home.heroPrimaryCtaUrl!}
     secondaryCtaLabel={home.heroSecondaryCtaLabel!}
     secondaryCtaUrl={home.heroSecondaryCtaUrl!}
+    imageUrl={heroImageUrl}
+    imageAlt={home.heroImage?.alt}
   />
   <HomeAbout
     heading={home.aboutHeading!}
     text={home.aboutText!}
-    accreditedBy={home.aboutAccreditedBy!}
+    secondParagraph={home.aboutSecondParagraph!}
     yearsExperience={home.yearsExperience!}
+    imageUrl={aboutImageUrl}
+    imageAlt={home.aboutImage?.alt}
   />
-  <HomeSections heading={home.sectionsHeading!} />
+  <HomeSections
+    heading={home.sectionsHeading!}
+    ctaLabel={home.sectionsCtaLabel!}
+    ctaUrl={home.sectionsCtaUrl!}
+    rhythmicHeading={sections.rhythmicHeading!}
+    rhythmicDescription={sections.rhythmicDescription!}
+    rhythmicCategoryHeading={sections.rhythmicCategoryHeading!}
+    rhythmicCompetitive={sections.rhythmicCompetitive?.length ? sections.rhythmicCompetitive : defaultSectionsPreview.rhythmicCompetitive!}
+    rhythmicMassHeading={sections.rhythmicMassHeading!}
+    rhythmicMass={sections.rhythmicMass?.length ? sections.rhythmicMass : defaultSectionsPreview.rhythmicMass!}
+    gymnHeading={sections.gymnHeading!}
+    gymnDescription={sections.gymnDescription!}
+    gymSections={sections.gymSections?.length ? sections.gymSections : defaultSectionsPreview.gymSections!}
+  />
   <HomeGallery heading={home.galleryHeading!} items={galleryItems} />
   <HomeSuccesses
     heading={home.successesHeading!}
@@ -75,6 +106,9 @@ const pageDescription =
     heading={home.whyHeading!}
     items={home.whyItems ?? defaultHomePage.whyItems!}
     sponsorsHeading={home.sponsorsHeading!}
+    sponsors={sponsors}
+    imageUrl={whyImageUrl}
+    imageAlt={home.whyImage?.alt}
   />
   <HomeCTA
     heading={home.ctaHeading!}

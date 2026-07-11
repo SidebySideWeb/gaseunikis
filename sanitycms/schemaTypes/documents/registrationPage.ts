@@ -146,6 +146,28 @@ export const registrationPage = defineType({
         'Αποδέχομαι την επεξεργασία των δεδομένων μου για τους σκοπούς της εγγραφής σύμφωνα με την πολιτική απορρήτου του συλλόγου.',
       group: 'form',
     }),
+    defineField({
+      name: 'sportOptions',
+      title: 'Επιλογές Αθλήματος',
+      type: 'array',
+      of: [{type: 'string'}],
+      initialValue: [
+        'Ρυθμική Γυμναστική',
+        'Ενόργανη Γυμναστική',
+        'Τραμπολίνο',
+        'Αεροβική Γυμναστική',
+        'Αγωνιστικό Τμήμα',
+      ],
+      group: 'form',
+    }),
+    defineField({
+      name: 'experienceOptions',
+      title: 'Επιλογές Εμπειρίας',
+      type: 'array',
+      of: [{type: 'string'}],
+      initialValue: ['Όχι (Αρχάριο επίπεδο)', 'Ναι (1-2 χρόνια)', 'Ναι (3+ χρόνια)'],
+      group: 'form',
+    }),
 
     defineField({name: 'seo', title: 'SEO', type: 'seo', group: 'seo'}),
   ],

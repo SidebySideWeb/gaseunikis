@@ -49,6 +49,19 @@ export const contactPage = defineType({
       initialValue: 'Αποστολή Μηνύματος',
       group: 'form',
     }),
+    defineField({
+      name: 'subjectOptions',
+      title: 'Επιλογές Θέματος',
+      type: 'array',
+      of: [{type: 'string'}],
+      initialValue: [
+        'Πληροφορίες Τμημάτων',
+        'Νέα Εγγραφή',
+        'Επικοινωνία με προπονητές',
+        'Άλλο',
+      ],
+      group: 'form',
+    }),
 
     defineField({
       name: 'mapHeading',

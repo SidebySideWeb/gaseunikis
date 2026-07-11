@@ -7,9 +7,17 @@ interface Props {
   heading: string;
   description: string;
   items: Program[];
+  imageUrl?: string;
+  imageAlt?: string;
 }
 
-const { heading, description, items } = Astro.props;
+const {
+  heading,
+  description,
+  items,
+  imageUrl = stitchImages.gymnasticsGroup,
+  imageAlt = 'Ομάδα νεαρών αθλητριών γυμναστικής',
+} = Astro.props;
 
 const borderColors = ['border-primary', 'border-secondary', 'border-primary-container'];
 const iconColors = ['text-primary', 'text-secondary', 'text-primary-container'];
@@ -25,8 +33,8 @@ const defaultIcons = ['group_work', 'theater_comedy', 'military_tech'];
         <div class="relative">
           <div class="absolute -bottom-4 -right-4 w-32 h-32 bg-secondary-container/40 rounded-full opacity-40 -z-10" aria-hidden="true"></div>
           <PlaceholderImage
-            src={stitchImages.gymnasticsGroup}
-            alt="Ομάδα νεαρών αθλητριών γυμναστικής"
+            src={imageUrl}
+            alt={imageAlt}
             class="w-full aspect-[4/3] rounded-3xl shadow-xl ring-4 ring-secondary/5"
           />
         </div>

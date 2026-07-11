@@ -9,51 +9,65 @@ const { currentPage, totalPages } = Astro.props;
 const pages = Array.from({ length: totalPages }, (_, i) => i + 1);
 const hasPrev = currentPage > 1;
 const hasNext = currentPage < totalPages;
+
+function pageHref(page: number): string {
+  return page <= 1 ? '/nea' : `/nea/page/${page}`;
+}
 ---
 
-<nav class="mt-20 mb-20 flex justify-center items-center gap-4" aria-label="Σελιδοποίηση">
-  <button
-    type="button"
-    disabled={!hasPrev}
-    class={`flex items-center gap-2 border-2 px-6 py-2.5 rounded-xl font-label-md ${
-      hasPrev
-        ? 'border-primary text-primary hover:bg-primary/5 transition-all'
-        : 'border-primary/20 text-primary/50 cursor-not-allowed'
-    }`}
-    aria-disabled={!hasPrev}
-  >
-    <span class="material-symbols-outlined">chevron_left</span>
-    Προηγούμενα
-  </button>
-
-  <div class="flex gap-2" role="list">
-    {pages.map((page) => (
-      <button
-        type="button"
-        role="listitem"
-        aria-current={page === currentPage ? 'page' : undefined}
-        class={
-          page === currentPage
-            ? 'w-10 h-10 rounded-lg bg-primary text-on-primary font-label-md flex items-center justify-center'
-            : 'w-10 h-10 rounded-lg text-on-surface-variant font-label-md flex items-center justify-center hover:bg-primary/5 hover:text-primary transition-colors'
-        }
+{totalPages > 1 && (
+  <nav class="mt-20 mb-20 flex justify-center items-center gap-4" aria-label="Σελιδοποίηση">
+    {hasPrev ? (
+      <a
+        href={pageHref(currentPage - 1)}
+        class="flex items-center gap-2 border-2 px-6 py-2.5 rounded-xl font-label-md border-primary text-primary hover:bg-primary/5 transition-all"
       >
-        {page}
-      </button>
-    ))}
-  </div>
+        <span class="material-symbols-outlined">chevron_left</span>
+        Προηγούμενα
+      </a>
+    ) : (
+      <span
+        class="flex items-center gap-2 border-2 px-6 py-2.5 rounded-xl font-label-md border-primary/20 text-primary/50 cursor-not-allowed"
+        aria-disabled="true"
+      >
+        <span class="material-symbols-outlined">chevron_left</span>
+        Προηγούμενα
+      </span>
+    )}
 
-  <button
-    type="button"
-    disabled={!hasNext}
-    class={`flex items-center gap-2 border-2 px-6 py-2.5 rounded-xl font-label-md ${
-      hasNext
-        ? 'border-primary text-primary hover:bg-primary/5 transition-all'
-        : 'border-primary/20 text-primary/50 cursor-not-allowed'
-    }`}
-    aria-disabled={!hasNext}
-  >
-    Επόμενα
-    <span class="material-symbols-outlined">chevron_right</span>
-  </button>
-</nav>
+    <div class="flex gap-2" role="list">
+      {pages.map((page) => (
+        <a
+          href={pageHref(page)}
+          role="listitem"
+          aria-current={page === currentPage ? 'page' : undefined}
+          class={
+            page === currentPage
+              ? 'w-10 h-10 rounded-lg bg-primary text-on-primary font-label-md flex items-center justify-center'
+              : 'w-10 h-10 rounded-lg text-on-surface-variant font-label-md flex items-center justify-center hover:bg-primary/5 hover:text-primary transition-colors'
+          }
+        >
+          {page}
+        </a>
+      ))}
+    </div>
+
+    {hasNext ? (
+      <a
+        href={pageHref(currentPage + 1)}
+        class="flex items-center gap-2 border-2 px-6 py-2.5 rounded-xl font-label-md border-primary text-primary hover:bg-primary/5 transition-all"
+      >
+        Επόμενα
+        <span class="material-symbols-outlined">chevron_right</span>
+      </a>
+    ) : (
+      <span
+        class="flex items-center gap-2 border-2 px-6 py-2.5 rounded-xl font-label-md border-primary/20 text-primary/50 cursor-not-allowed"
+        aria-disabled="true"
+      >
+        Επόμενα
+        <span class="material-symbols-outlined">chevron_right</span>
+      </span>
+    )}
+  </nav>
+)}

@@ -52,16 +52,7 @@ export const siteSettings = defineType({
       name: 'navLinks',
       title: 'Σύνδεσμοι πλοήγησης',
       type: 'array',
-      of: [
-        {
-          type: 'object',
-          name: 'navLink',
-          fields: [
-            {name: 'label', title: 'Ετικέτα', type: 'string'},
-            {name: 'url', title: 'URL', type: 'string'},
-          ],
-        },
-      ],
+      of: [{type: 'navLink'}],
       description: 'Αρχική | Ο Σύλλογος | Τμήματα | Επιτυχίες | Εγγραφές | Επικοινωνία',
       group: 'nav',
     }),
@@ -113,6 +104,14 @@ export const siteSettings = defineType({
     defineField({name: 'facebookUrl', title: 'Facebook URL', type: 'url', group: 'social'}),
     defineField({name: 'instagramUrl', title: 'Instagram URL', type: 'url', group: 'social'}),
 
+    defineField({
+      name: 'footerUsefulLinks',
+      title: 'Σύνδεσμοι «Χρήσιμα»',
+      type: 'array',
+      of: [{type: 'navLink'}],
+      description: 'Εγγραφές, Επικοινωνία, Ε.Γ.Ο., F.I.G. κ.λπ.',
+      group: 'footer',
+    }),
     defineField({
       name: 'footerTagline',
       title: 'Footer Tagline',

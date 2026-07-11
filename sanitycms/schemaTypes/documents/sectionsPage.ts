@@ -46,6 +46,14 @@ export const sectionsPage = defineType({
       group: 'rhythmic',
     }),
     defineField({
+      name: 'rhythmicImage',
+      title: 'Εικόνα',
+      type: 'image',
+      options: {hotspot: true},
+      fields: [{name: 'alt', type: 'string', title: 'Alt text'}],
+      group: 'rhythmic',
+    }),
+    defineField({
       name: 'rhythmicCategoryHeading',
       title: 'Αγωνιστικά Τμήματα',
       type: 'string',
@@ -88,6 +96,14 @@ export const sectionsPage = defineType({
       rows: 4,
       initialValue:
         'Εστίαση στην ομαδικότητα και τη συμμετοχή σε μεγάλα φεστιβάλ γυμναστικής. Έμφαση σε εντυπωσιακές χορογραφίες που συνδυάζουν ακροβατικά.',
+      group: 'gymnastics',
+    }),
+    defineField({
+      name: 'gymnasticsImage',
+      title: 'Εικόνα',
+      type: 'image',
+      options: {hotspot: true},
+      fields: [{name: 'alt', type: 'string', title: 'Alt text'}],
       group: 'gymnastics',
     }),
     defineField({

@@ -19,6 +19,13 @@ export const newsIndexPage = defineType({
       initialValue:
         'Μείνετε ενημερωμένοι για ό,τι συμβαίνει στον σύλλογό μας, από αγωνιστικές επιτυχίες μέχρι νέες εγγραφές και εκδηλώσεις.',
     }),
+    defineField({
+      name: 'postsPerPage',
+      title: 'Άρθρα ανά σελίδα',
+      type: 'number',
+      initialValue: 9,
+      validation: (rule) => rule.min(3).max(24),
+    }),
     defineField({name: 'seo', title: 'SEO', type: 'seo'}),
   ],
   preview: {

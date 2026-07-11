@@ -90,6 +90,33 @@ export const statItem = defineType({
   preview: {select: {title: 'value', subtitle: 'label'}},
 })
 
+export const sponsorItem = defineType({
+  name: 'sponsorItem',
+  title: 'Χορηγός',
+  type: 'object',
+  fields: [
+    defineField({name: 'name', title: 'Όνομα', type: 'string'}),
+    defineField({
+      name: 'logo',
+      title: 'Logo (προαιρετικό)',
+      type: 'image',
+      fields: [{name: 'alt', type: 'string', title: 'Alt text'}],
+    }),
+  ],
+  preview: {select: {title: 'name', media: 'logo'}},
+})
+
+export const navLink = defineType({
+  name: 'navLink',
+  title: 'Σύνδεσμος',
+  type: 'object',
+  fields: [
+    defineField({name: 'label', title: 'Ετικέτα', type: 'string'}),
+    defineField({name: 'url', title: 'URL', type: 'string'}),
+  ],
+  preview: {select: {title: 'label', subtitle: 'url'}},
+})
+
 export const galleryImage = defineType({
   name: 'galleryImage',
   title: 'Φωτογραφία',

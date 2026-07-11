@@ -112,12 +112,43 @@ export const homePage = defineType({
       initialValue: '30+',
       group: 'about',
     }),
+    defineField({
+      name: 'aboutImage',
+      title: 'Εικόνα',
+      type: 'image',
+      options: {hotspot: true},
+      fields: [{name: 'alt', type: 'string', title: 'Alt text'}],
+      group: 'about',
+    }),
+    defineField({
+      name: 'aboutSecondParagraph',
+      title: 'Δεύτερη παράγραφος',
+      type: 'text',
+      rows: 4,
+      initialValue:
+        'Αναγνωρισμένοι από την Ελληνική Γυμναστική Ομοσπονδία (Ε.Γ.Ο.) και τη Γενική Γραμματεία Αθλητισμού (Γ.Γ.Α.), προσφέρουμε ένα ασφαλές και σύγχρονο περιβάλλον όπου κάθε παιδί μπορεί να ανακαλύψει τις δυνατότητές του.',
+      group: 'about',
+    }),
 
     defineField({
       name: 'sectionsHeading',
       title: 'Τίτλος Τμημάτων',
       type: 'string',
       initialValue: 'Τα Τμήματά μας',
+      group: 'sections',
+    }),
+    defineField({
+      name: 'sectionsCtaLabel',
+      title: 'Κουμπί «Μάθετε Περισσότερα»',
+      type: 'string',
+      initialValue: 'Μάθετε Περισσότερα',
+      group: 'sections',
+    }),
+    defineField({
+      name: 'sectionsCtaUrl',
+      title: 'URL Τμημάτων',
+      type: 'string',
+      initialValue: '/tmimata',
       group: 'sections',
     }),
 
@@ -222,6 +253,21 @@ export const homePage = defineType({
       title: 'Τίτλος Χορηγών',
       type: 'string',
       initialValue: 'Οι Χορηγοί μας',
+      group: 'why',
+    }),
+    defineField({
+      name: 'whyImage',
+      title: 'Εικόνα',
+      type: 'image',
+      options: {hotspot: true},
+      fields: [{name: 'alt', type: 'string', title: 'Alt text'}],
+      group: 'why',
+    }),
+    defineField({
+      name: 'sponsors',
+      title: 'Χορηγοί',
+      type: 'array',
+      of: [{type: 'sponsorItem'}],
       group: 'why',
     }),
 

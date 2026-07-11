@@ -1,6 +1,8 @@
 ---
 import Layout from '../../layouts/Layout.astro';
 import BreadcrumbSchema from '../../components/schema/BreadcrumbSchema.astro';
+import PlaceholderImage from '../../components/ui/PlaceholderImage.astro';
+import { PortableText } from 'astro-portabletext';
 import { client } from '../../lib/sanity';
 import { newsPostBySlugQuery, newsPostSlugsQuery } from '../../lib/queries';
 import { resolveImageUrl } from '../../lib/image';
@@ -35,6 +37,16 @@ const pageDescription =
 const ogImage = post?.featuredImage
   ? resolveImageUrl(post.featuredImage, homeNewsFallbacks[0])
   : undefined;
+const featuredImageUrl = post?.featuredImage
+  ? resolveImageUrl(post.featuredImage, homeNewsFallbacks[0], { width: 1200, quality: 85 })
+  : undefined;
+const formattedDate = post?.publishedDate
+  ? new Date(post.publishedDate).toLocaleDateString('el-GR', {
+      day: 'numeric',
+      month: 'long',
+      year: 'numeric',
+    })
+  : null;
 ---
 
 <Layout
@@ -56,19 +68,31 @@ const ogImage = post?.featuredImage
     <article class="max-w-container-max-width mx-auto">
       {post ? (
         <>
+          {featuredImageUrl && (
+            <PlaceholderImage
+              src={featuredImageUrl}
+              alt={post.featuredImage?.alt ?? post.title}
+              class="mb-10 aspect-[16/9] w-full rounded-3xl object-cover shadow-card"
+            />
+          )}
           <h1 class="font-display text-display-lg text-primary mb-6">{post.title}</h1>
-          {post.publishedDate && (
+          {formattedDate && (
             <time datetime={post.publishedDate} class="text-sm font-bold text-primary mb-4 block">
-              {post.publishedDate}
+              {formattedDate}
             </time>
           )}
           {post.excerpt && <p class="text-on-surface-variant text-body-lg mb-8">{post.excerpt}</p>}
+          {Array.isArray(post.body) && post.body.length > 0 && (
+            <div class="prose prose-lg max-w-none mb-10 text-on-surface-variant">
+              <PortableText value={post.body} />
+            </div>
+          )}
         </>
       ) : (
         <>
           <h1 class="font-display text-display-lg text-primary mb-6">Νέο Άρθρο</h1>
           <p class="text-on-surface-variant text-body-lg mb-4">
-            Η σελίδα άρθρου για «{slug}» θα συνδεθεί με το Sanity σύντομα.
+            Το άρθρο «{slug}» δεν βρέθηκε.
           </p>
         </>
       )}

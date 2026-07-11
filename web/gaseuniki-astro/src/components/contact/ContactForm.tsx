@@ -3,22 +3,16 @@ import { useState, type FormEvent } from 'react';
 interface Props {
   formHeading: string;
   formSubmitLabel: string;
+  subjectOptions: string[];
 }
-
-const SUBJECT_OPTIONS = [
-  'Πληροφορίες Τμημάτων',
-  'Νέα Εγγραφή',
-  'Επικοινωνία με προπονητές',
-  'Άλλο',
-] as const;
 
 type FormStatus = 'idle' | 'submitting' | 'success' | 'error';
 
-export default function ContactForm({ formHeading, formSubmitLabel }: Props) {
+export default function ContactForm({ formHeading, formSubmitLabel, subjectOptions }: Props) {
   const [fullName, setFullName] = useState('');
   const [email, setEmail] = useState('');
   const [phone, setPhone] = useState('');
-  const [subject, setSubject] = useState<string>(SUBJECT_OPTIONS[0]);
+  const [subject, setSubject] = useState<string>(subjectOptions[0] ?? '');
   const [message, setMessage] = useState('');
   const [status, setStatus] = useState<FormStatus>('idle');
   const [errorMessage, setErrorMessage] = useState('');
@@ -58,7 +52,7 @@ export default function ContactForm({ formHeading, formSubmitLabel }: Props) {
       setFullName('');
       setEmail('');
       setPhone('');
-      setSubject(SUBJECT_OPTIONS[0]);
+      setSubject(subjectOptions[0] ?? '');
       setMessage('');
     } catch (error) {
       setStatus('error');
@@ -147,7 +141,7 @@ export default function ContactForm({ formHeading, formSubmitLabel }: Props) {
                 onChange={(e) => setSubject(e.target.value)}
                 className={inputClass}
               >
-                {SUBJECT_OPTIONS.map((option) => (
+                {subjectOptions.map((option) => (
                   <option key={option} value={option}>
                     {option}
                   </option>

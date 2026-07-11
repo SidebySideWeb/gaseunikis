@@ -7,7 +7,7 @@ import ContactForm from '../components/contact/ContactForm';
 import ContactMap from '../components/contact/ContactMap.astro';
 import { client } from '../lib/sanity';
 import { contactPageQuery, siteSettingsQuery } from '../lib/queries';
-import { defaultSiteSettings } from '../lib/fallbacks';
+import { defaultSiteSettings, defaultSubjectOptions } from '../lib/fallbacks';
 import type { ContactPage, SiteSettings } from '../lib/types';
 
 const defaultPage: ContactPage = {
@@ -66,6 +66,7 @@ const pageDescription =
           client:load
           formHeading={page.formHeading ?? ''}
           formSubmitLabel={page.formSubmitLabel ?? ''}
+          subjectOptions={page.subjectOptions?.length ? page.subjectOptions : defaultSubjectOptions}
         />
       </div>
     </section>
@@ -75,6 +76,7 @@ const pageDescription =
       text={page.mapText ?? ''}
       buttonLabel={page.mapButtonLabel ?? ''}
       address={settings.address ?? ''}
+      embedUrl={settings.mapUrl}
     />
   </main>
 </Layout>

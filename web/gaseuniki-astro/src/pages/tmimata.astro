@@ -8,6 +8,8 @@ import SectionsCoaches from '../components/sections/SectionsCoaches.astro';
 import { client } from '../lib/sanity';
 import { sectionsPageQuery } from '../lib/queries';
 import { defaultSectionsCoaches } from '../lib/fallbacks';
+import { resolveImageUrl } from '../lib/image';
+import { stitchImages } from '../lib/stitch-images';
 import type { SectionsPage } from '../lib/types';
 
 const defaultPage: SectionsPage = {
@@ -38,6 +40,15 @@ const pageTitle = page.seo?.title ?? 'Τμήματα';
 const pageDescription =
   page.seo?.description ??
   'Ρυθμική Γυμναστική και Γυμναστική για Όλους. Αγωνιστικά τμήματα, τμήματα μαζικού αθλητισμού και ομάδες φεστιβάλ για ηλικίες 3 έως 18 ετών.';
+
+const rhythmicImageUrl = resolveImageUrl(page.rhythmicImage, stitchImages.rhythmicGymnast, {
+  width: 1200,
+  quality: 85,
+});
+const gymnasticsImageUrl = resolveImageUrl(page.gymnasticsImage, stitchImages.gymnasticsGroup, {
+  width: 1200,
+  quality: 85,
+});
 ---
 
 <Layout title={pageTitle} description={pageDescription} currentPath="/tmimata" noIndex={page.seo?.noIndex}>
@@ -57,11 +68,15 @@ const pageDescription =
       competitive={page.rhythmicCompetitive ?? []}
       massHeading={page.rhythmicMassHeading ?? ''}
       mass={page.rhythmicMass ?? []}
+      imageUrl={rhythmicImageUrl}
+      imageAlt={page.rhythmicImage?.alt}
     />
     <GymnasticsSection
       heading={page.gymnHeading ?? ''}
       description={page.gymnDescription ?? ''}
       items={page.gymSections ?? []}
+      imageUrl={gymnasticsImageUrl}
+      imageAlt={page.gymnasticsImage?.alt}
     />
     <SectionsCoaches
       heading={page.coachesHeading ?? ''}

@@ -9,6 +9,8 @@ import AboutCoaches from '../components/about/AboutCoaches.astro';
 import AboutFacilities from '../components/about/AboutFacilities.astro';
 import { getAboutPage } from '../lib/queries';
 import { defaultAboutPage } from '../lib/fallbacks';
+import { resolveImageUrl } from '../lib/image';
+import { stitchImages } from '../lib/stitch-images';
 import type { AboutPage } from '../lib/types';
 
 let aboutPage: AboutPage | null = null;
@@ -27,6 +29,18 @@ const pageTitle = about.seo?.title ?? 'Ο Σύλλογος';
 const pageDescription =
   about.seo?.description ??
   'Γνωρίστε τον ΓΑΣ Ευνίκη Ελευσίνας — ιστορία, φιλοσοφία, προπονητικό team και εγκαταστάσεις.';
+
+const heroImageUrl = resolveImageUrl(about.heroImage, stitchImages.aboutHero, { width: 1200, quality: 85 });
+const philosophyPrimaryUrl = resolveImageUrl(
+  about.philosophyImagePrimary,
+  stitchImages.philosophyFacility,
+  { width: 700, quality: 85 },
+);
+const philosophySecondaryUrl = resolveImageUrl(
+  about.philosophyImageSecondary,
+  stitchImages.philosophyTraining,
+  { width: 700, quality: 85 },
+);
 ---
 
 <Layout
@@ -47,6 +61,8 @@ const pageDescription =
     heading={about.heroHeading!}
     text={about.heroText!}
     coreValues={about.coreValues ?? defaultAboutPage.coreValues!}
+    imageUrl={heroImageUrl}
+    imageAlt={about.heroImage?.alt}
   />
   <AboutHistory
     historyHeading={about.historyHeading!}
@@ -60,7 +76,14 @@ const pageDescription =
     items={about.spiritItems ?? defaultAboutPage.spiritItems!}
     quote={about.spiritQuote}
   />
-  <AboutPhilosophy heading={about.philosophyHeading!} items={about.philosophyItems ?? defaultAboutPage.philosophyItems!} />
+  <AboutPhilosophy
+    heading={about.philosophyHeading!}
+    items={about.philosophyItems ?? defaultAboutPage.philosophyItems!}
+    primaryImageUrl={philosophyPrimaryUrl}
+    secondaryImageUrl={philosophySecondaryUrl}
+    primaryImageAlt={about.philosophyImagePrimary?.alt}
+    secondaryImageAlt={about.philosophyImageSecondary?.alt}
+  />
   <AboutCoaches
     heading={about.coachesHeading!}
     description={about.coachesDescription!}

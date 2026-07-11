@@ -8,6 +8,7 @@ export interface Props {
   defaultOgImage?: string;
   noIndex?: boolean;
   canonicalUrl?: string;
+  seoTitleSuffix?: string;
 }
 
 const {
@@ -17,11 +18,18 @@ const {
   defaultOgImage = '/images/og-default.jpg',
   noIndex = false,
   canonicalUrl,
+  seoTitleSuffix = '| ΓΑΣ Ευνίκη Ελευσίνας',
 } = Astro.props;
 
 const siteOrigin = resolveSiteOrigin(Astro.site);
 const siteName = 'ΓΑΣ Ευνίκη Ελευσίνας';
-const documentTitle = title.includes(siteName) ? title : `${title} | ${siteName}`;
+const suffix = seoTitleSuffix.trim();
+const documentTitle =
+  title.includes(siteName) || (suffix && title.includes(suffix.replace(/^\|\s*/, '')))
+    ? title
+    : suffix.startsWith('|')
+      ? `${title} ${suffix}`
+      : `${title} | ${suffix}`;
 const resolvedCanonical = canonicalUrl ?? Astro.url.href;
 const resolvedOgImage = buildAbsoluteUrl(ogImage ?? defaultOgImage, siteOrigin);
 const ogUrl = Astro.url.href;

@@ -4,8 +4,12 @@ import type {
   Coach,
   GalleryImage,
   HomePage,
+  NavLink,
   NewsItem,
+  Program,
+  SectionsPage,
   SiteSettings,
+  Sponsor,
 } from './types';
 
 export const defaultSiteSettings: SiteSettings = {
@@ -40,8 +44,12 @@ export const defaultHomePage: HomePage = {
   aboutText:
     'Με πολυετή εμπειρία και βαθιά αγάπη για το άθλημα, ο Σύλλογός μας αποτελεί ένα πρότυπο κέντρο καλλιέργειας της Ρυθμικής Γυμναστικής και της Γυμναστικής για Όλους στην Ελευσίνα.',
   aboutAccreditedBy: 'Αναγνωρισμένοι από',
+  aboutSecondParagraph:
+    'Αναγνωρισμένοι από την Ελληνική Γυμναστική Ομοσπονδία (Ε.Γ.Ο.) και τη Γενική Γραμματεία Αθλητισμού (Γ.Γ.Α.), προσφέρουμε ένα ασφαλές και σύγχρονο περιβάλλον όπου κάθε παιδί μπορεί να ανακαλύψει τις δυνατότητές του.',
   yearsExperience: '30+',
   sectionsHeading: 'Τα Τμήματά μας',
+  sectionsCtaLabel: 'Μάθετε Περισσότερα',
+  sectionsCtaUrl: '/tmimata',
   galleryHeading: 'Στιγμές από την Προπόνηση',
   successesHeading: 'Οι Επιτυχίες μας',
   successesSubheading: 'Διακρίσεις που επιβραβεύουν την προσπάθεια και το ήθος των αθλητριών μας.',
@@ -63,6 +71,10 @@ export const defaultHomePage: HomePage = {
     { icon: 'check', title: 'Σύγχρονες Μέθοδοι', description: 'Προπονητικά προγράμματα βασισμένα στα τελευταία διεθνή πρότυπα.' },
   ],
   sponsorsHeading: 'Οι Χορηγοί μας',
+  sponsors: [
+    { name: 'ΚΑΡΠΑΘΙΟΣ Development' },
+    { name: 'AKROR Group' },
+  ] satisfies Sponsor[],
   ctaHeading: 'Έλα κι εσύ στην οικογένεια της Ευνίκης!',
   ctaText: 'Ξεκίνα σήμερα ένα ταξίδι γεμάτο ρυθμό, πειθαρχία και χαρά. Η πρώτη προπόνηση είναι δωρεάν!',
   ctaButtonLabel: 'Επικοινώνησε μαζί μας',
@@ -227,3 +239,72 @@ export const defaultSectionsCoaches: Coach[] = [
       'Πτυχιούχος Προπονήτρια Ρυθμικής Γυμναστικής (Γ.Γ.Α.) · Πτυχιούχος Προπονήτρια Γυμναστικής για Όλους (Γ.Γ.Α.)',
   },
 ];
+
+export const defaultSportOptions = [
+  'Ρυθμική Γυμναστική',
+  'Ενόργανη Γυμναστική',
+  'Τραμπολίνο',
+  'Αεροβική Γυμναστική',
+  'Αγωνιστικό Τμήμα',
+];
+
+export const defaultExperienceOptions = [
+  'Όχι (Αρχάριο επίπεδο)',
+  'Ναι (1-2 χρόνια)',
+  'Ναι (3+ χρόνια)',
+];
+
+export const defaultSubjectOptions = [
+  'Πληροφορίες Τμημάτων',
+  'Νέα Εγγραφή',
+  'Επικοινωνία με προπονητές',
+  'Άλλο',
+];
+
+export const defaultSectionsPreview: Pick<
+  SectionsPage,
+  | 'rhythmicHeading'
+  | 'rhythmicDescription'
+  | 'rhythmicCategoryHeading'
+  | 'rhythmicCompetitive'
+  | 'rhythmicMassHeading'
+  | 'rhythmicMass'
+  | 'gymnHeading'
+  | 'gymnDescription'
+  | 'gymSections'
+> = {
+  rhythmicHeading: 'Ρυθμική Γυμναστική',
+  rhythmicDescription: 'Η τέχνη της κίνησης, της μουσικής και των οργάνων.',
+  rhythmicCategoryHeading: 'Αγωνιστικά Τμήματα',
+  rhythmicCompetitive: [
+    { name: 'Ηλικίες 8-15', ageRange: '8-15' },
+    { name: 'Ηλικίες 6-8', ageRange: '6-8' },
+  ] satisfies Program[],
+  rhythmicMassHeading: 'Τμήματα Μαζικού Αθλητισμού',
+  rhythmicMass: [
+    { name: 'Νήπια (3-5 ετών)' },
+    { name: 'Ακαδημίες (4-6 ετών)' },
+    { name: 'Προχωρημένα (6-10)' },
+    { name: 'Εφηβικό (12-16)' },
+  ] satisfies Program[],
+  gymnHeading: 'Γυμναστική για Όλους',
+  gymnDescription: 'Ομαδικότητα, θέαμα και χαρά της συμμετοχής.',
+  gymSections: [
+    { name: 'Team 1 (Elite)' },
+    { name: 'Team 2 (Junior)' },
+    { name: 'Team 3 (Development)' },
+  ] satisfies Program[],
+};
+
+export function buildFooterUsefulLinks(settings: SiteSettings): NavLink[] {
+  if (settings.footerUsefulLinks?.length) {
+    return settings.footerUsefulLinks;
+  }
+
+  return [
+    { label: 'Εγγραφές', url: '/egrafes' },
+    { label: 'Επικοινωνία', url: '/epikoinonia' },
+    { label: 'Ε.Γ.Ο.', url: settings.egoUrl ?? '#' },
+    { label: 'F.I.G.', url: settings.figUrl ?? '#' },
+  ];
+}

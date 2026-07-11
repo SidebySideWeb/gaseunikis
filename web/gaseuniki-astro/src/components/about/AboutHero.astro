@@ -8,9 +8,18 @@ interface Props {
   heading: string;
   text: string;
   coreValues: CoreValue[];
+  imageUrl?: string;
+  imageAlt?: string;
 }
 
-const { label, heading, text, coreValues } = Astro.props;
+const {
+  label,
+  heading,
+  text,
+  coreValues,
+  imageUrl = stitchImages.aboutHero,
+  imageAlt = 'Προπόνηση ρυθμικής γυμναστικής στον ΓΑΣ Ευνίκη',
+} = Astro.props;
 ---
 
 <section class="relative overflow-hidden bg-surface-container-low pt-24">
@@ -32,8 +41,8 @@ const { label, heading, text, coreValues } = Astro.props;
     <div class="order-1 md:order-2 md:col-span-6">
       <div class="overflow-hidden rounded-2xl border-4 border-primary/10 shadow-card transition-transform duration-500 hover:rotate-0 md:rotate-2">
         <PlaceholderImage
-          src={stitchImages.aboutHero}
-          alt="Προπόνηση ρυθμικής γυμναστικής στον ΓΑΣ Ευνίκη"
+          src={imageUrl}
+          alt={imageAlt}
           class="aspect-[4/5] w-full object-cover md:aspect-[16/11]"
         />
       </div>

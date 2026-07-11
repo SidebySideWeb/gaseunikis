@@ -8,6 +8,7 @@ import RegistrationDocuments from '../components/registration/RegistrationDocume
 import RegistrationForm from '../components/registration/RegistrationForm';
 import { client } from '../lib/sanity';
 import { registrationPageQuery, siteSettingsQuery } from '../lib/queries';
+import { defaultExperienceOptions, defaultSportOptions } from '../lib/fallbacks';
 import type { RegistrationPage, SiteSettings } from '../lib/types';
 
 const defaultPage: RegistrationPage = {
@@ -123,6 +124,10 @@ const faqItems = [
           formDescription={page.formDescription ?? ''}
           formSubmitLabel={page.formSubmitLabel ?? ''}
           privacyCheckboxLabel={page.privacyCheckboxLabel ?? ''}
+          sportOptions={page.sportOptions?.length ? page.sportOptions : defaultSportOptions}
+          experienceOptions={
+            page.experienceOptions?.length ? page.experienceOptions : defaultExperienceOptions
+          }
         />
       </div>
     </div>

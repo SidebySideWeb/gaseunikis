@@ -1,5 +1,10 @@
 import type { SanityImageSource } from '@sanity/image-url/lib/types/types';
 
+export interface Sponsor {
+  name: string;
+  logo?: SanityImage;
+}
+
 export interface NavLink {
   label: string;
   url: string;
@@ -140,6 +145,7 @@ export interface SiteSettings {
   addressLocality?: string;
   addressRegion?: string;
   postalCode?: string;
+  footerUsefulLinks?: NavLink[];
   logoUrl?: string;
   defaultOgImageUrl?: string;
 }
@@ -157,8 +163,12 @@ export interface HomePage {
   aboutHeading?: string;
   aboutText?: string;
   aboutAccreditedBy?: string;
+  aboutSecondParagraph?: string;
+  aboutImage?: SanityImage;
   yearsExperience?: string;
   sectionsHeading?: string;
+  sectionsCtaLabel?: string;
+  sectionsCtaUrl?: string;
   galleryHeading?: string;
   galleryImages?: GalleryImage[];
   successesHeading?: string;
@@ -172,7 +182,9 @@ export interface HomePage {
   newsCtaUrl?: string;
   whyHeading?: string;
   whyItems?: WhyItem[];
+  whyImage?: SanityImage;
   sponsorsHeading?: string;
+  sponsors?: Sponsor[];
   ctaHeading?: string;
   ctaText?: string;
   ctaButtonLabel?: string;
@@ -196,6 +208,8 @@ export interface AboutPage {
   spiritQuote?: string;
   philosophyHeading?: string;
   philosophyItems?: ValueCard[];
+  philosophyImagePrimary?: SanityImage;
+  philosophyImageSecondary?: SanityImage;
   coachesHeading?: string;
   coachesDescription?: string;
   coaches?: Coach[];
@@ -211,12 +225,14 @@ export interface SectionsPage {
   heroText?: string;
   rhythmicHeading?: string;
   rhythmicDescription?: string;
+  rhythmicImage?: SanityImage;
   rhythmicCategoryHeading?: string;
   rhythmicCompetitive?: Program[];
   rhythmicMassHeading?: string;
   rhythmicMass?: Program[];
   gymnHeading?: string;
   gymnDescription?: string;
+  gymnasticsImage?: SanityImage;
   gymSections?: Program[];
   coachesHeading?: string;
   coachesDescription?: string;
@@ -235,6 +251,7 @@ export interface EpitychiesPage {
 export interface NewsIndexPage {
   heroHeading?: string;
   heroText?: string;
+  postsPerPage?: number;
   seo?: Seo;
 }
 
@@ -254,6 +271,8 @@ export interface RegistrationPage {
   formDescription?: string;
   formSubmitLabel?: string;
   privacyCheckboxLabel?: string;
+  sportOptions?: string[];
+  experienceOptions?: string[];
   seo?: Seo;
 }
 
@@ -263,6 +282,7 @@ export interface ContactPage {
   heroCallToAction?: string;
   formHeading?: string;
   formSubmitLabel?: string;
+  subjectOptions?: string[];
   mapHeading?: string;
   mapText?: string;
   mapButtonLabel?: string;

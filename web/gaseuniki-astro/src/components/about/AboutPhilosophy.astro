@@ -6,9 +6,20 @@ import { stitchImages } from '../../lib/stitch-images';
 interface Props {
   heading: string;
   items: ValueCard[];
+  primaryImageUrl?: string;
+  secondaryImageUrl?: string;
+  primaryImageAlt?: string;
+  secondaryImageAlt?: string;
 }
 
-const { heading, items } = Astro.props;
+const {
+  heading,
+  items,
+  primaryImageUrl = stitchImages.philosophyFacility,
+  secondaryImageUrl = stitchImages.philosophyTraining,
+  primaryImageAlt = 'Σύγχρονες εγκαταστάσεις γυμναστικής',
+  secondaryImageAlt = 'Νεαρές αθλήτριες σε προπόνηση',
+} = Astro.props;
 
 const iconColors = ['bg-primary text-on-primary', 'bg-secondary text-on-secondary', 'bg-primary-container text-on-primary'];
 ---
@@ -18,13 +29,13 @@ const iconColors = ['bg-primary text-on-primary', 'bg-secondary text-on-secondar
     <div class="order-2 md:order-1">
       <div class="grid grid-cols-2 gap-4">
         <PlaceholderImage
-          src={stitchImages.philosophyFacility}
-          alt="Σύγχρονες εγκαταστάσεις γυμναστικής"
+          src={primaryImageUrl}
+          alt={primaryImageAlt}
           class="aspect-square rounded-lg border-2 border-primary/10 object-cover shadow-card"
         />
         <PlaceholderImage
-          src={stitchImages.philosophyTraining}
-          alt="Νεαρές αθλήτριες σε προπόνηση"
+          src={secondaryImageUrl}
+          alt={secondaryImageAlt}
           class="mt-8 aspect-square rounded-lg border-2 border-secondary/10 object-cover shadow-card"
         />
       </div>

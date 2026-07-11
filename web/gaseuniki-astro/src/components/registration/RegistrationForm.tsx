@@ -5,21 +5,9 @@ interface Props {
   formDescription: string;
   formSubmitLabel: string;
   privacyCheckboxLabel: string;
+  sportOptions: string[];
+  experienceOptions: string[];
 }
-
-const SPORT_OPTIONS = [
-  'Ρυθμική Γυμναστική',
-  'Ενόργανη Γυμναστική',
-  'Τραμπολίνο',
-  'Αεροβική Γυμναστική',
-  'Αγωνιστικό Τμήμα',
-] as const;
-
-const EXPERIENCE_OPTIONS = [
-  'Όχι (Αρχάριο επίπεδο)',
-  'Ναι (1-2 χρόνια)',
-  'Ναι (3+ χρόνια)',
-] as const;
 
 type FormStatus = 'idle' | 'submitting' | 'success' | 'error';
 
@@ -28,14 +16,16 @@ export default function RegistrationForm({
   formDescription,
   formSubmitLabel,
   privacyCheckboxLabel,
+  sportOptions,
+  experienceOptions,
 }: Props) {
   const [athleteName, setAthleteName] = useState('');
   const [birthDate, setBirthDate] = useState('');
   const [guardianName, setGuardianName] = useState('');
   const [guardianPhone, setGuardianPhone] = useState('');
   const [guardianEmail, setGuardianEmail] = useState('');
-  const [sportInterest, setSportInterest] = useState<string>(SPORT_OPTIONS[0]);
-  const [previousExperience, setPreviousExperience] = useState<string>(EXPERIENCE_OPTIONS[0]);
+  const [sportInterest, setSportInterest] = useState<string>(sportOptions[0] ?? '');
+  const [previousExperience, setPreviousExperience] = useState<string>(experienceOptions[0] ?? '');
   const [notes, setNotes] = useState('');
   const [privacyAccepted, setPrivacyAccepted] = useState(false);
   const [status, setStatus] = useState<FormStatus>('idle');
@@ -88,8 +78,8 @@ export default function RegistrationForm({
       setGuardianName('');
       setGuardianPhone('');
       setGuardianEmail('');
-      setSportInterest(SPORT_OPTIONS[0]);
-      setPreviousExperience(EXPERIENCE_OPTIONS[0]);
+      setSportInterest(sportOptions[0] ?? '');
+      setPreviousExperience(experienceOptions[0] ?? '');
       setNotes('');
       setPrivacyAccepted(false);
     } catch (error) {
@@ -209,7 +199,7 @@ export default function RegistrationForm({
               onChange={(e) => setSportInterest(e.target.value)}
               className={inputClass}
             >
-              {SPORT_OPTIONS.map((option) => (
+              {sportOptions.map((option) => (
                 <option key={option} value={option}>
                   {option}
                 </option>
@@ -227,7 +217,7 @@ export default function RegistrationForm({
               onChange={(e) => setPreviousExperience(e.target.value)}
               className={inputClass}
             >
-              {EXPERIENCE_OPTIONS.map((option) => (
+              {experienceOptions.map((option) => (
                 <option key={option} value={option}>
                   {option}
                 </option>

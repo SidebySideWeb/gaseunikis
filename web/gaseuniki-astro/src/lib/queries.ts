@@ -49,6 +49,7 @@ export const siteSettingsQuery = `*[_type == "siteSettings"][0] {
   navCtaLabel,
   navCtaUrl,
   navLinks[] { label, url },
+  footerUsefulLinks[] { label, url },
   openingHours[] { day, hours },
   defaultSeoTitle,
   logo { ${imageFields} },
@@ -71,8 +72,12 @@ export const homePageQuery = `*[_type == "homePage"][0] {
   aboutHeading,
   aboutText,
   aboutAccreditedBy,
+  aboutSecondParagraph,
+  aboutImage { ${imageFields} },
   yearsExperience,
   sectionsHeading,
+  sectionsCtaLabel,
+  sectionsCtaUrl,
   galleryHeading,
   galleryImages[] {
     image { ${imageFields} },
@@ -108,7 +113,12 @@ export const homePageQuery = `*[_type == "homePage"][0] {
     title,
     description
   },
+  whyImage { ${imageFields} },
   sponsorsHeading,
+  sponsors[] {
+    name,
+    logo { ${imageFields} }
+  },
   ctaHeading,
   ctaText,
   ctaButtonLabel,
@@ -142,6 +152,8 @@ export const aboutPageQuery = `*[_type == "aboutPage"][0] {
     title,
     description
   },
+  philosophyImagePrimary { ${imageFields} },
+  philosophyImageSecondary { ${imageFields} },
   coachesHeading,
   coachesDescription,
   coaches[] {
@@ -166,6 +178,7 @@ export const sectionsPageQuery = `*[_type == "sectionsPage"][0] {
   heroText,
   rhythmicHeading,
   rhythmicDescription,
+  rhythmicImage { ${imageFields} },
   rhythmicCategoryHeading,
   rhythmicCompetitive[] {
     name,
@@ -186,6 +199,7 @@ export const sectionsPageQuery = `*[_type == "sectionsPage"][0] {
   },
   gymnHeading,
   gymnDescription,
+  gymnasticsImage { ${imageFields} },
   gymSections[] {
     name,
     badge,
@@ -217,6 +231,7 @@ export const epitychiesPageQuery = `*[_type == "epitychiesPage"][0] {
 export const newsIndexPageQuery = `*[_type == "newsIndexPage"][0] {
   heroHeading,
   heroText,
+  postsPerPage,
   ${seoFields}
 }`;
 
@@ -240,6 +255,8 @@ export const registrationPageQuery = `*[_type == "registrationPage"][0] {
   formDescription,
   formSubmitLabel,
   privacyCheckboxLabel,
+  sportOptions,
+  experienceOptions,
   ${seoFields}
 }`;
 
@@ -249,6 +266,7 @@ export const contactPageQuery = `*[_type == "contactPage"][0] {
   heroCallToAction,
   formHeading,
   formSubmitLabel,
+  subjectOptions,
   mapHeading,
   mapText,
   mapButtonLabel,
@@ -388,6 +406,14 @@ export function getLatestNews() {
 
 export function getNewsPosts() {
   return client.fetch<NewsItem[]>(newsPostListQuery);
+}
+
+export function getPaginatedNews(start: number, end: number) {
+  return client.fetch<NewsItem[]>(paginatedNewsQuery, { start, end });
+}
+
+export function getNewsCount() {
+  return client.fetch<number>(newsCountQuery);
 }
 
 export function getRegistrationPage() {

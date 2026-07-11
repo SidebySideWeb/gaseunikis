@@ -58,6 +58,7 @@ const resolvedOgImage = ogImage ?? defaultOgImage;
       defaultOgImage={defaultOgImage}
       noIndex={noIndex}
       canonicalUrl={canonicalUrl}
+      seoTitleSuffix={siteSettings.defaultSeoTitle ?? '| ΓΑΣ Ευνίκη Ελευσίνας'}
     />
     <LocalBusinessSchema settings={siteSettings} />
     <slot name="schema" />
