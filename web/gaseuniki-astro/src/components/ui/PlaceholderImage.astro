@@ -1,13 +1,29 @@
 ---
+import type { ImageDelivery } from '../../lib/image';
+
 export interface Props {
   alt: string;
   src?: string;
+  delivery?: ImageDelivery;
   aspectRatio?: 'video' | 'square' | 'portrait' | 'wide';
   class?: string;
   loading?: 'lazy' | 'eager';
+  fetchPriority?: 'high' | 'low' | 'auto';
 }
 
-const { alt, src, aspectRatio = 'video', class: className = '', loading = 'lazy' } = Astro.props;
+const {
+  alt,
+  src,
+  delivery,
+  aspectRatio = 'video',
+  class: className = '',
+  loading = 'lazy',
+  fetchPriority,
+} = Astro.props;
+
+const imageSrc = delivery?.src ?? src;
+const srcSet = delivery?.srcSet;
+const sizes = delivery?.sizes;
 
 const aspectClasses = {
   video: 'aspect-video',
@@ -18,11 +34,15 @@ const aspectClasses = {
 ---
 
 {
-  src ? (
+  imageSrc ? (
     <img
-      src={src}
+      src={imageSrc}
+      srcset={srcSet}
+      sizes={sizes}
       alt={alt}
       loading={loading}
+      decoding="async"
+      fetchpriority={fetchPriority}
       class:list={[aspectClasses[aspectRatio], className]}
     />
   ) : (

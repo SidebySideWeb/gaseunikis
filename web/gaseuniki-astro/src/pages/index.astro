@@ -1,49 +1,53 @@
 ---
+export const prerender = true;
+
 import Layout from '../layouts/Layout.astro';
 import HomeHero from '../components/home/HomeHero.astro';
 import HomeAbout from '../components/home/HomeAbout.astro';
 import HomeSections from '../components/home/HomeSections.astro';
 import HomeGallery from '../components/home/HomeGallery.astro';
-import HomeSuccesses from '../components/home/HomeSuccesses.astro';
-import HomeNews from '../components/home/HomeNews.astro';
+import HomeSuccessesIsland from '../components/home/HomeSuccessesIsland.astro';
+import HomeSuccessesFallback from '../components/home/HomeSuccessesFallback.astro';
+import HomeNewsIsland from '../components/home/HomeNewsIsland.astro';
+import HomeNewsFallback from '../components/home/HomeNewsFallback.astro';
 import HomeWhy from '../components/home/HomeWhy.astro';
 import HomeCTA from '../components/home/HomeCTA.astro';
-import { getHomePage, getLatestNews, getSectionsPage, getFeaturedEpitychies } from '../lib/queries';
+import { getHomepageStaticBundle } from '../lib/queries';
 import { fetchWithFallback } from '../lib/fetch-with-fallback';
-import { resolveHomeSuccesses, resolveLatestNews } from '../lib/home-content';
-import { resolveImageUrl } from '../lib/image';
+import { resolvePresetImage } from '../lib/image';
 import {
   defaultHomePage,
   defaultGalleryItems,
-  defaultFeaturedSuccesses,
-  defaultLatestNews,
   defaultSectionsPreview,
+  defaultSiteSettings,
 } from '../lib/fallbacks';
 import { stitchImages } from '../lib/stitch-images';
-import type { Achievement, HomePage, NewsItem, SectionsPage } from '../lib/types';
 
-const [homePage, latestNews, sectionsPage, featuredEpitychies] = await Promise.all([
-  fetchWithFallback(() => getHomePage(), null, 'homePage'),
-  fetchWithFallback(() => getLatestNews(), [], 'latestNews'),
-  fetchWithFallback(() => getSectionsPage(), null, 'sectionsPage'),
-  fetchWithFallback(() => getFeaturedEpitychies(), [], 'featuredEpitychies'),
-]);
+const emptyBundle = {
+  homePage: null,
+  sectionsPage: null,
+  siteSettings: null,
+};
+
+const bundle = await fetchWithFallback(
+  () => getHomepageStaticBundle(),
+  emptyBundle,
+  'homepageStaticBundle',
+);
+const siteSettings = { ...defaultSiteSettings, ...bundle.siteSettings };
+
+const homePage = bundle.homePage;
+const sectionsPage = bundle.sectionsPage;
 
 const home = { ...defaultHomePage, ...homePage };
 const sections = { ...defaultSectionsPreview, ...sectionsPage };
 const galleryItems = home.galleryImages?.length ? home.galleryImages : defaultGalleryItems;
-const successes = resolveHomeSuccesses(
-  homePage?.featuredSuccesses,
-  featuredEpitychies,
-  defaultFeaturedSuccesses,
-);
-const news = resolveLatestNews(latestNews, defaultLatestNews);
 const stats = home.stats?.length ? home.stats : defaultHomePage.stats!;
 const sponsors = home.sponsors?.length ? home.sponsors : defaultHomePage.sponsors!;
 
-const heroImageUrl = resolveImageUrl(home.heroImage, stitchImages.hero, { width: 1920, quality: 85 });
-const aboutImageUrl = resolveImageUrl(home.aboutImage, stitchImages.aboutCoach, { width: 900, quality: 85 });
-const whyImageUrl = resolveImageUrl(home.whyImage, stitchImages.whyUs, { width: 900, quality: 85 });
+const heroImage = resolvePresetImage(home.heroImage, stitchImages.hero, 'hero');
+const aboutImage = resolvePresetImage(home.aboutImage, stitchImages.aboutCoach, 'halfWidth');
+const whyImage = resolvePresetImage(home.whyImage, stitchImages.whyUs, 'halfWidth');
 
 const pageTitle = home.seo?.title ?? 'ΓΑΣ Ευνίκη Ελευσίνας';
 const pageDescription =
@@ -51,7 +55,14 @@ const pageDescription =
   'Αθλητικός σύλλογος ρυθμικής γυμναστικής και γυμναστικής για Όλους στην Ελευσίνα. Τμήματα για ηλικίες 3-18 ετών. Εγγραφές 2024-2025.';
 ---
 
-<Layout title={pageTitle} description={pageDescription} currentPath="/" noIndex={home.seo?.noIndex}>
+<Layout
+  title={pageTitle}
+  description={pageDescription}
+  currentPath="/"
+  noIndex={home.seo?.noIndex}
+  settings={siteSettings}
+  lcpImage={heroImage}
+>
   <HomeHero
     badge={home.heroBadge!}
     heading={home.heroHeading!}
@@ -61,7 +72,7 @@ const pageDescription =
     primaryCtaUrl={home.heroPrimaryCtaUrl!}
     secondaryCtaLabel={home.heroSecondaryCtaLabel!}
     secondaryCtaUrl={home.heroSecondaryCtaUrl!}
-    imageUrl={heroImageUrl}
+    image={heroImage}
     imageAlt={home.heroImage?.alt}
   />
   <HomeAbout
@@ -69,7 +80,7 @@ const pageDescription =
     text={home.aboutText!}
     secondParagraph={home.aboutSecondParagraph!}
     yearsExperience={home.yearsExperience!}
-    imageUrl={aboutImageUrl}
+    image={aboutImage}
     imageAlt={home.aboutImage?.alt}
   />
   <HomeSections
@@ -91,26 +102,42 @@ const pageDescription =
     subheading={home.gallerySubheading!}
     items={galleryItems}
   />
-  <HomeSuccesses
+  <HomeSuccessesIsland
+    server:defer
     heading={home.successesHeading!}
     subheading={home.successesSubheading!}
-    items={successes as Achievement[]}
     stats={stats}
     ctaLabel={home.successesCtaLabel!}
     ctaUrl={home.successesCtaUrl!}
-  />
-  <HomeNews
+  >
+    <HomeSuccessesFallback
+      slot="fallback"
+      heading={home.successesHeading!}
+      subheading={home.successesSubheading!}
+      stats={stats}
+      ctaLabel={home.successesCtaLabel!}
+      ctaUrl={home.successesCtaUrl!}
+    />
+  </HomeSuccessesIsland>
+  <HomeNewsIsland
+    server:defer
     heading={home.newsHeading!}
     ctaLabel={home.newsCtaLabel!}
     ctaUrl={home.newsCtaUrl!}
-    posts={news}
-  />
+  >
+    <HomeNewsFallback
+      slot="fallback"
+      heading={home.newsHeading!}
+      ctaLabel={home.newsCtaLabel!}
+      ctaUrl={home.newsCtaUrl!}
+    />
+  </HomeNewsIsland>
   <HomeWhy
     heading={home.whyHeading!}
     items={home.whyItems ?? defaultHomePage.whyItems!}
     sponsorsHeading={home.sponsorsHeading!}
     sponsors={sponsors}
-    imageUrl={whyImageUrl}
+    image={whyImage}
     imageAlt={home.whyImage?.alt}
   />
   <HomeCTA

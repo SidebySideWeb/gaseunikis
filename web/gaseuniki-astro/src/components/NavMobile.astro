@@ -1,0 +1,82 @@
+---
+import type { NavLink } from '../lib/types';
+
+export interface Props {
+  links: NavLink[];
+  ctaLabel: string;
+  ctaUrl: string;
+  currentPath: string;
+  clubName: string;
+}
+
+const { links, ctaLabel, ctaUrl, currentPath, clubName } = Astro.props;
+
+function isActive(url: string): boolean {
+  if (url === '/') return currentPath === '/';
+  return currentPath === url || currentPath.startsWith(`${url}/`);
+}
+---
+
+<details class="nav-mobile group relative md:hidden">
+  <summary
+    class="flex cursor-pointer list-none items-center justify-center rounded-lg p-2 text-primary transition-colors hover:bg-primary/5 [&::-webkit-details-marker]:hidden"
+    aria-label="Άνοιγμα μενού"
+  >
+    <span class="material-symbols-outlined text-3xl group-open:hidden" aria-hidden="true">menu</span>
+    <span class="material-symbols-outlined hidden text-3xl group-open:block" aria-hidden="true">close</span>
+  </summary>
+
+  <div
+    class="fixed inset-0 top-20 z-40 hidden bg-background/95 backdrop-blur-sm group-open:block"
+    data-nav-backdrop
+    aria-hidden="true"
+  />
+
+  <div
+    class="fixed inset-x-0 top-20 z-50 hidden border-b border-outline-variant/30 bg-surface-container-lowest px-gutter py-8 shadow-card group-open:block"
+  >
+    <p class="mb-6 font-display text-label-caps uppercase tracking-widest text-primary">{clubName}</p>
+    <ul class="flex flex-col gap-4">
+      {
+        links.map((link) => (
+          <li>
+            <a
+              href={link.url}
+              class:list={[
+                'block font-display text-headline-md transition-colors',
+                isActive(link.url)
+                  ? 'text-primary'
+                  : 'text-on-surface-variant hover:text-primary',
+              ]}
+              aria-current={isActive(link.url) ? 'page' : undefined}
+            >
+              {link.label}
+            </a>
+          </li>
+        ))
+      }
+    </ul>
+    <a
+      href={ctaUrl}
+      class="mt-8 inline-flex w-full items-center justify-center rounded-xl bg-primary px-6 py-3 font-display text-label-md text-on-primary transition-all duration-200 hover:bg-primary-light active:scale-95"
+    >
+      {ctaLabel}
+    </a>
+  </div>
+</details>
+
+<script>
+  document.querySelectorAll('.nav-mobile').forEach((nav) => {
+    if (!(nav instanceof HTMLDetailsElement)) return;
+
+    nav.querySelector('[data-nav-backdrop]')?.addEventListener('click', () => {
+      nav.open = false;
+    });
+
+    nav.querySelectorAll('a').forEach((link) => {
+      link.addEventListener('click', () => {
+        nav.open = false;
+      });
+    });
+  });
+</script>

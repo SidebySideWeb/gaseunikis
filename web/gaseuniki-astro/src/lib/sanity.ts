@@ -1,11 +1,13 @@
 import { createClient } from '@sanity/client';
 import { getSanityDataset, getSanityProjectId, SANITY_API_VERSION } from './sanity-config';
 
+const useCdn = import.meta.env.PROD;
+
 export const client = createClient({
   projectId: getSanityProjectId(),
   dataset: getSanityDataset(),
   apiVersion: SANITY_API_VERSION,
-  useCdn: false,
+  useCdn,
 });
 
 export const writeClient = createClient({

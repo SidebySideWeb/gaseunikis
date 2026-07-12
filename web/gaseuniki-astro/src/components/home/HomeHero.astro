@@ -1,6 +1,7 @@
 ---
 import PlaceholderImage from '../ui/PlaceholderImage.astro';
 import Button from '../ui/Button.astro';
+import type { ImageDelivery } from '../../lib/image';
 import { stitchImages } from '../../lib/stitch-images';
 
 interface Props {
@@ -12,7 +13,7 @@ interface Props {
   primaryCtaUrl: string;
   secondaryCtaLabel: string;
   secondaryCtaUrl: string;
-  imageUrl?: string;
+  image?: ImageDelivery;
   imageAlt?: string;
 }
 
@@ -25,18 +26,21 @@ const {
   primaryCtaUrl,
   secondaryCtaLabel,
   secondaryCtaUrl,
-  imageUrl = stitchImages.hero,
+  image,
   imageAlt = 'Ρυθμική γυμναστική',
 } = Astro.props;
+
+const heroImage = image ?? { src: stitchImages.hero };
 ---
 
 <section class="ribbon-bg relative flex min-h-[85vh] items-center overflow-hidden">
   <div class="absolute inset-0 z-0">
     <div class="absolute inset-0 z-10 bg-gradient-to-r from-background via-background/40 to-transparent"></div>
     <PlaceholderImage
-      src={imageUrl}
+      delivery={heroImage}
       alt={imageAlt}
       loading="eager"
+      fetchPriority="high"
       class="h-full w-full scale-105 object-cover object-center"
     />
   </div>

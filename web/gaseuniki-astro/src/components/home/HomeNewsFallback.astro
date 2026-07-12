@@ -1,0 +1,33 @@
+---
+interface Props {
+  heading: string;
+  ctaLabel: string;
+  ctaUrl: string;
+}
+
+const { heading, ctaLabel, ctaUrl } = Astro.props;
+---
+
+<section class="bg-surface py-section-padding" aria-busy="true" aria-label="Φόρτωση νέων">
+  <div class="container-page">
+    <header class="mb-12 flex items-center justify-between">
+      <h2 class="font-display text-headline-lg text-on-surface">{heading}</h2>
+      <a href={ctaUrl} class="flex items-center gap-2 font-bold text-primary">
+        {ctaLabel}
+        <span class="material-symbols-outlined" aria-hidden="true">chevron_right</span>
+      </a>
+    </header>
+    <div class="grid gap-gutter md:grid-cols-3">
+      {[0, 1, 2].map(() => (
+        <div class="overflow-hidden rounded-2xl border border-primary/5 bg-surface-container-lowest">
+          <div class="h-48 animate-pulse bg-surface-container" />
+          <div class="space-y-3 p-6">
+            <div class="h-4 w-24 animate-pulse rounded bg-surface-container" />
+            <div class="h-6 w-full animate-pulse rounded bg-surface-container" />
+            <div class="h-4 w-full animate-pulse rounded bg-surface-container" />
+          </div>
+        </div>
+      ))}
+    </div>
+  </div>
+</section>

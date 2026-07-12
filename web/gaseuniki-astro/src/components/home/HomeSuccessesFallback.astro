@@ -1,0 +1,48 @@
+---
+import SectionHeader from '../ui/SectionHeader.astro';
+import type { Stat } from '../../lib/types';
+
+interface Props {
+  heading: string;
+  subheading: string;
+  stats: Stat[];
+  ctaLabel: string;
+  ctaUrl: string;
+}
+
+const { heading, subheading, stats, ctaLabel, ctaUrl } = Astro.props;
+---
+
+<section
+  class="relative overflow-hidden bg-surface-container-low py-section-padding"
+  aria-busy="true"
+  aria-label="Φόρτωση επιτυχιών"
+>
+  <div class="container-page relative z-10">
+    <SectionHeader heading={heading} subtext={subheading} align="center" />
+    <div class="mb-12 grid gap-8 md:grid-cols-3">
+      {[0, 1, 2].map(() => (
+        <div class="overflow-hidden rounded-2xl border border-achievement/20 bg-surface-container-lowest">
+          <div class="h-48 animate-pulse bg-surface-container" />
+          <div class="space-y-3 p-6">
+            <div class="h-5 w-3/4 animate-pulse rounded bg-surface-container" />
+            <div class="h-4 w-full animate-pulse rounded bg-surface-container" />
+          </div>
+        </div>
+      ))}
+    </div>
+    <div class="mb-12 flex flex-col items-center justify-center gap-12 md:flex-row">
+      {stats.map((stat) => (
+        <div class="text-center">
+          <span class="mb-2 block text-5xl font-bold text-primary">{stat.value}</span>
+          <span class="font-display text-label-md uppercase tracking-wider text-on-surface-variant">{stat.label}</span>
+        </div>
+      ))}
+    </div>
+    <div class="text-center">
+      <a href={ctaUrl} class="inline-flex items-center justify-center rounded-full bg-primary px-8 py-3 font-bold text-on-primary">
+        {ctaLabel}
+      </a>
+    </div>
+  </div>
+</section>

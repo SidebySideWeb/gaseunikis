@@ -6,8 +6,8 @@ import RegistrationHero from '../components/registration/RegistrationHero.astro'
 import RegistrationSteps from '../components/registration/RegistrationSteps.astro';
 import RegistrationDocuments from '../components/registration/RegistrationDocuments.astro';
 import RegistrationForm from '../components/registration/RegistrationForm';
-import { client } from '../lib/sanity';
-import { registrationPageQuery, siteSettingsQuery } from '../lib/queries';
+import { getRegistrationPage, getSiteSettings } from '../lib/queries';
+import { fetchWithFallback } from '../lib/fetch-with-fallback';
 import { defaultExperienceOptions, defaultSportOptions } from '../lib/fallbacks';
 import type { RegistrationPage, SiteSettings } from '../lib/types';
 
@@ -38,8 +38,8 @@ const defaultSettings: Pick<SiteSettings, 'phone' | 'address'> = {
 };
 
 const [fetchedPage, fetchedSettings] = await Promise.all([
-  client.fetch<RegistrationPage | null>(registrationPageQuery),
-  client.fetch<SiteSettings | null>(siteSettingsQuery),
+  fetchWithFallback(() => getRegistrationPage(), null, 'registrationPage'),
+  fetchWithFallback(() => getSiteSettings(), null, 'siteSettings'),
 ]);
 
 const page = { ...defaultPage, ...fetchedPage };
@@ -119,7 +119,7 @@ const faqItems = [
 
       <div class="lg:col-span-7">
         <RegistrationForm
-          client:load
+          client:idle
           formHeading={page.formHeading ?? ''}
           formDescription={page.formDescription ?? ''}
           formSubmitLabel={page.formSubmitLabel ?? ''}

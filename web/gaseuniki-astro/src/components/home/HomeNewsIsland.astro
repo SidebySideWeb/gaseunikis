@@ -1,0 +1,20 @@
+---
+import HomeNews from './HomeNews.astro';
+import { getLatestNews } from '../../lib/queries';
+import { fetchWithFallback } from '../../lib/fetch-with-fallback';
+import { resolveLatestNews } from '../../lib/home-content';
+import { defaultLatestNews } from '../../lib/fallbacks';
+
+interface Props {
+  heading: string;
+  ctaLabel: string;
+  ctaUrl: string;
+}
+
+const { heading, ctaLabel, ctaUrl } = Astro.props;
+
+const latestNews = await fetchWithFallback(() => getLatestNews(), [], 'latestNews');
+const posts = resolveLatestNews(latestNews, defaultLatestNews);
+---
+
+<HomeNews heading={heading} ctaLabel={ctaLabel} ctaUrl={ctaUrl} posts={posts} />

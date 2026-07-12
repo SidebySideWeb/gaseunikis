@@ -1,5 +1,6 @@
 ---
 import PlaceholderImage from '../ui/PlaceholderImage.astro';
+import type { ImageDelivery } from '../../lib/image';
 import { stitchImages } from '../../lib/stitch-images';
 
 interface Props {
@@ -7,7 +8,7 @@ interface Props {
   text: string;
   secondParagraph: string;
   yearsExperience: string;
-  imageUrl?: string;
+  image?: ImageDelivery;
   imageAlt?: string;
 }
 
@@ -16,9 +17,11 @@ const {
   text,
   secondParagraph,
   yearsExperience,
-  imageUrl = stitchImages.aboutCoach,
+  image,
   imageAlt = 'Προπονήτρια γυμναστικής',
 } = Astro.props;
+
+const aboutImage = image ?? { src: stitchImages.aboutCoach };
 ---
 
 <section class="bg-surface py-section-padding">
@@ -27,7 +30,7 @@ const {
       <div class="absolute -left-4 -top-4 -z-10 h-24 w-24 rounded-2xl bg-primary/20 transition-transform group-hover:translate-x-2 group-hover:translate-y-2"></div>
       <div class="absolute -bottom-4 -right-4 -z-10 h-24 w-24 rounded-2xl bg-secondary-container/30 transition-transform group-hover:-translate-x-2 group-hover:-translate-y-2"></div>
       <PlaceholderImage
-        src={imageUrl}
+        delivery={aboutImage}
         alt={imageAlt}
         class="h-[500px] w-full rounded-2xl border border-primary/10 object-cover shadow-xl"
       />

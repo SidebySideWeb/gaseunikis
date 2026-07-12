@@ -4,7 +4,7 @@ import Button from '../ui/Button.astro';
 import SectionHeader from '../ui/SectionHeader.astro';
 import type { Achievement, Stat } from '../../lib/types';
 import { homeSuccessFallbacks } from '../../lib/stitch-images';
-import { resolveImageUrl } from '../../lib/image';
+import { resolvePresetImage } from '../../lib/image';
 import { achievementUrl } from '../../lib/home-content';
 
 interface Props {
@@ -44,7 +44,11 @@ const medalIconColors: Record<string, string> = {
           <>
             <div class="relative h-48 overflow-hidden">
               <PlaceholderImage
-                src={resolveImageUrl(item.image, homeSuccessFallbacks[index % homeSuccessFallbacks.length])}
+                delivery={resolvePresetImage(
+                  item.image,
+                  homeSuccessFallbacks[index % homeSuccessFallbacks.length],
+                  'card',
+                )}
                 alt={item.image?.alt ?? item.athleteName ?? item.title}
                 class="h-full w-full object-cover transition-transform duration-500 group-hover:scale-105"
               />

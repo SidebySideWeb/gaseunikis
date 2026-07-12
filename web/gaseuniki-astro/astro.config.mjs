@@ -36,7 +36,7 @@ export default defineConfig({
     sanity({
       projectId: SANITY_PROJECT_ID,
       dataset: SANITY_DATASET,
-      useCdn: false,
+      useCdn: true,
     }),
   ],
 });

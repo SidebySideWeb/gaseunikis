@@ -1,22 +1,18 @@
 ---
 import ClubLogoMark from './ClubLogoMark.astro';
-import { buildFooterUsefulLinks, defaultSiteSettings } from '../lib/fallbacks';
-import { fetchWithFallback } from '../lib/fetch-with-fallback';
-import { getSiteSettings } from '../lib/queries';
+import { buildFooterUsefulLinks } from '../lib/fallbacks';
 import { dedupeNavCtaFromLinks, resolveNavCta, resolveNavLinks } from '../lib/nav-links';
-import { getImageUrl } from '../lib/image';
+import { getImageUrl, IMAGE_PRESETS } from '../lib/image';
 import type { SiteSettings } from '../lib/types';
 
-const fetchedSettings = await fetchWithFallback(
-  () => getSiteSettings(),
-  null,
-  'siteSettings (footer)',
-);
-const settings: SiteSettings = { ...defaultSiteSettings, ...fetchedSettings };
+export interface Props {
+  settings: SiteSettings;
+}
+
+const { settings } = Astro.props;
 
 const clubName = settings?.clubName ?? 'ΓΑΣ ΕΥΝΙΚΗ';
-const logoUrl =
-  settings?.logoUrl ?? getImageUrl(settings?.logo, { width: 104, height: 104, quality: 90 });
+const logoUrl = getImageUrl(settings?.logo, IMAGE_PRESETS.logoFooter) ?? '/favicon.png';
 const logoAlt = settings?.logo?.alt ?? `${clubName} Logo`;
 const tagline =
   settings?.footerTagline ??

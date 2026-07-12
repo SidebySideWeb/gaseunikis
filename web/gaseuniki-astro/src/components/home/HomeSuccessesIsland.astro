@@ -1,0 +1,31 @@
+---
+import HomeSuccesses from './HomeSuccesses.astro';
+import { getHomeSuccessesFeed } from '../../lib/queries';
+import { fetchWithFallback } from '../../lib/fetch-with-fallback';
+import { resolveHomeSuccesses } from '../../lib/home-content';
+import { defaultFeaturedSuccesses } from '../../lib/fallbacks';
+import type { Achievement, Stat } from '../../lib/types';
+
+interface Props {
+  heading: string;
+  subheading: string;
+  stats: Stat[];
+  ctaLabel: string;
+  ctaUrl: string;
+}
+
+const { heading, subheading, stats, ctaLabel, ctaUrl } = Astro.props;
+
+const emptyFeed = { selected: [], featured: [] };
+const feed = await fetchWithFallback(() => getHomeSuccessesFeed(), emptyFeed, 'homeSuccessesFeed');
+const items = resolveHomeSuccesses(feed.selected, feed.featured, defaultFeaturedSuccesses);
+---
+
+<HomeSuccesses
+  heading={heading}
+  subheading={subheading}
+  items={items as Achievement[]}
+  stats={stats}
+  ctaLabel={ctaLabel}
+  ctaUrl={ctaUrl}
+/>

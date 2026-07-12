@@ -1,12 +1,13 @@
 ---
-import Layout from '../layouts/Layout.astro';
-import BreadcrumbSchema from '../components/schema/BreadcrumbSchema.astro';
+export const prerender = true;
+
+import Layout from '../layouts/Layout.astro';import BreadcrumbSchema from '../components/schema/BreadcrumbSchema.astro';
 import ContactHero from '../components/contact/ContactHero.astro';
 import ContactInfo from '../components/contact/ContactInfo.astro';
 import ContactForm from '../components/contact/ContactForm';
 import ContactMap from '../components/contact/ContactMap.astro';
-import { client } from '../lib/sanity';
-import { contactPageQuery, siteSettingsQuery } from '../lib/queries';
+import { getContactPage, getSiteSettings } from '../lib/queries';
+import { fetchWithFallback } from '../lib/fetch-with-fallback';
 import { defaultSiteSettings, defaultSubjectOptions } from '../lib/fallbacks';
 import type { ContactPage, SiteSettings } from '../lib/types';
 
@@ -24,8 +25,8 @@ const defaultPage: ContactPage = {
 };
 
 const [fetchedPage, fetchedSettings] = await Promise.all([
-  client.fetch<ContactPage | null>(contactPageQuery),
-  client.fetch<SiteSettings | null>(siteSettingsQuery),
+  fetchWithFallback(() => getContactPage(), null, 'contactPage'),
+  fetchWithFallback(() => getSiteSettings(), null, 'siteSettings'),
 ]);
 
 const page = { ...defaultPage, ...fetchedPage };
@@ -63,7 +64,7 @@ const pageDescription =
           instagramUrl={settings.instagramUrl}
         />
         <ContactForm
-          client:load
+          client:idle
           formHeading={page.formHeading ?? ''}
           formSubmitLabel={page.formSubmitLabel ?? ''}
           subjectOptions={page.subjectOptions?.length ? page.subjectOptions : defaultSubjectOptions}

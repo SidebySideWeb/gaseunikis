@@ -51,6 +51,6 @@ const pageDescription =
       label={page.heroLabel ?? ''}
       text={page.heroText ?? ''}
     />
-    <SuccessesFilter client:load items={displayAchievements} filterLabels={page.filterLabels ?? defaultPage.filterLabels!} />
+    <SuccessesFilter client:visible items={displayAchievements} filterLabels={page.filterLabels ?? defaultPage.filterLabels!} />
   </main>
 </Layout>

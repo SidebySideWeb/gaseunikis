@@ -2,7 +2,7 @@
 import PlaceholderImage from '../ui/PlaceholderImage.astro';
 import type { NewsItem } from '../../lib/types';
 import { homeNewsFallbacks } from '../../lib/stitch-images';
-import { resolveImageUrl } from '../../lib/image';
+import { resolvePresetImage } from '../../lib/image';
 import { formatNewsDate, newsUrl } from '../../lib/home-content';
 
 interface Props {
@@ -31,7 +31,11 @@ const { heading, ctaLabel, ctaUrl, posts } = Astro.props;
           <a href={newsUrl(post)} class="block no-underline text-inherit">
             <div class="h-48 overflow-hidden">
               <PlaceholderImage
-                src={resolveImageUrl(post.featuredImage, homeNewsFallbacks[index % homeNewsFallbacks.length])}
+                delivery={resolvePresetImage(
+                  post.featuredImage,
+                  homeNewsFallbacks[index % homeNewsFallbacks.length],
+                  'card',
+                )}
                 alt={post.featuredImage?.alt ?? post.title}
                 class="h-full w-full object-cover transition-transform duration-500 group-hover:scale-105"
               />

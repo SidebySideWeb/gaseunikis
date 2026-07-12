@@ -5,7 +5,7 @@ import PlaceholderImage from '../../components/ui/PlaceholderImage.astro';
 import { PortableText } from 'astro-portabletext';
 import { client } from '../../lib/sanity';
 import { newsPostBySlugQuery } from '../../lib/queries';
-import { resolveImageUrl } from '../../lib/image';
+import { resolvePresetImage } from '../../lib/image';
 import { homeNewsFallbacks } from '../../lib/stitch-images';
 import type { NewsItem } from '../../lib/types';
 
@@ -21,10 +21,10 @@ const pageTitle = post?.seo?.title ?? post?.title ?? 'Νέο Άρθρο';
 const pageDescription =
   post?.seo?.description ?? post?.excerpt ?? 'Άρθρο νέων του ΓΑΣ Ευνίκη Ελευσίνας.';
 const ogImage = post?.featuredImage
-  ? resolveImageUrl(post.featuredImage, homeNewsFallbacks[0])
+  ? resolvePresetImage(post.featuredImage, homeNewsFallbacks[0], 'halfWidth').src
   : undefined;
-const featuredImageUrl = post?.featuredImage
-  ? resolveImageUrl(post.featuredImage, homeNewsFallbacks[0], { width: 1200, quality: 85 })
+const featuredImage = post?.featuredImage
+  ? resolvePresetImage(post.featuredImage, homeNewsFallbacks[0], 'halfWidth')
   : undefined;
 const formattedDate = post?.publishedDate
   ? new Date(post.publishedDate).toLocaleDateString('el-GR', {
@@ -54,9 +54,9 @@ const formattedDate = post?.publishedDate
     <article class="max-w-container-max-width mx-auto">
       {post ? (
         <>
-          {featuredImageUrl && (
+          {featuredImage && (
             <PlaceholderImage
-              src={featuredImageUrl}
+              delivery={featuredImage}
               alt={post.featuredImage?.alt ?? post.title}
               class="mb-10 aspect-[16/9] w-full rounded-3xl object-cover shadow-card"
             />

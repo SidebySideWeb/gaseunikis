@@ -2,7 +2,7 @@
 import PlaceholderImage from '../ui/PlaceholderImage.astro';
 import type { GalleryImage } from '../../lib/types';
 import { getGalleryFallback } from '../../lib/stitch-images';
-import { resolveImageUrl } from '../../lib/image';
+import { resolvePresetImage } from '../../lib/image';
 
 interface Props {
   heading: string;
@@ -24,7 +24,7 @@ const { heading, subheading, items } = Astro.props;
       {items.map((item, index) => (
         <figure class="group relative h-[400px] overflow-hidden rounded-2xl ring-1 ring-primary/20">
           <PlaceholderImage
-            src={resolveImageUrl(item.image, getGalleryFallback(index))}
+            delivery={resolvePresetImage(item.image, getGalleryFallback(index), 'gallery')}
             alt={item.image?.alt ?? item.caption ?? 'Στιγμή προπόνησης'}
             class="h-full w-full object-cover transition-transform duration-700 group-hover:scale-110"
           />

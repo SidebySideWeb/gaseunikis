@@ -2,7 +2,7 @@
 import type { NewsItem } from '../../lib/types';
 import PlaceholderImage from '../ui/PlaceholderImage.astro';
 import { newsPageFallbacks } from '../../lib/stitch-images';
-import { resolveImageUrl } from '../../lib/image';
+import { resolvePresetImage } from '../../lib/image';
 
 interface Props {
   items: NewsItem[];
@@ -32,7 +32,11 @@ function formatDate(dateStr: string): string {
       <article class={`card-hover bg-white rounded-2xl overflow-hidden shadow-sm border-t-4 ${borderColor}`}>
         <div class="relative h-56 overflow-hidden">
           <PlaceholderImage
-            src={resolveImageUrl(item.featuredImage, newsPageFallbacks[index % newsPageFallbacks.length])}
+            delivery={resolvePresetImage(
+              item.featuredImage,
+              newsPageFallbacks[index % newsPageFallbacks.length],
+              'card',
+            )}
             alt={item.featuredImage?.alt ?? item.title}
             class="h-full w-full object-cover"
           />

@@ -1,6 +1,6 @@
 ---
 import type { ScheduleSlot } from '../../lib/types';
-import { getImageUrl } from '../../lib/image';
+import { getImageUrl, IMAGE_PRESETS } from '../../lib/image';
 import { parseOpeningHours, stripUndefined } from '../../lib/utils';
 import { resolveSiteOrigin } from '../../lib/site-url';
 
@@ -36,11 +36,9 @@ const clubFullName = settings.clubFullName ?? 'ΓΑΣ Ευνίκη Ελευσί�
 const clubName = settings.clubName ?? 'ΓΑΣ ΕΥΝΙΚΗ';
 const foundedYear = settings.foundedYear ?? '1993';
 const logo =
-  settings.logoUrl ?? getImageUrl(settings.logo) ?? `${siteOrigin}/images/logo.png`;
+  getImageUrl(settings.logo, IMAGE_PRESETS.logoNav) ?? `${siteOrigin}/favicon.png`;
 const image =
-  settings.defaultOgImageUrl ??
-  getImageUrl(settings.defaultOgImage) ??
-  `${siteOrigin}/images/og-default.jpg`;
+  getImageUrl(settings.defaultOgImage, IMAGE_PRESETS.og) ?? `${siteOrigin}/images/og-default.jpg`;
 
 const openingHours = settings.openingHours?.length
   ? parseOpeningHours(settings.openingHours)

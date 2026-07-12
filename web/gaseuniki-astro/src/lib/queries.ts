@@ -1,4 +1,5 @@
 import { client } from './sanity';
+import { cachedSanityQuery } from './sanity-cache';
 import type {
   AboutPage,
   Achievement,
@@ -369,58 +370,330 @@ export const paginatedNewsQuery = `*[_type == "newsPost"] | order(publishedDate 
 
 export const newsCountQuery = `count(*[_type == "newsPost"])`;
 
+const achievementCardFields = `
+  _id,
+  title,
+  slug,
+  category,
+  medalType,
+  athleteName,
+  competition,
+  year,
+  description,
+  featured,
+  image { ${imageFields} }
+`;
+
+const newsCardFields = `
+  _id,
+  title,
+  slug,
+  publishedDate,
+  excerpt,
+  featuredImage { ${imageFields} },
+  readMoreLabel
+`;
+
+const homeSectionsPreviewFields = `
+  rhythmicHeading,
+  rhythmicDescription,
+  rhythmicCategoryHeading,
+  rhythmicCompetitive[] {
+    name,
+    badge,
+    description,
+    ageRange,
+    schedule,
+    icon
+  },
+  rhythmicMassHeading,
+  rhythmicMass[] {
+    name,
+    badge,
+    description,
+    ageRange,
+    schedule,
+    icon
+  },
+  gymnHeading,
+  gymnDescription,
+  gymSections[] {
+    name,
+    badge,
+    description,
+    ageRange,
+    schedule,
+    icon
+  }
+`;
+
+export interface HomepageBundle {
+  homePage: HomePage | null;
+  sectionsPage: SectionsPage | null;
+  latestNews: NewsItem[];
+  featuredEpitychies: Achievement[];
+  siteSettings: SiteSettings | null;
+}
+
+export interface HomepageStaticBundle {
+  homePage: HomePage | null;
+  sectionsPage: SectionsPage | null;
+  siteSettings: SiteSettings | null;
+}
+
+export interface HomeSuccessesFeed {
+  selected: Achievement[];
+  featured: Achievement[];
+}
+
+/** Single round-trip for the homepage (reduces SSR latency vs. 5 separate fetches). */
+export const homepageBundleQuery = `{
+  "homePage": *[_type == "homePage"][0] {
+    heroBadge,
+    heroHeading,
+    heroSubheading,
+    heroQuote,
+    heroPrimaryCtaLabel,
+    heroPrimaryCtaUrl,
+    heroSecondaryCtaLabel,
+    heroSecondaryCtaUrl,
+    heroImage { ${imageFields} },
+    aboutHeading,
+    aboutText,
+    aboutAccreditedBy,
+    aboutSecondParagraph,
+    aboutImage { ${imageFields} },
+    yearsExperience,
+    sectionsHeading,
+    sectionsCtaLabel,
+    sectionsCtaUrl,
+    galleryHeading,
+    gallerySubheading,
+    galleryImages[] {
+      image { ${imageFields} },
+      caption
+    },
+    successesHeading,
+    successesSubheading,
+    successesCtaLabel,
+    successesCtaUrl,
+    featuredSuccesses[]-> { ${achievementCardFields} },
+    stats[] { value, label },
+    newsHeading,
+    newsCtaLabel,
+    newsCtaUrl,
+    whyHeading,
+    whyItems[] { icon, title, description },
+    whyImage { ${imageFields} },
+    sponsorsHeading,
+    sponsors[] { name, logo { ${imageFields} } },
+    ctaHeading,
+    ctaText,
+    ctaButtonLabel,
+    ctaButtonUrl,
+    ${seoFields}
+  },
+  "sectionsPage": *[_type == "sectionsPage"][0] { ${homeSectionsPreviewFields} },
+  "latestNews": *[_type == "newsPost"] | order(publishedDate desc)[0...3] { ${newsCardFields} },
+  "featuredEpitychies": *[_type == "epitychies" && featured == true] | order(year desc)[0...6] { ${achievementCardFields} },
+  "siteSettings": *[_type == "siteSettings"][0] {
+    clubName,
+    clubFullName,
+    foundedYear,
+    address,
+    addressStreet,
+    addressLocality,
+    addressRegion,
+    postalCode,
+    phone,
+    email,
+    footerTagline,
+    footerCopyright,
+    egoUrl,
+    figUrl,
+    facebookUrl,
+    instagramUrl,
+    navCtaLabel,
+    navCtaUrl,
+    navLinks[] { label, url },
+    footerUsefulLinks[] { label, url },
+    openingHours[] { day, hours },
+    defaultSeoTitle,
+    logo { ${imageFields} },
+    defaultOgImage { ${imageFields} },
+    mapUrl
+  }
+}`;
+
+export function getHomepageBundle() {
+  return cachedSanityQuery('homepageBundle', () =>
+    client.fetch<HomepageBundle>(homepageBundleQuery),
+  );
+}
+
+/** Homepage shell at build time — excludes news and achievements (rendered via server islands). */
+export const homepageStaticBundleQuery = `{
+  "homePage": *[_type == "homePage"][0] {
+    heroBadge,
+    heroHeading,
+    heroSubheading,
+    heroQuote,
+    heroPrimaryCtaLabel,
+    heroPrimaryCtaUrl,
+    heroSecondaryCtaLabel,
+    heroSecondaryCtaUrl,
+    heroImage { ${imageFields} },
+    aboutHeading,
+    aboutText,
+    aboutAccreditedBy,
+    aboutSecondParagraph,
+    aboutImage { ${imageFields} },
+    yearsExperience,
+    sectionsHeading,
+    sectionsCtaLabel,
+    sectionsCtaUrl,
+    galleryHeading,
+    gallerySubheading,
+    galleryImages[] {
+      image { ${imageFields} },
+      caption
+    },
+    successesHeading,
+    successesSubheading,
+    successesCtaLabel,
+    successesCtaUrl,
+    stats[] { value, label },
+    newsHeading,
+    newsCtaLabel,
+    newsCtaUrl,
+    whyHeading,
+    whyItems[] { icon, title, description },
+    whyImage { ${imageFields} },
+    sponsorsHeading,
+    sponsors[] { name, logo { ${imageFields} } },
+    ctaHeading,
+    ctaText,
+    ctaButtonLabel,
+    ctaButtonUrl,
+    ${seoFields}
+  },
+  "sectionsPage": *[_type == "sectionsPage"][0] { ${homeSectionsPreviewFields} },
+  "siteSettings": *[_type == "siteSettings"][0] {
+    clubName,
+    clubFullName,
+    foundedYear,
+    address,
+    addressStreet,
+    addressLocality,
+    addressRegion,
+    postalCode,
+    phone,
+    email,
+    footerTagline,
+    footerCopyright,
+    egoUrl,
+    figUrl,
+    facebookUrl,
+    instagramUrl,
+    navCtaLabel,
+    navCtaUrl,
+    navLinks[] { label, url },
+    footerUsefulLinks[] { label, url },
+    openingHours[] { day, hours },
+    defaultSeoTitle,
+    logo { ${imageFields} },
+    defaultOgImage { ${imageFields} },
+    mapUrl
+  }
+}`;
+
+export function getHomepageStaticBundle() {
+  return cachedSanityQuery('homepageStaticBundle', () =>
+    client.fetch<HomepageStaticBundle>(homepageStaticBundleQuery),
+  );
+}
+
+const homeSuccessesFeedQuery = `{
+  "selected": *[_type == "homePage"][0].featuredSuccesses[]-> { ${achievementCardFields} },
+  "featured": *[_type == "epitychies" && featured == true] | order(year desc)[0...6] { ${achievementCardFields} }
+}`;
+
+export function getHomeSuccessesFeed() {
+  return cachedSanityQuery('homeSuccessesFeed', () =>
+    client.fetch<HomeSuccessesFeed>(homeSuccessesFeedQuery),
+  );
+}
+
 export function getSiteSettings() {
-  return client.fetch<SiteSettings | null>(siteSettingsQuery);
+  return cachedSanityQuery('siteSettings', () =>
+    client.fetch<SiteSettings | null>(siteSettingsQuery),
+  );
 }
 
 export function getHomePage() {
-  return client.fetch<HomePage | null>(homePageQuery);
+  return cachedSanityQuery('homePage', () => client.fetch<HomePage | null>(homePageQuery));
 }
 
 export function getAboutPage() {
-  return client.fetch<AboutPage | null>(aboutPageQuery);
+  return cachedSanityQuery('aboutPage', () => client.fetch<AboutPage | null>(aboutPageQuery));
 }
 
 export function getSectionsPage() {
-  return client.fetch<SectionsPage | null>(sectionsPageQuery);
+  return cachedSanityQuery('sectionsPage', () =>
+    client.fetch<SectionsPage | null>(sectionsPageQuery),
+  );
 }
 
 export function getEpitychiesPage() {
-  return client.fetch<EpitychiesPage | null>(epitychiesPageQuery);
+  return cachedSanityQuery('epitychiesPage', () =>
+    client.fetch<EpitychiesPage | null>(epitychiesPageQuery),
+  );
 }
 
 export function getEpitychies() {
-  return client.fetch<Achievement[]>(epitychiesListQuery);
+  return cachedSanityQuery('epitychiesList', () =>
+    client.fetch<Achievement[]>(epitychiesListQuery),
+  );
 }
 
 export function getFeaturedEpitychies() {
-  return client.fetch<Achievement[]>(featuredEpitychiesQuery);
+  return cachedSanityQuery('featuredEpitychies', () =>
+    client.fetch<Achievement[]>(featuredEpitychiesQuery),
+  );
 }
 
 export function getNewsIndexPage() {
-  return client.fetch<NewsIndexPage | null>(newsIndexPageQuery);
+  return cachedSanityQuery('newsIndexPage', () =>
+    client.fetch<NewsIndexPage | null>(newsIndexPageQuery),
+  );
 }
 
 export function getLatestNews() {
-  return client.fetch<NewsItem[]>(latestNewsQuery);
+  return cachedSanityQuery('latestNews', () => client.fetch<NewsItem[]>(latestNewsQuery));
 }
 
 export function getNewsPosts() {
-  return client.fetch<NewsItem[]>(newsPostListQuery);
+  return cachedSanityQuery('newsPosts', () => client.fetch<NewsItem[]>(newsPostListQuery));
 }
 
 export function getPaginatedNews(start: number, end: number) {
-  return client.fetch<NewsItem[]>(paginatedNewsQuery, { start, end });
+  return cachedSanityQuery(`newsPage:${start}-${end}`, () =>
+    client.fetch<NewsItem[]>(paginatedNewsQuery, { start, end }),
+  );
 }
 
 export function getNewsCount() {
-  return client.fetch<number>(newsCountQuery);
+  return cachedSanityQuery('newsCount', () => client.fetch<number>(newsCountQuery));
 }
 
 export function getRegistrationPage() {
-  return client.fetch<RegistrationPage | null>(registrationPageQuery);
+  return cachedSanityQuery('registrationPage', () =>
+    client.fetch<RegistrationPage | null>(registrationPageQuery),
+  );
 }
 
 export function getContactPage() {
-  return client.fetch<ContactPage | null>(contactPageQuery);
+  return cachedSanityQuery('contactPage', () =>
+    client.fetch<ContactPage | null>(contactPageQuery),
+  );
 }
