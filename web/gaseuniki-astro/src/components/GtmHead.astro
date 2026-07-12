@@ -9,6 +9,8 @@ const { gtmId } = Astro.props;
 <!-- Google Tag Manager (loads on first user interaction — keeps Lighthouse clean) -->
 <script is:inline define:vars={{ gtmId }}>
   (function () {
+    window.dataLayer = window.dataLayer || [];
+
     function loadGtm() {
       if (window.__gaseunikiGtmLoaded) return;
       window.__gaseunikiGtmLoaded = true;

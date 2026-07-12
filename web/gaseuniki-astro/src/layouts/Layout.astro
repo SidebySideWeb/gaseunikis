@@ -5,6 +5,7 @@ import SeoHead from '../components/SeoHead.astro';
 import LocalBusinessSchema from '../components/schema/LocalBusinessSchema.astro';
 import GtmHead from '../components/GtmHead.astro';
 import GtmBody from '../components/GtmBody.astro';
+import CookieConsent from '../components/CookieConsent.astro';
 import { getSiteSettings } from '../lib/gaseuniki';
 import { defaultSiteSettings } from '../lib/fallbacks';
 import { fetchWithFallback } from '../lib/fetch-with-fallback';
@@ -56,6 +57,7 @@ const lcpPreloadHref = lcpImage ? getLcpPreloadHref(lcpImage) : undefined;
 <html lang="el">
   <head>
     <meta charset="utf-8" />
+    <CookieConsent />
     {gtmId ? <GtmHead gtmId={gtmId} /> : null}
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <link rel="preconnect" href="https://cdn.sanity.io" crossorigin />
