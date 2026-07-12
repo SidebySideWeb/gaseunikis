@@ -1,22 +1,45 @@
 ---
+export const prerender = true;
+
 import Layout from '../../layouts/Layout.astro';
 import BreadcrumbSchema from '../../components/schema/BreadcrumbSchema.astro';
 import ContentPageArticle from '../../components/content/ContentPageArticle.astro';
-import { getContentPageBySlug } from '../../lib/queries';
-import { fetchWithFallback } from '../../lib/fetch-with-fallback';
+import { client } from '../../lib/sanity';
+import { contentPageBySlugQuery, contentPageSlugsQuery } from '../../lib/queries';
 import type { ContentPage } from '../../lib/types';
 
+interface Props {
+  page: ContentPage;
+}
+
+export async function getStaticPaths() {
+  let slugs: { slug: string }[] = [];
+
+  try {
+    slugs = await client.fetch<{ slug: string }[]>(contentPageSlugsQuery);
+  } catch {
+    return [];
+  }
+
+  const paths = await Promise.all(
+    slugs.map(async ({ slug }) => {
+      try {
+        const page = await client.fetch<ContentPage | null>(contentPageBySlugQuery, { slug });
+        if (!page?.title) {
+          return null;
+        }
+        return { params: { slug }, props: { page } };
+      } catch {
+        return null;
+      }
+    }),
+  );
+
+  return paths.filter((path): path is NonNullable<typeof path> => path !== null);
+}
+
+const { page } = Astro.props;
 const { slug } = Astro.params;
-
-let page: ContentPage | null = null;
-
-if (slug) {
-  page = await fetchWithFallback(() => getContentPageBySlug(slug), null, 'contentPageBySlug');
-}
-
-if (!page?.title) {
-  return new Response(null, { status: 404, statusText: 'Not Found' });
-}
 
 const currentPath = `/selida/${slug}`;
 const pageTitle = page.seo?.title ?? page.title ?? 'Σελίδα';

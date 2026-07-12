@@ -353,6 +353,10 @@ export const contentPageBySlugQuery = `*[_type == "contentPage" && slug.current 
   ${seoFields}
 }`;
 
+export const contentPageSlugsQuery = `*[_type == "contentPage" && defined(slug.current)] {
+  "slug": slug.current
+}`;
+
 export const newsPostBySlugQuery = `*[_type == "newsPost" && slug.current == $slug][0] {
   _id,
   title,
