@@ -5,6 +5,7 @@ import {
   isPreviewAuthBypassPath,
   isPreviewAuthEnabled,
   isPublicAssetPath,
+  previewAuthResponseHeaders,
   safeReturnPath,
 } from './lib/preview-auth';
 
@@ -43,7 +44,11 @@ export const onRequest = defineMiddleware(async (context, next) => {
       // Browsers on Vercel often ignore WWW-Authenticate — send them to a login form.
       const loginUrl = new URL('/preview-login', context.url);
       loginUrl.searchParams.set('return', safeReturnPath(pathname + context.url.search));
-      return context.redirect(loginUrl.toString());
+      const response = context.redirect(loginUrl.toString());
+      for (const [key, value] of Object.entries(previewAuthResponseHeaders())) {
+        response.headers.set(key, value);
+      }
+      return response;
     }
   }
 

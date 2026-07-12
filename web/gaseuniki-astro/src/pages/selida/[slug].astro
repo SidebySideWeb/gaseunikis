@@ -1,5 +1,7 @@
 ---
-export const prerender = true;
+import { shouldPrerenderForPreviewAuth } from '../../lib/preview-auth';
+
+export const prerender = shouldPrerenderForPreviewAuth();
 
 import Layout from '../../layouts/Layout.astro';
 import BreadcrumbSchema from '../../components/schema/BreadcrumbSchema.astro';
@@ -7,10 +9,6 @@ import ContentPageArticle from '../../components/content/ContentPageArticle.astr
 import { client } from '../../lib/sanity';
 import { contentPageBySlugQuery, contentPageSlugsQuery } from '../../lib/queries';
 import type { ContentPage } from '../../lib/types';
-
-interface Props {
-  page: ContentPage;
-}
 
 export async function getStaticPaths() {
   let slugs: { slug: string }[] = [];
@@ -38,8 +36,16 @@ export async function getStaticPaths() {
   return paths.filter((path): path is NonNullable<typeof path> => path !== null);
 }
 
-const { page } = Astro.props;
 const { slug } = Astro.params;
+let page: ContentPage | null = Astro.props.page ?? null;
+
+if (!page && slug) {
+  page = await client.fetch<ContentPage | null>(contentPageBySlugQuery, { slug });
+}
+
+if (!page?.title) {
+  return Astro.redirect('/404');
+}
 
 const currentPath = `/selida/${slug}`;
 const pageTitle = page.seo?.title ?? page.title ?? 'Σελίδα';

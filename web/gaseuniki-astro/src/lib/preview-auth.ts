@@ -1,7 +1,21 @@
 const PREVIEW_AUTH_COOKIE = 'preview_auth';
 
+/** Prevent prerender when preview lock is on so middleware runs on every page. */
+export function shouldPrerenderForPreviewAuth(): boolean {
+  return !isPreviewAuthEnabled();
+}
+
 export function isPreviewAuthEnabled(): boolean {
   return Boolean(import.meta.env.BASIC_AUTH_USER && import.meta.env.BASIC_AUTH_PASS);
+}
+
+/** Keep auth redirects and HTML out of CDN caches (Cloudflare + Vercel). */
+export function previewAuthResponseHeaders(): HeadersInit {
+  return {
+    'Cache-Control': 'private, no-store, must-revalidate',
+    'CDN-Cache-Control': 'no-store',
+    Vary: 'Cookie',
+  };
 }
 
 export function arePreviewCredentialsValid(username: string, password: string): boolean {

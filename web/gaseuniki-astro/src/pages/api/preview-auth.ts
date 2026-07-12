@@ -2,6 +2,7 @@ import type { APIRoute } from 'astro';
 import {
   arePreviewCredentialsValid,
   isPreviewAuthEnabled,
+  previewAuthResponseHeaders,
   safeReturnPath,
   setPreviewCookie,
 } from '../../lib/preview-auth';
@@ -22,9 +23,18 @@ export const POST: APIRoute = async ({ request, cookies, redirect }) => {
     const loginUrl = new URL('/preview-login', request.url);
     loginUrl.searchParams.set('return', returnPath);
     loginUrl.searchParams.set('error', '1');
-    return redirect(loginUrl.toString());
+    const response = redirect(loginUrl.toString());
+    for (const [key, value] of Object.entries(previewAuthResponseHeaders())) {
+      response.headers.set(key, value);
+    }
+    return response;
   }
 
   setPreviewCookie(cookies);
-  return redirect(returnPath);
+  const destination = new URL(returnPath, request.url).toString();
+  const response = redirect(destination);
+  for (const [key, value] of Object.entries(previewAuthResponseHeaders())) {
+    response.headers.set(key, value);
+  }
+  return response;
 };

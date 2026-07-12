@@ -1,5 +1,7 @@
 ---
-export const prerender = true;
+import { shouldPrerenderForPreviewAuth } from '../lib/preview-auth';
+
+export const prerender = shouldPrerenderForPreviewAuth();
 
 import Layout from '../layouts/Layout.astro';
 import HomeHero from '../components/home/HomeHero.astro';

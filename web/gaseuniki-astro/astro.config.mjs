@@ -13,6 +13,13 @@ export default defineConfig({
   // Server-rendered pages: Sanity content updates appear on the next request (no redeploy).
   output: 'server',
   adapter: vercel(),
+  // Trust X-Forwarded-* from Cloudflare/Vercel so form POSTs pass Astro CSRF checks.
+  security: {
+    allowedDomains: [
+      { hostname: 'www.gaseuniki.gr', protocol: 'https' },
+      { hostname: 'gaseuniki.gr', protocol: 'https' },
+    ],
+  },
   build: {
     // Inline CSS into HTML — avoids a render-blocking external stylesheet request (~13 KiB Layout.css).
     inlineStylesheets: 'always',
