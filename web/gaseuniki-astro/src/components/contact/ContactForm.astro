@@ -5,9 +5,15 @@ interface Props {
   formHeading: string;
   formSubmitLabel: string;
   subjectOptions: string[];
+  privacyCheckboxLabel?: string;
 }
 
-const { formHeading, formSubmitLabel, subjectOptions } = Astro.props;
+const {
+  formHeading,
+  formSubmitLabel,
+  subjectOptions,
+  privacyCheckboxLabel = 'Αποδέχομαι την επεξεργασία των δεδομένων μου για τους σκοπούς της εγγραφής σύμφωνα με την πολιτική απορρήτου του συλλόγου.',
+} = Astro.props;
 
 const inputClass =
   'w-full bg-surface-container-low border-none rounded-xl focus:ring-2 focus:ring-primary py-4 px-5 transition-all outline-none';
@@ -87,6 +93,19 @@ const inputClass =
         ></textarea>
       </div>
 
+      <div class="flex items-start gap-3">
+        <input
+          id="privacyAccepted"
+          name="privacyAccepted"
+          type="checkbox"
+          required
+          class="mt-1 h-5 w-5 rounded border-outline-variant text-primary focus:ring-primary"
+        />
+        <label class="text-sm text-on-surface-variant" for="privacyAccepted">
+          {privacyCheckboxLabel}
+        </label>
+      </div>
+
       <RecaptchaWidget widgetKey="contact" />
 
       <button
@@ -141,9 +160,15 @@ const inputClass =
       const phone = String(data.get('phone') ?? '').trim();
       const subject = String(data.get('subject') ?? '').trim();
       const message = String(data.get('message') ?? '').trim();
+      const privacyAccepted = data.get('privacyAccepted') === 'on';
 
       if (!fullName || !email || !phone || !message) {
         showError('Συμπληρώστε όλα τα υποχρεωτικά πεδία.');
+        return;
+      }
+
+      if (!privacyAccepted) {
+        showError('Πρέπει να αποδεχτείτε την επεξεργασία των δεδομένων σας.');
         return;
       }
 
@@ -159,7 +184,15 @@ const inputClass =
         const response = await fetch('/api/contact', {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({ fullName, email, phone, subject, message, recaptchaToken }),
+          body: JSON.stringify({
+            fullName,
+            email,
+            phone,
+            subject,
+            message,
+            recaptchaToken,
+            privacyAccepted: true,
+          }),
         });
 
         if (!response.ok) {

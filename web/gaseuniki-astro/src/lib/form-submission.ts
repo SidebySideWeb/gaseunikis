@@ -6,6 +6,7 @@ type ContactPayload = {
   phone: string;
   subject: string;
   message: string;
+  privacyAccepted: boolean;
 };
 
 type RegistrationPayload = {
@@ -33,6 +34,7 @@ export async function saveContactSubmission(payload: ContactPayload) {
     phone: payload.phone,
     subject: payload.subject,
     message: payload.message,
+    privacyAccepted: payload.privacyAccepted,
     submittedAt: new Date().toISOString(),
     read: false,
     starred: false,
