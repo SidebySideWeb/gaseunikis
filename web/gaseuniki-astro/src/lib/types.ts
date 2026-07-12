@@ -120,6 +120,15 @@ export interface NewsItem {
   seo?: Seo;
 }
 
+export interface ContentPage {
+  title?: string;
+  slug?: string;
+  intro?: string;
+  body?: unknown[];
+  lastUpdated?: string;
+  seo?: Seo;
+}
+
 export interface SiteSettings {
   clubName?: string;
   clubFullName?: string;

@@ -1,0 +1,43 @@
+---
+import Layout from '../../layouts/Layout.astro';
+import BreadcrumbSchema from '../../components/schema/BreadcrumbSchema.astro';
+import ContentPageArticle from '../../components/content/ContentPageArticle.astro';
+import { getContentPageBySlug } from '../../lib/queries';
+import { fetchWithFallback } from '../../lib/fetch-with-fallback';
+import type { ContentPage } from '../../lib/types';
+
+const { slug } = Astro.params;
+
+let page: ContentPage | null = null;
+
+if (slug) {
+  page = await fetchWithFallback(() => getContentPageBySlug(slug), null, 'contentPageBySlug');
+}
+
+if (!page?.title) {
+  return new Response(null, { status: 404, statusText: 'Not Found' });
+}
+
+const currentPath = `/selida/${slug}`;
+const pageTitle = page.seo?.title ?? page.title ?? 'Σελίδα';
+const pageDescription =
+  page.seo?.description ?? page.intro ?? `${page.title} — ΓΑΣ Ευνίκη Ελευσίνας.`;
+---
+
+<Layout
+  title={pageTitle}
+  description={pageDescription}
+  currentPath={currentPath}
+  noIndex={page.seo?.noIndex}
+>
+  <BreadcrumbSchema
+    slot="schema"
+    items={[
+      { name: 'Αρχική', url: '/' },
+      { name: page.title ?? 'Σελίδα', url: currentPath },
+    ]}
+  />
+  <main class="pt-32 pb-section-padding px-gutter">
+    <ContentPageArticle page={page} />
+  </main>
+</Layout>

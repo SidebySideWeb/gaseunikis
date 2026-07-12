@@ -20,6 +20,7 @@ import {newsPost} from './documents/newsPost'
 import {newsIndexPage} from './documents/newsIndexPage'
 import {registrationPage} from './documents/registrationPage'
 import {contactPage} from './documents/contactPage'
+import {contentPage} from './documents/contentPage'
 import {formSubmission} from './documents/formSubmission'
 
 export const schemaTypes = [
@@ -45,5 +46,6 @@ export const schemaTypes = [
   newsIndexPage,
   registrationPage,
   contactPage,
+  contentPage,
   formSubmission,
 ]

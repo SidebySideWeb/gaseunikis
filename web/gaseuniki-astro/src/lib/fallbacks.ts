@@ -305,6 +305,8 @@ export function buildFooterUsefulLinks(settings: SiteSettings): NavLink[] {
   return [
     { label: 'Εγγραφές', url: '/egrafes' },
     { label: 'Επικοινωνία', url: '/epikoinonia' },
+    { label: 'Πολιτική Απορρήτου', url: '/selida/politiki-aporritou' },
+    { label: 'Πολιτική Cookies', url: '/selida/politiki-cookies' },
     { label: 'Ε.Γ.Ο.', url: settings.egoUrl ?? '#' },
     { label: 'F.I.G.', url: settings.figUrl ?? '#' },
   ];

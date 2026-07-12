@@ -4,6 +4,7 @@ import type {
   AboutPage,
   Achievement,
   ContactPage,
+  ContentPage,
   EpitychiesPage,
   HomePage,
   NewsIndexPage,
@@ -341,6 +342,15 @@ export const latestNewsQuery = `*[_type == "newsPost"] | order(publishedDate des
   excerpt,
   featuredImage { ${imageFields} },
   readMoreLabel
+}`;
+
+export const contentPageBySlugQuery = `*[_type == "contentPage" && slug.current == $slug][0] {
+  title,
+  "slug": slug.current,
+  intro,
+  body,
+  lastUpdated,
+  ${seoFields}
 }`;
 
 export const newsPostBySlugQuery = `*[_type == "newsPost" && slug.current == $slug][0] {
@@ -696,5 +706,11 @@ export function getRegistrationPage() {
 export function getContactPage() {
   return cachedSanityQuery('contactPage', () =>
     client.fetch<ContactPage | null>(contactPageQuery),
+  );
+}
+
+export function getContentPageBySlug(slug: string) {
+  return cachedSanityQuery(`contentPage:${slug}`, () =>
+    client.fetch<ContentPage | null>(contentPageBySlugQuery, { slug }),
   );
 }

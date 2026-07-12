@@ -55,6 +55,7 @@ export const structure: StructureResolver = (S) =>
       S.divider(),
       S.documentTypeListItem('epitychies').title('Επιτυχίες'),
       S.documentTypeListItem('newsPost').title('Νέα & Ανακοινώσεις'),
+      S.documentTypeListItem('contentPage').title('Σελίδες Περιεχομένου'),
       S.divider(),
       S.listItem()
         .title('Φόρμες')

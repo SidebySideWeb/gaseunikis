@@ -1,0 +1,39 @@
+---
+import { PortableText } from 'astro-portabletext';
+import type { ContentPage } from '../../lib/types';
+
+interface Props {
+  page: ContentPage;
+}
+
+const { page } = Astro.props;
+
+const formattedDate = page.lastUpdated
+  ? new Date(page.lastUpdated).toLocaleDateString('el-GR', {
+      day: 'numeric',
+      month: 'long',
+      year: 'numeric',
+    })
+  : null;
+---
+
+<article class="max-w-3xl mx-auto">
+  <h1 class="font-display text-display-lg text-primary mb-4">{page.title}</h1>
+
+  {formattedDate && (
+    <p class="text-sm text-on-surface-variant mb-8">
+      Τελευταία ενημέρωση:{' '}
+      <time datetime={page.lastUpdated}>{formattedDate}</time>
+    </p>
+  )}
+
+  {page.intro && <p class="text-on-surface-variant text-body-lg mb-8 leading-relaxed">{page.intro}</p>}
+
+  {
+    Array.isArray(page.body) && page.body.length > 0 && (
+      <div class="prose prose-lg max-w-none text-on-surface-variant prose-headings:font-display prose-headings:text-primary prose-a:text-primary">
+        <PortableText value={page.body} />
+      </div>
+    )
+  }
+</article>
