@@ -50,6 +50,15 @@ export const contactPage = defineType({
       group: 'form',
     }),
     defineField({
+      name: 'privacyCheckboxLabel',
+      title: 'Κείμενο checkbox ΓΔΠ',
+      type: 'text',
+      rows: 2,
+      initialValue:
+        'Αποδέχομαι την επεξεργασία των δεδομένων μου για τους σκοπούς της επικοινωνίας σύμφωνα με την πολιτική απορρήτου του συλλόγου.',
+      group: 'form',
+    }),
+    defineField({
       name: 'subjectOptions',
       title: 'Επιλογές Θέματος',
       type: 'array',

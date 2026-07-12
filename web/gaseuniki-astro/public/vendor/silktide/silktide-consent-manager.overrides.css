@@ -1,0 +1,12 @@
+/* Site brand overrides — must load after silktide-consent-manager.css */
+#stcm-wrapper {
+  --boxShadow: -5px 5px 10px 0px #00000012, 0px 0px 50px 0px #0000001a !important;
+  --fontFamily: 'Nunito', ui-sans-serif, system-ui, sans-serif !important;
+  --primaryColor: #e91e63 !important;
+  --backgroundColor: #ffffff !important;
+  --textColor: #1a1c1c !important;
+  --backdropBackgroundColor: #1a1c1c66 !important;
+  --backdropBackgroundBlur: 4px !important;
+  --iconColor: #e91e63 !important;
+  --iconBackgroundColor: #ffffff !important;
+}

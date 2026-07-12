@@ -283,6 +283,7 @@ export interface ContactPage {
   heroCallToAction?: string;
   formHeading?: string;
   formSubmitLabel?: string;
+  privacyCheckboxLabel?: string;
   subjectOptions?: string[];
   mapHeading?: string;
   mapText?: string;

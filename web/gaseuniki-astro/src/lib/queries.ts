@@ -268,6 +268,7 @@ export const contactPageQuery = `*[_type == "contactPage"][0] {
   heroCallToAction,
   formHeading,
   formSubmitLabel,
+  privacyCheckboxLabel,
   subjectOptions,
   mapHeading,
   mapText,

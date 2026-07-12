@@ -19,6 +19,8 @@ const defaultPage: ContactPage = {
   heroCallToAction: 'Ελάτε σε Επαφή',
   formHeading: 'Στείλτε μας μήνυμα',
   formSubmitLabel: 'Αποστολή Μηνύματος',
+  privacyCheckboxLabel:
+    'Αποδέχομαι την επεξεργασία των δεδομένων μου για τους σκοπούς της επικοινωνίας σύμφωνα με την πολιτική απορρήτου του συλλόγου.',
   mapHeading: 'ΓΑΣ ΕΥΝΙΚΗ',
   mapText:
     'Βρείτε μας στην καρδιά της Ελευσίνας. Εύκολη πρόσβαση για όλους τους αθλητές μας.',
@@ -67,6 +69,7 @@ const pageDescription =
         <ContactForm
           formHeading={page.formHeading ?? ''}
           formSubmitLabel={page.formSubmitLabel ?? ''}
+          privacyCheckboxLabel={page.privacyCheckboxLabel ?? ''}
           subjectOptions={page.subjectOptions?.length ? page.subjectOptions : defaultSubjectOptions}
         />
       </div>
