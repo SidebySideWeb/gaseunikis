@@ -1,4 +1,12 @@
 import { defineMiddleware } from 'astro:middleware';
+import {
+  hasPreviewCookie,
+  isBasicAuthValid,
+  isPreviewAuthBypassPath,
+  isPreviewAuthEnabled,
+  isPublicAssetPath,
+  safeReturnPath,
+} from './lib/preview-auth';
 
 /** Dynamic pages and server islands — CMS updates within ~60s. */
 const PAGE_CACHE_CONTROL = 'public, s-maxage=60, stale-while-revalidate=300';
@@ -8,59 +16,58 @@ const STATIC_PAGE_CACHE_CONTROL = 'public, s-maxage=86400, stale-while-revalidat
 
 const STATIC_PATHS = new Set(['/', '/syllogos', '/epikoinonia', '/tmimata']);
 
-function isBasicAuthValid(request: Request): boolean {
-  const expectedUser = import.meta.env.BASIC_AUTH_USER;
-  const expectedPass = import.meta.env.BASIC_AUTH_PASS;
-
-  // Auth disabled when env vars are not configured (remove them in Vercel to go public).
-  if (!expectedUser || !expectedPass) {
-    return true;
-  }
-
-  const authorization = request.headers.get('Authorization');
-  if (!authorization?.startsWith('Basic ')) {
-    return false;
-  }
-
-  try {
-    const decoded = atob(authorization.slice(6));
-    const separatorIndex = decoded.indexOf(':');
-    if (separatorIndex === -1) {
-      return false;
-    }
-
-    const username = decoded.slice(0, separatorIndex);
-    const password = decoded.slice(separatorIndex + 1);
-    return username === expectedUser && password === expectedPass;
-  } catch {
-    return false;
-  }
-}
-
 export const onRequest = defineMiddleware(async (context, next) => {
-  if (!isBasicAuthValid(context.request)) {
-    return new Response('Authentication required', {
-      status: 401,
-      headers: {
-        'WWW-Authenticate': 'Basic realm="Secure Area"',
-      },
-    });
+  const pathname = context.url.pathname;
+
+  if (isPreviewAuthEnabled()) {
+    const allowed =
+      isPublicAssetPath(pathname) ||
+      isPreviewAuthBypassPath(pathname) ||
+      hasPreviewCookie(context.cookies) ||
+      isBasicAuthValid(context.request);
+
+    if (!allowed) {
+      const hasAuthHeader = context.request.headers.get('Authorization')?.startsWith('Basic ');
+
+      // API clients with a bad Basic Auth header still get a proper 401.
+      if (hasAuthHeader) {
+        return new Response('Authentication required', {
+          status: 401,
+          headers: {
+            'WWW-Authenticate': 'Basic realm="Secure Area"',
+            'Cache-Control': 'no-store',
+          },
+        });
+      }
+
+      // Browsers on Vercel often ignore WWW-Authenticate — send them to a login form.
+      const loginUrl = new URL('/preview-login', context.url);
+      loginUrl.searchParams.set('return', safeReturnPath(pathname + context.url.search));
+      return context.redirect(loginUrl.toString());
+    }
   }
 
   const response = await next();
 
-  if (context.url.pathname.startsWith('/api/')) {
+  if (pathname.startsWith('/api/')) {
     return response;
   }
 
-  if (context.url.pathname.startsWith('/_server-islands/')) {
+  // With Cloudflare in front, public cache headers on HTML would bypass preview auth at the edge.
+  if (isPreviewAuthEnabled() && !isPublicAssetPath(pathname)) {
+    response.headers.set('Cache-Control', 'private, no-store, must-revalidate');
+    response.headers.set('CDN-Cache-Control', 'no-store');
+    return response;
+  }
+
+  if (pathname.startsWith('/_server-islands/')) {
     response.headers.set('Cache-Control', ISLAND_CACHE_CONTROL);
     return response;
   }
 
-  const pathname = context.url.pathname.replace(/\/$/, '') || '/';
+  const normalizedPath = pathname.replace(/\/$/, '') || '/';
   const isStaticPage =
-    STATIC_PATHS.has(pathname) || pathname.startsWith('/selida/');
+    STATIC_PATHS.has(normalizedPath) || normalizedPath.startsWith('/selida/');
   response.headers.set(
     'Cache-Control',
     isStaticPage ? STATIC_PAGE_CACHE_CONTROL : PAGE_CACHE_CONTROL,
