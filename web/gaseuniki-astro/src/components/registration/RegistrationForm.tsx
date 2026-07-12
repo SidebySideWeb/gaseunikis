@@ -1,4 +1,6 @@
 import { useState, type FormEvent } from 'react';
+import RecaptchaField from '../ui/RecaptchaField';
+import { getRecaptchaResponse, resetRecaptcha } from '../../lib/recaptcha-client';
 
 interface Props {
   formHeading: string;
@@ -7,6 +9,7 @@ interface Props {
   privacyCheckboxLabel: string;
   sportOptions: string[];
   experienceOptions: string[];
+  recaptchaSiteKey: string;
 }
 
 type FormStatus = 'idle' | 'submitting' | 'success' | 'error';
@@ -18,6 +21,7 @@ export default function RegistrationForm({
   privacyCheckboxLabel,
   sportOptions,
   experienceOptions,
+  recaptchaSiteKey,
 }: Props) {
   const [athleteName, setAthleteName] = useState('');
   const [birthDate, setBirthDate] = useState('');
@@ -48,6 +52,12 @@ export default function RegistrationForm({
       return;
     }
 
+    const recaptchaToken = getRecaptchaResponse('registration');
+    if (recaptchaSiteKey && !recaptchaToken) {
+      setErrorMessage('Επιβεβαιώστε ότι δεν είστε ρομπότ.');
+      return;
+    }
+
     setStatus('submitting');
 
     try {
@@ -64,6 +74,7 @@ export default function RegistrationForm({
           previousExperience,
           notes: notes.trim() || undefined,
           privacyAccepted,
+          recaptchaToken,
         }),
       });
 
@@ -82,9 +93,11 @@ export default function RegistrationForm({
       setPreviousExperience(experienceOptions[0] ?? '');
       setNotes('');
       setPrivacyAccepted(false);
+      resetRecaptcha('registration');
     } catch (error) {
       setStatus('error');
       setErrorMessage(error instanceof Error ? error.message : 'Η αποστολή απέτυχε. Δοκιμάστε ξανά.');
+      resetRecaptcha('registration');
     }
   }
 
@@ -255,6 +268,8 @@ export default function RegistrationForm({
             {privacyCheckboxLabel}
           </label>
         </div>
+
+        <RecaptchaField siteKey={recaptchaSiteKey} widgetKey="registration" />
 
         <button
           type="submit"

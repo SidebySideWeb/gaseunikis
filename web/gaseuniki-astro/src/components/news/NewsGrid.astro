@@ -39,6 +39,9 @@ function formatDate(dateStr: string): string {
             )}
             alt={item.featuredImage?.alt ?? item.title}
             class="h-full w-full object-cover"
+            loading={index === 0 ? 'eager' : 'lazy'}
+            fetchPriority={index === 0 ? 'high' : undefined}
+            decoding={index === 0 ? 'sync' : 'async'}
           />
           {item.publishedDate && (
             <div class={`absolute top-4 left-4 bg-white/90 backdrop-blur px-3 py-1 rounded-lg font-label-md ${badgeColor} shadow-sm border`}>

@@ -1,15 +1,16 @@
 ---
 export const prerender = true;
 
-import Layout from '../layouts/Layout.astro';import BreadcrumbSchema from '../components/schema/BreadcrumbSchema.astro';
+import Layout from '../layouts/Layout.astro';
+import BreadcrumbSchema from '../components/schema/BreadcrumbSchema.astro';
 import ContactHero from '../components/contact/ContactHero.astro';
 import ContactInfo from '../components/contact/ContactInfo.astro';
-import ContactForm from '../components/contact/ContactForm';
+import ContactForm from '../components/contact/ContactForm.astro';
 import ContactMap from '../components/contact/ContactMap.astro';
 import { getContactPage, getSiteSettings } from '../lib/queries';
 import { fetchWithFallback } from '../lib/fetch-with-fallback';
 import { defaultSiteSettings, defaultSubjectOptions } from '../lib/fallbacks';
-import type { ContactPage, SiteSettings } from '../lib/types';
+import type { ContactPage } from '../lib/types';
 
 const defaultPage: ContactPage = {
   heroHeading: 'Επικοινωνία',
@@ -64,7 +65,6 @@ const pageDescription =
           instagramUrl={settings.instagramUrl}
         />
         <ContactForm
-          client:idle
           formHeading={page.formHeading ?? ''}
           formSubmitLabel={page.formSubmitLabel ?? ''}
           subjectOptions={page.subjectOptions?.length ? page.subjectOptions : defaultSubjectOptions}

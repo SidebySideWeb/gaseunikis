@@ -9,7 +9,7 @@ import { SANITY_DATASET, SANITY_PROJECT_ID } from './src/lib/sanity-config.ts';
 
 // https://astro.build/config
 export default defineConfig({
-  site: 'https://gas-eyniki.gr',
+  site: 'https://www.gaseuniki.gr',
   // Server-rendered pages: Sanity content updates appear on the next request (no redeploy).
   output: 'server',
   adapter: vercel(),

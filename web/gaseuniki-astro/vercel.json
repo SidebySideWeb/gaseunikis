@@ -1,5 +1,13 @@
 {
   "regions": ["fra1"],
+  "redirects": [
+    {
+      "source": "/:path*",
+      "has": [{ "type": "host", "value": "gaseuniki.gr" }],
+      "destination": "https://www.gaseuniki.gr/:path*",
+      "permanent": true
+    }
+  ],
   "headers": [
     {
       "source": "/_astro/(.*)",

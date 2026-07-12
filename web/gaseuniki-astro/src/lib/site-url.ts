@@ -5,7 +5,7 @@ export function resolveSiteOrigin(site: URL | string | undefined): string {
   if (typeof site === 'string' && site.trim()) {
     return site.replace(/\/$/, '');
   }
-  return 'https://gas-eyniki.gr';
+  return 'https://www.gaseuniki.gr';
 }
 
 export function buildAbsoluteUrl(path: string, siteOrigin: string): string {

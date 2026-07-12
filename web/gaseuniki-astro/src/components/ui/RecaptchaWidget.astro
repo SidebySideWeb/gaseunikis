@@ -1,0 +1,33 @@
+---
+import { getRecaptchaSiteKey } from '../../lib/recaptcha';
+
+interface Props {
+  widgetKey?: string;
+}
+
+const { widgetKey = 'default' } = Astro.props;
+const siteKey = getRecaptchaSiteKey();
+---
+
+{
+  siteKey ? (
+    <div
+      class="min-h-[78px]"
+      data-recaptcha-widget
+      data-recaptcha-key={widgetKey}
+      data-sitekey={siteKey}
+    />
+  ) : null
+}
+
+<script>
+  import { initRecaptchaWidget } from '../../lib/recaptcha-client';
+
+  document.querySelectorAll('[data-recaptcha-widget]').forEach((element) => {
+    if (!(element instanceof HTMLElement)) return;
+    const siteKey = element.dataset.sitekey;
+    const widgetKey = element.dataset.recaptchaKey ?? 'default';
+    if (!siteKey) return;
+    initRecaptchaWidget(element, siteKey, widgetKey);
+  });
+</script>

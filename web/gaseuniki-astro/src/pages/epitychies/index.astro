@@ -2,12 +2,11 @@
 import Layout from '../../layouts/Layout.astro';
 import BreadcrumbSchema from '../../components/schema/BreadcrumbSchema.astro';
 import SuccessesHero from '../../components/successes/SuccessesHero.astro';
-import SuccessesFilter from '../../components/successes/SuccessesFilter';
+import SuccessesFilterBar from '../../components/successes/SuccessesFilterBar';
+import SuccessesGrid from '../../components/successes/SuccessesGrid.astro';
 import { client } from '../../lib/sanity';
 import { epitychiesPageQuery, epitychiesListQuery } from '../../lib/queries';
-import { resolveImageUrl } from '../../lib/image';
-import { achievementFallbacks } from '../../lib/stitch-images';
-import { defaultAchievements } from '../../lib/fallbacks';
+import { buildAchievementDisplayList, getLcpAchievementImage } from '../../lib/successes-display';
 import type { EpitychiesPage, Achievement } from '../../lib/types';
 
 const defaultPage: EpitychiesPage = {
@@ -25,11 +24,8 @@ const [fetchedPage, achievements] = await Promise.all([
 
 const page = { ...defaultPage, ...fetchedPage };
 
-const sourceAchievements = achievements?.length ? achievements : defaultAchievements;
-const displayAchievements = sourceAchievements.map((item, index) => ({
-  ...item,
-  imageUrl: resolveImageUrl(item.image, achievementFallbacks[index % achievementFallbacks.length]),
-}));
+const displayAchievements = buildAchievementDisplayList(achievements);
+const lcpImage = getLcpAchievementImage(displayAchievements);
 
 const pageTitle = page.seo?.title ?? 'Οι Επιτυχίες μας';
 const pageDescription =
@@ -37,7 +33,13 @@ const pageDescription =
   'Διακρίσεις, μετάλλια και επιτυχίες των αθλητριών και ομάδων του ΓΑΣ Ευνίκη σε πανελλήνια και διεθνή πρωταθλήματα.';
 ---
 
-<Layout title={pageTitle} description={pageDescription} currentPath="/epitychies" noIndex={page.seo?.noIndex}>
+<Layout
+  title={pageTitle}
+  description={pageDescription}
+  currentPath="/epitychies"
+  noIndex={page.seo?.noIndex}
+  lcpImage={lcpImage}
+>
   <BreadcrumbSchema
     slot="schema"
     items={[
@@ -51,6 +53,7 @@ const pageDescription =
       label={page.heroLabel ?? ''}
       text={page.heroText ?? ''}
     />
-    <SuccessesFilter client:visible items={displayAchievements} filterLabels={page.filterLabels ?? defaultPage.filterLabels!} />
+    <SuccessesFilterBar client:idle filterLabels={page.filterLabels ?? defaultPage.filterLabels!} />
+    <SuccessesGrid items={displayAchievements} />
   </main>
 </Layout>

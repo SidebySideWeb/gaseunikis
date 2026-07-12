@@ -6,6 +6,7 @@ import RegistrationHero from '../components/registration/RegistrationHero.astro'
 import RegistrationSteps from '../components/registration/RegistrationSteps.astro';
 import RegistrationDocuments from '../components/registration/RegistrationDocuments.astro';
 import RegistrationForm from '../components/registration/RegistrationForm';
+import { getRecaptchaSiteKey } from '../lib/recaptcha';
 import { getRegistrationPage, getSiteSettings } from '../lib/queries';
 import { fetchWithFallback } from '../lib/fetch-with-fallback';
 import { defaultExperienceOptions, defaultSportOptions } from '../lib/fallbacks';
@@ -68,6 +69,8 @@ const faqItems = [
     answer: page.trainingsStartText ?? '',
   },
 ].filter((item) => item.question && item.answer);
+
+const recaptchaSiteKey = getRecaptchaSiteKey();
 ---
 
 <Layout title={pageTitle} description={pageDescription} currentPath="/egrafes" noIndex={page.seo?.noIndex}>
@@ -128,6 +131,7 @@ const faqItems = [
           experienceOptions={
             page.experienceOptions?.length ? page.experienceOptions : defaultExperienceOptions
           }
+          recaptchaSiteKey={recaptchaSiteKey}
         />
       </div>
     </div>

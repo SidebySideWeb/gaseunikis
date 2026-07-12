@@ -2,4 +2,4 @@ User-agent: *
 Allow: /
 Disallow: /api/
 
-Sitemap: https://gas-eyniki.gr/sitemap-index.xml
+Sitemap: https://www.gaseuniki.gr/sitemap-index.xml

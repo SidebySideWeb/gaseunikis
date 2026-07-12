@@ -1,5 +1,6 @@
 import type { APIRoute } from 'astro';
 import { saveContactSubmission } from '../../lib/form-submission';
+import { RecaptchaError, verifyRecaptchaToken } from '../../lib/recaptcha';
 
 export const prerender = false;
 
@@ -10,6 +11,7 @@ export const POST: APIRoute = async ({ request }) => {
     phone?: string;
     subject?: string;
     message?: string;
+    recaptchaToken?: string;
   };
 
   try {
@@ -17,6 +19,22 @@ export const POST: APIRoute = async ({ request }) => {
   } catch {
     return new Response(JSON.stringify({ success: false, error: 'Μη έγκυρο αίτημα.' }), {
       status: 400,
+      headers: { 'Content-Type': 'application/json' },
+    });
+  }
+
+  try {
+    await verifyRecaptchaToken(body.recaptchaToken);
+  } catch (error) {
+    const messageText =
+      error instanceof RecaptchaError
+        ? error.message
+        : error instanceof Error
+          ? error.message
+          : 'Η επαλήθευση reCAPTCHA απέτυχε.';
+    const status = error instanceof RecaptchaError ? 400 : 500;
+    return new Response(JSON.stringify({ success: false, error: messageText }), {
+      status,
       headers: { 'Content-Type': 'application/json' },
     });
   }
