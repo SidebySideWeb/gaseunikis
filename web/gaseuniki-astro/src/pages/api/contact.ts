@@ -1,6 +1,8 @@
 import type { APIRoute } from 'astro';
 import { saveContactSubmission } from '../../lib/form-submission';
 import { RecaptchaError, verifyRecaptchaToken } from '../../lib/recaptcha';
+import { checkRateLimit } from '../../lib/rate-limit';
+import { isValidEmail, isValidGreekPhone } from '../../lib/validation';
 
 export const prerender = false;
 
@@ -22,6 +24,17 @@ export const POST: APIRoute = async ({ request }) => {
       status: 400,
       headers: { 'Content-Type': 'application/json' },
     });
+  }
+
+  const clientIp = request.headers.get('x-forwarded-for')?.split(',')[0]?.trim() ?? 'unknown';
+  if (!checkRateLimit(`contact:${clientIp}`, 5, 60_000)) {
+    return new Response(
+      JSON.stringify({ success: false, error: 'Πολλές προσπάθειες. Δοκιμάστε ξανά σε λίγο.' }),
+      {
+        status: 429,
+        headers: { 'Content-Type': 'application/json' },
+      },
+    );
   }
 
   try {
@@ -53,6 +66,20 @@ export const POST: APIRoute = async ({ request }) => {
     });
   }
 
+  if (!isValidEmail(email)) {
+    return new Response(JSON.stringify({ success: false, error: 'Μη έγκυρη διεύθυνση email.' }), {
+      status: 400,
+      headers: { 'Content-Type': 'application/json' },
+    });
+  }
+
+  if (!isValidGreekPhone(phone)) {
+    return new Response(JSON.stringify({ success: false, error: 'Μη έγκυρος αριθμός τηλεφώνου.' }), {
+      status: 400,
+      headers: { 'Content-Type': 'application/json' },
+    });
+  }
+
   if (body.privacyAccepted !== true) {
     return new Response(
       JSON.stringify({
@@ -76,9 +103,8 @@ export const POST: APIRoute = async ({ request }) => {
       privacyAccepted: true,
     });
   } catch (error) {
-    const messageText =
-      error instanceof Error ? error.message : 'Η αποστολή απέτυχε. Δοκιμάστε ξανά.';
-    return new Response(JSON.stringify({ success: false, error: messageText }), {
+    console.error('[api/contact] saveContactSubmission failed:', error);
+    return new Response(JSON.stringify({ success: false, error: 'Η αποστολή απέτυχε. Δοκιμάστε ξανά.' }), {
       status: 500,
       headers: { 'Content-Type': 'application/json' },
     });

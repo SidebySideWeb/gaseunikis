@@ -1,4 +1,5 @@
 import { useState, type FormEvent } from 'react';
+import DatePickerField from '../ui/DatePickerField';
 import RecaptchaField from '../ui/RecaptchaField';
 import { getRecaptchaResponse, resetRecaptcha } from '../../lib/recaptcha-client';
 
@@ -37,6 +38,11 @@ export default function RegistrationForm({
 
   const inputClass =
     'w-full px-5 py-4 rounded-xl border border-outline-variant focus:border-primary focus:ring-primary bg-surface-container-low transition-all';
+
+  const today = new Date().toISOString().slice(0, 10);
+  const earliestBirthDate = new Date();
+  earliestBirthDate.setFullYear(earliestBirthDate.getFullYear() - 80);
+  const minBirthDate = earliestBirthDate.toISOString().slice(0, 10);
 
   async function handleSubmit(event: FormEvent<HTMLFormElement>) {
     event.preventDefault();
@@ -136,20 +142,17 @@ export default function RegistrationForm({
               placeholder="π.χ. Άννα Παπαδοπούλου"
             />
           </div>
-          <div className="space-y-2">
-            <label className="font-label-md text-on-surface-variant" htmlFor="birthDate">
-              Ημερομηνία Γέννησης *
-            </label>
-            <input
-              id="birthDate"
-              name="birthDate"
-              type="date"
-              required
-              value={birthDate}
-              onChange={(e) => setBirthDate(e.target.value)}
-              className={inputClass}
-            />
-          </div>
+          <DatePickerField
+            id="birthDate"
+            name="birthDate"
+            label="Ημερομηνία Γέννησης *"
+            required
+            value={birthDate}
+            min={minBirthDate}
+            max={today}
+            onChange={(e) => setBirthDate(e.target.value)}
+            inputClassName={inputClass}
+          />
         </div>
 
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6">

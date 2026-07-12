@@ -12,5 +12,11 @@ export function cachedSanityQuery<T>(key: string, query: () => Promise<T>): Prom
 
   const promise = query();
   cache.set(key, { expiresAt: now + CACHE_TTL_MS, promise });
+  setTimeout(() => {
+    const entry = cache.get(key);
+    if (entry && entry.expiresAt <= Date.now()) {
+      cache.delete(key);
+    }
+  }, CACHE_TTL_MS);
   return promise;
 }

@@ -1,6 +1,8 @@
 import type { APIRoute } from 'astro';
 import { saveRegistrationSubmission } from '../../lib/form-submission';
 import { RecaptchaError, verifyRecaptchaToken } from '../../lib/recaptcha';
+import { checkRateLimit } from '../../lib/rate-limit';
+import { isValidEmail, isValidGreekPhone } from '../../lib/validation';
 
 export const prerender = false;
 
@@ -25,6 +27,17 @@ export const POST: APIRoute = async ({ request }) => {
       status: 400,
       headers: { 'Content-Type': 'application/json' },
     });
+  }
+
+  const clientIp = request.headers.get('x-forwarded-for')?.split(',')[0]?.trim() ?? 'unknown';
+  if (!checkRateLimit(`registration:${clientIp}`, 5, 60_000)) {
+    return new Response(
+      JSON.stringify({ success: false, error: 'Πολλές προσπάθειες. Δοκιμάστε ξανά σε λίγο.' }),
+      {
+        status: 429,
+        headers: { 'Content-Type': 'application/json' },
+      },
+    );
   }
 
   try {
@@ -57,9 +70,24 @@ export const POST: APIRoute = async ({ request }) => {
   const birthDate = body.birthDate?.trim();
   const guardianName = body.guardianName?.trim();
   const guardianPhone = body.guardianPhone?.trim();
+  const guardianEmail = body.guardianEmail?.trim();
 
   if (!athleteName || !birthDate || !guardianName || !guardianPhone) {
     return new Response(JSON.stringify({ success: false, error: 'Συμπληρώστε όλα τα υποχρεωτικά πεδία.' }), {
+      status: 400,
+      headers: { 'Content-Type': 'application/json' },
+    });
+  }
+
+  if (!isValidGreekPhone(guardianPhone)) {
+    return new Response(JSON.stringify({ success: false, error: 'Μη έγκυρος αριθμός τηλεφώνου.' }), {
+      status: 400,
+      headers: { 'Content-Type': 'application/json' },
+    });
+  }
+
+  if (guardianEmail && !isValidEmail(guardianEmail)) {
+    return new Response(JSON.stringify({ success: false, error: 'Μη έγκυρη διεύθυνση email.' }), {
       status: 400,
       headers: { 'Content-Type': 'application/json' },
     });
@@ -71,16 +99,15 @@ export const POST: APIRoute = async ({ request }) => {
       birthDate,
       guardianName,
       guardianPhone,
-      guardianEmail: body.guardianEmail?.trim() || undefined,
+      guardianEmail: guardianEmail || undefined,
       sportInterest: body.sportInterest ?? '',
       previousExperience: body.previousExperience ?? '',
       notes: body.notes?.trim() || undefined,
       privacyAccepted: true,
     });
   } catch (error) {
-    const messageText =
-      error instanceof Error ? error.message : 'Η αποστολή απέτυχε. Δοκιμάστε ξανά.';
-    return new Response(JSON.stringify({ success: false, error: messageText }), {
+    console.error('[api/registration] saveRegistrationSubmission failed:', error);
+    return new Response(JSON.stringify({ success: false, error: 'Η αποστολή απέτυχε. Δοκιμάστε ξανά.' }), {
       status: 500,
       headers: { 'Content-Type': 'application/json' },
     });

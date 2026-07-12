@@ -5,6 +5,7 @@ import { client } from '../../lib/sanity';
 import { epitychiesBySlugQuery } from '../../lib/queries';
 import { resolveImageUrl } from '../../lib/image';
 import { achievementFallbacks } from '../../lib/stitch-images';
+import { fetchWithFallback } from '../../lib/fetch-with-fallback';
 import type { Achievement } from '../../lib/types';
 
 const { slug } = Astro.params;
@@ -12,15 +13,23 @@ const { slug } = Astro.params;
 let achievement: Achievement | null = null;
 
 if (slug) {
-  achievement = await client.fetch<Achievement | null>(epitychiesBySlugQuery, { slug });
+  achievement = await fetchWithFallback(
+    () => client.fetch<Achievement | null>(epitychiesBySlugQuery, { slug }),
+    null,
+    'epitychiesBySlug',
+  );
 }
 
-const pageTitle = achievement?.seo?.title ?? achievement?.title ?? 'Επιτυχία';
+if (!achievement) {
+  return new Response(null, { status: 404, statusText: 'Not Found' });
+}
+
+const pageTitle = achievement.seo?.title ?? achievement.title ?? 'Επιτυχία';
 const pageDescription =
-  achievement?.seo?.description ??
-  achievement?.description ??
+  achievement.seo?.description ??
+  achievement.description ??
   'Λεπτομέρειες επιτυχίας του ΓΑΣ Ευνίκη Ελευσίνας.';
-const ogImage = achievement?.image
+const ogImage = achievement.image
   ? resolveImageUrl(achievement.image, achievementFallbacks[0])
   : undefined;
 ---
@@ -30,36 +39,27 @@ const ogImage = achievement?.image
   description={pageDescription}
   ogImage={ogImage}
   currentPath={`/epitychies/${slug}`}
-  noIndex={achievement?.seo?.noIndex}
+  noIndex={achievement.seo?.noIndex}
 >
   <BreadcrumbSchema
     slot="schema"
     items={[
       { name: 'Αρχική', url: '/' },
       { name: 'Επιτυχίες', url: '/epitychies' },
-      { name: achievement?.title ?? 'Επιτυχία', url: `/epitychies/${slug}` },
+      { name: achievement.title ?? 'Επιτυχία', url: `/epitychies/${slug}` },
     ]}
   />
   <main class="pt-32 pb-section-padding px-gutter">
     <div class="max-w-container-max-width mx-auto">
-      {achievement ? (
-        <article>
-          <h1 class="font-display text-display-lg text-primary mb-6">{achievement.title}</h1>
-          {achievement.year && (
-            <p class="text-sm font-bold uppercase tracking-wider text-achievement mb-4">{achievement.year}</p>
-          )}
-          {achievement.description && (
-            <p class="text-on-surface-variant text-body-lg mb-8">{achievement.description}</p>
-          )}
-        </article>
-      ) : (
-        <div class="text-center">
-          <h1 class="font-display text-display-lg text-primary mb-6">Επιτυχία</h1>
-          <p class="text-on-surface-variant text-body-lg mb-4">
-            Η σελίδα λεπτομερειών για την επιτυχία «{slug}» θα συνδεθεί με το Sanity σύντομα.
-          </p>
-        </div>
-      )}
+      <article>
+        <h1 class="font-display text-display-lg text-primary mb-6">{achievement.title}</h1>
+        {achievement.year && (
+          <p class="text-sm font-bold uppercase tracking-wider text-achievement mb-4">{achievement.year}</p>
+        )}
+        {achievement.description && (
+          <p class="text-on-surface-variant text-body-lg mb-8">{achievement.description}</p>
+        )}
+      </article>
       <a href="/epitychies" class="text-primary font-bold hover:underline">← Επιστροφή στις Επιτυχίες</a>
     </div>
   </main>

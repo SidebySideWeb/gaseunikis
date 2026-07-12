@@ -114,10 +114,12 @@ const inputClass =
         class="group flex w-full items-center justify-center gap-2 rounded-xl bg-primary py-4 font-display text-label-md text-on-primary shadow-card transition-all duration-200 hover:bg-primary-light hover:shadow-card-hover disabled:cursor-not-allowed disabled:opacity-60"
       >
         <span id="contact-form-submit-label">{formSubmitLabel}</span>
-        <span id="contact-form-submit-icon" class="material-symbols-outlined transition-transform group-hover:translate-x-1">
-          send
+        <span id="contact-form-submit-icon" class="inline-flex">
+          <span class="material-symbols-outlined transition-transform group-hover:translate-x-1">send</span>
         </span>
-        <span id="contact-form-submit-spinner" class="material-symbols-outlined hidden animate-spin">sync</span>
+        <span id="contact-form-submit-spinner" class="hidden inline-flex">
+          <span class="material-symbols-outlined animate-spin" aria-hidden="true">sync</span>
+        </span>
       </button>
     </form>
   </div>

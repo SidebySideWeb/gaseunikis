@@ -22,8 +22,12 @@ function isActive(url: string): boolean {
     class="flex cursor-pointer list-none items-center justify-center rounded-lg p-2 text-primary transition-colors hover:bg-primary/5 [&::-webkit-details-marker]:hidden"
     aria-label="Άνοιγμα μενού"
   >
-    <span class="material-symbols-outlined text-3xl group-open:hidden" aria-hidden="true">menu</span>
-    <span class="material-symbols-outlined hidden text-3xl group-open:block" aria-hidden="true">close</span>
+    <span class="inline-flex group-open:hidden" aria-hidden="true">
+      <span class="material-symbols-outlined text-3xl">menu</span>
+    </span>
+    <span class="hidden inline-flex group-open:inline-flex" aria-hidden="true">
+      <span class="material-symbols-outlined text-3xl">close</span>
+    </span>
   </summary>
 
   <div

@@ -25,7 +25,6 @@ export default defineConfig({
     sitemap({
       filter: (page) =>
         !page.includes('/api/') &&
-        !page.includes('/posts/') &&
         !page.includes('/placeholder'),
       changefreq: 'weekly',
       priority: 0.7,
