@@ -13,6 +13,10 @@ export default defineConfig({
   // Server-rendered pages: Sanity content updates appear on the next request (no redeploy).
   output: 'server',
   adapter: vercel(),
+  build: {
+    // Inline CSS into HTML — avoids a render-blocking external stylesheet request (~13 KiB Layout.css).
+    inlineStylesheets: 'always',
+  },
   vite: {
     plugins: [tailwindcss()],
   },

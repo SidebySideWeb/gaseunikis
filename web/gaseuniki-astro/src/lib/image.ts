@@ -137,3 +137,8 @@ export function resolvePresetImage(
 ): ImageDelivery {
   return resolveResponsiveImage(source, fallback, IMAGE_PRESETS[preset]);
 }
+
+/** Preload only when URL is unambiguous — responsive srcset preloads often mismatch DPR/viewport. */
+export function getLcpPreloadHref(delivery: ImageDelivery): string | undefined {
+  return delivery.srcSet ? undefined : delivery.src;
+}

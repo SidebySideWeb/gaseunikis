@@ -9,6 +9,7 @@ export interface Props {
   class?: string;
   loading?: 'lazy' | 'eager';
   fetchPriority?: 'high' | 'low' | 'auto';
+  decoding?: 'async' | 'sync' | 'auto';
 }
 
 const {
@@ -19,6 +20,7 @@ const {
   class: className = '',
   loading = 'lazy',
   fetchPriority,
+  decoding = 'async',
 } = Astro.props;
 
 const imageSrc = delivery?.src ?? src;
@@ -41,7 +43,7 @@ const aspectClasses = {
       sizes={sizes}
       alt={alt}
       loading={loading}
-      decoding="async"
+      decoding={decoding}
       fetchpriority={fetchPriority}
       class:list={[aspectClasses[aspectRatio], className]}
     />
