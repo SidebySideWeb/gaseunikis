@@ -97,7 +97,13 @@ const hasMultiple = images.length > 1;
 </div>
 
 <script>
+  const AUTOPLAY_INTERVAL_MS = 4500;
+  const AUTOPLAY_RESUME_MS = 8000;
+  const galleryCleanups: Array<() => void> = [];
+
   function initAchievementGalleries() {
+    const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
     document.querySelectorAll('[data-achievement-gallery]').forEach((root) => {
       if (!(root instanceof HTMLElement) || root.dataset.galleryReady === 'true') return;
 
@@ -114,6 +120,24 @@ const hasMultiple = images.length > 1;
       const next = root.querySelector('[data-gallery-next]');
 
       let activeIndex = 0;
+      let autoplayTimer: ReturnType<typeof setInterval> | null = null;
+      let resumeTimer: ReturnType<typeof setTimeout> | null = null;
+      let autoplayPaused = false;
+      let isVisible = false;
+
+      const clearAutoplay = () => {
+        if (autoplayTimer) {
+          clearInterval(autoplayTimer);
+          autoplayTimer = null;
+        }
+      };
+
+      const clearResumeTimer = () => {
+        if (resumeTimer) {
+          clearTimeout(resumeTimer);
+          resumeTimer = null;
+        }
+      };
 
       const updateDots = () => {
         dots.forEach((dot, index) => {
@@ -139,24 +163,84 @@ const hasMultiple = images.length > 1;
         updateDots();
       };
 
+      const startAutoplay = () => {
+        if (prefersReducedMotion || autoplayPaused || !isVisible) return;
+        clearAutoplay();
+        autoplayTimer = setInterval(() => {
+          scrollToIndex(activeIndex >= slides.length - 1 ? 0 : activeIndex + 1);
+        }, AUTOPLAY_INTERVAL_MS);
+      };
+
+      const pauseAutoplay = (scheduleResume = true) => {
+        autoplayPaused = true;
+        clearAutoplay();
+        if (!scheduleResume) return;
+        clearResumeTimer();
+        resumeTimer = setTimeout(() => {
+          autoplayPaused = false;
+          startAutoplay();
+        }, AUTOPLAY_RESUME_MS);
+      };
+
+      const resumeAutoplay = () => {
+        autoplayPaused = false;
+        clearResumeTimer();
+        startAutoplay();
+      };
+
       prev?.addEventListener('click', (event) => {
         event.preventDefault();
         event.stopPropagation();
+        pauseAutoplay();
         scrollToIndex(activeIndex <= 0 ? slides.length - 1 : activeIndex - 1);
       });
 
       next?.addEventListener('click', (event) => {
         event.preventDefault();
         event.stopPropagation();
+        pauseAutoplay();
         scrollToIndex(activeIndex >= slides.length - 1 ? 0 : activeIndex + 1);
       });
 
       track.addEventListener('scroll', () => {
         window.requestAnimationFrame(syncFromScroll);
       }, { passive: true });
+
+      track.addEventListener('pointerdown', () => pauseAutoplay());
+      track.addEventListener('keydown', () => pauseAutoplay());
+
+      root.addEventListener('mouseenter', () => pauseAutoplay(false));
+      root.addEventListener('mouseleave', resumeAutoplay);
+      root.addEventListener('focusin', () => pauseAutoplay(false));
+      root.addEventListener('focusout', resumeAutoplay);
+
+      const visibilityObserver = new IntersectionObserver(
+        (entries) => {
+          isVisible = entries.some((entry) => entry.isIntersecting);
+          if (isVisible && !autoplayPaused) {
+            startAutoplay();
+          } else {
+            clearAutoplay();
+          }
+        },
+        { threshold: 0.35 },
+      );
+      visibilityObserver.observe(root);
+
+      galleryCleanups.push(() => {
+        clearAutoplay();
+        clearResumeTimer();
+        visibilityObserver.disconnect();
+        delete root.dataset.galleryReady;
+      });
     });
+  }
+
+  function teardownAchievementGalleries() {
+    galleryCleanups.splice(0).forEach((cleanup) => cleanup());
   }
 
   initAchievementGalleries();
   document.addEventListener('astro:page-load', initAchievementGalleries);
+  document.addEventListener('astro:before-swap', teardownAchievementGalleries);
 </script>
