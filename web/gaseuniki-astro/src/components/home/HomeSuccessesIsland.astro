@@ -16,9 +16,9 @@ interface Props {
 
 const { heading, subheading, stats, ctaLabel, ctaUrl } = Astro.props;
 
-const emptyFeed = { selected: [], featured: [] };
+const emptyFeed = { selected: [], featured: [], latest: [] };
 const feed = await fetchWithFallback(() => getHomeSuccessesFeed(), emptyFeed, 'homeSuccessesFeed');
-const items = resolveHomeSuccesses(feed.selected, feed.featured, defaultFeaturedSuccesses);
+const items = resolveHomeSuccesses(feed.selected, feed.featured, feed.latest, defaultFeaturedSuccesses);
 ---
 
 <HomeSuccesses

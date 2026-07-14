@@ -76,7 +76,11 @@ export function isPublicAssetPath(pathname: string): boolean {
 }
 
 export function isPreviewAuthBypassPath(pathname: string): boolean {
-  return pathname === '/preview-login' || pathname === '/api/preview-auth';
+  return (
+    pathname === '/preview-login' ||
+    pathname === '/api/preview-auth' ||
+    pathname.startsWith('/_server-islands/')
+  );
 }
 
 export function safeReturnPath(value: string | null | undefined): string {

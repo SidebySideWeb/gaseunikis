@@ -1,0 +1,162 @@
+---
+import type { AchievementGalleryImage } from '../../lib/achievement-display';
+
+interface Props {
+  galleryId: string;
+  images: AchievementGalleryImage[];
+  yearsLabel?: string;
+  heightClass?: string;
+  priority?: boolean;
+}
+
+const {
+  galleryId,
+  images,
+  yearsLabel,
+  heightClass = 'h-48',
+  priority = false,
+} = Astro.props;
+
+const hasMultiple = images.length > 1;
+---
+
+<div
+  class:list={['achievement-card-gallery group/gallery relative overflow-hidden bg-surface-container', heightClass]}
+  data-achievement-gallery={galleryId}
+>
+  <div
+    class="flex h-full snap-x snap-mandatory overflow-x-auto scroll-smooth [scrollbar-width:none] [&::-webkit-scrollbar]:hidden"
+    data-gallery-track
+    tabindex="0"
+    aria-label="Φωτογραφίες επιτυχίας"
+  >
+    {
+      images.map((image, index) => (
+        <div class="relative h-full w-full shrink-0 snap-center snap-always">
+          <img
+            src={image.delivery.src}
+            srcset={image.delivery.srcSet}
+            sizes={image.delivery.sizes}
+            alt={image.alt}
+            class="h-full w-full object-cover transition-transform duration-500 group-hover/gallery:scale-[1.02]"
+            width={768}
+            height={512}
+            loading={priority && index === 0 ? 'eager' : 'lazy'}
+            fetchpriority={priority && index === 0 ? 'high' : undefined}
+            decoding={priority && index === 0 ? 'sync' : 'async'}
+            draggable="false"
+          />
+        </div>
+      ))
+    }
+  </div>
+
+  {
+    yearsLabel && (
+      <div class="pointer-events-none absolute left-3 top-3 z-10 max-w-[calc(100%-1.5rem)] rounded-full bg-achievement/95 px-2.5 py-1 text-[10px] font-bold leading-tight text-white shadow-sm md:text-xs">
+        {yearsLabel}
+      </div>
+    )
+  }
+
+  {
+    hasMultiple && (
+      <>
+        <button
+          type="button"
+          class="absolute left-2 top-1/2 z-10 flex h-8 w-8 -translate-y-1/2 items-center justify-center rounded-full bg-black/45 text-white opacity-90 transition-opacity hover:bg-black/60 md:opacity-0 md:group-hover/gallery:opacity-100 md:focus:opacity-100"
+          data-gallery-prev
+          aria-label="Προηγούμενη φωτογραφία"
+        >
+          <span class="material-symbols-outlined text-lg" aria-hidden="true">chevron_left</span>
+        </button>
+        <button
+          type="button"
+          class="absolute right-2 top-1/2 z-10 flex h-8 w-8 -translate-y-1/2 items-center justify-center rounded-full bg-black/45 text-white opacity-90 transition-opacity hover:bg-black/60 md:opacity-0 md:group-hover/gallery:opacity-100 md:focus:opacity-100"
+          data-gallery-next
+          aria-label="Επόμενη φωτογραφία"
+        >
+          <span class="material-symbols-outlined text-lg" aria-hidden="true">chevron_right</span>
+        </button>
+        <div class="pointer-events-none absolute bottom-2 left-0 right-0 z-10 flex justify-center gap-1.5" data-gallery-dots>
+          {
+            images.map((_, index) => (
+              <span
+                class:list={[
+                  'h-1.5 w-1.5 rounded-full bg-white/45 transition-all',
+                  index === 0 && 'w-3 bg-white',
+                ]}
+                data-gallery-dot={index}
+              />
+            ))
+          }
+        </div>
+      </>
+    )
+  }
+</div>
+
+<script>
+  function initAchievementGalleries() {
+    document.querySelectorAll('[data-achievement-gallery]').forEach((root) => {
+      if (!(root instanceof HTMLElement) || root.dataset.galleryReady === 'true') return;
+
+      const track = root.querySelector('[data-gallery-track]');
+      if (!(track instanceof HTMLElement)) return;
+
+      const slides = track.querySelectorAll(':scope > div');
+      if (slides.length <= 1) return;
+
+      root.dataset.galleryReady = 'true';
+
+      const dots = Array.from(root.querySelectorAll('[data-gallery-dot]'));
+      const prev = root.querySelector('[data-gallery-prev]');
+      const next = root.querySelector('[data-gallery-next]');
+
+      let activeIndex = 0;
+
+      const updateDots = () => {
+        dots.forEach((dot, index) => {
+          if (!(dot instanceof HTMLElement)) return;
+          dot.classList.toggle('w-3', index === activeIndex);
+          dot.classList.toggle('bg-white', index === activeIndex);
+          dot.classList.toggle('bg-white/45', index !== activeIndex);
+        });
+      };
+
+      const scrollToIndex = (index: number) => {
+        const slide = slides[index];
+        if (!(slide instanceof HTMLElement)) return;
+        activeIndex = index;
+        track.scrollTo({ left: slide.offsetLeft, behavior: 'smooth' });
+        updateDots();
+      };
+
+      const syncFromScroll = () => {
+        const width = track.clientWidth || 1;
+        activeIndex = Math.round(track.scrollLeft / width);
+        activeIndex = Math.max(0, Math.min(activeIndex, slides.length - 1));
+        updateDots();
+      };
+
+      prev?.addEventListener('click', (event) => {
+        event.preventDefault();
+        event.stopPropagation();
+        scrollToIndex(activeIndex <= 0 ? slides.length - 1 : activeIndex - 1);
+      });
+
+      next?.addEventListener('click', (event) => {
+        event.preventDefault();
+        event.stopPropagation();
+        scrollToIndex(activeIndex >= slides.length - 1 ? 0 : activeIndex + 1);
+      });
+
+      track.addEventListener('scroll', () => {
+        window.requestAnimationFrame(syncFromScroll);
+      }, { passive: true });
+    });
+  }
+
+  initAchievementGalleries();
+  document.addEventListener('astro:page-load', initAchievementGalleries);
+</script>

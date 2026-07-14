@@ -100,9 +100,11 @@ export interface Success {
   athleteName?: string;
   competition?: string;
   year?: string;
+  years?: number[];
   description?: string;
   featured?: boolean;
   image?: SanityImage;
+  images?: SanityImage[];
   seo?: Seo;
 }
 

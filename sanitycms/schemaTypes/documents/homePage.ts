@@ -207,7 +207,9 @@ export const homePage = defineType({
     }),
     defineField({
       name: 'featuredSuccesses',
-      title: 'Επιλεγμένες Επιτυχίες (για preview)',
+      title: 'Επιλεγμένες Επιτυχίες (προαιρετικό)',
+      description:
+        'Προαιρετική χειροκίνητη επιλογή 3+ επιτυχιών. Αν είναι κενό ή έχει λιγότερα από 3, η αρχική δείχνει αυτόματα τις επιτυχίες με ενεργό «Προβολή στην Αρχική».',
       type: 'array',
       of: [{type: 'reference', to: [{type: 'epitychies'}]}],
       group: 'successes',

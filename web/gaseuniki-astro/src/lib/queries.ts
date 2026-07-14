@@ -277,7 +277,7 @@ export const contactPageQuery = `*[_type == "contactPage"][0] {
   ${seoFields}
 }`;
 
-export const epitychiesListQuery = `*[_type == "epitychies"] | order(year desc) {
+export const epitychiesListQuery = `*[_type == "epitychies"] | order(_createdAt desc) {
   _id,
   title,
   slug,
@@ -286,12 +286,14 @@ export const epitychiesListQuery = `*[_type == "epitychies"] | order(year desc) 
   athleteName,
   competition,
   year,
+  years,
   description,
   featured,
-  image { ${imageFields} }
+  image { ${imageFields} },
+  images[] { ${imageFields} }
 }`;
 
-export const featuredEpitychiesQuery = `*[_type == "epitychies" && featured == true] | order(year desc)[0...6] {
+export const featuredEpitychiesQuery = `*[_type == "epitychies" && featured == true] | order(_createdAt desc)[0...6] {
   _id,
   title,
   slug,
@@ -300,9 +302,11 @@ export const featuredEpitychiesQuery = `*[_type == "epitychies" && featured == t
   athleteName,
   competition,
   year,
+  years,
   description,
   featured,
-  image { ${imageFields} }
+  image { ${imageFields} },
+  images[] { ${imageFields} }
 }`;
 
 export const epitychiesBySlugQuery = `*[_type == "epitychies" && slug.current == $slug][0] {
@@ -314,9 +318,11 @@ export const epitychiesBySlugQuery = `*[_type == "epitychies" && slug.current ==
   athleteName,
   competition,
   year,
+  years,
   description,
   featured,
   image { ${imageFields} },
+  images[] { ${imageFields} },
   ${seoFields}
 }`;
 
@@ -394,9 +400,11 @@ const achievementCardFields = `
   athleteName,
   competition,
   year,
+  years,
   description,
   featured,
-  image { ${imageFields} }
+  image { ${imageFields} },
+  images[] { ${imageFields} }
 `;
 
 const newsCardFields = `
@@ -459,6 +467,7 @@ export interface HomepageStaticBundle {
 export interface HomeSuccessesFeed {
   selected: Achievement[];
   featured: Achievement[];
+  latest: Achievement[];
 }
 
 /** Single round-trip for the homepage (reduces SSR latency vs. 5 separate fetches). */
@@ -630,7 +639,8 @@ export function getHomepageStaticBundle() {
 
 const homeSuccessesFeedQuery = `{
   "selected": *[_type == "homePage"][0].featuredSuccesses[]-> { ${achievementCardFields} },
-  "featured": *[_type == "epitychies" && featured == true] | order(year desc)[0...6] { ${achievementCardFields} }
+  "featured": *[_type == "epitychies" && featured == true] | order(_createdAt desc)[0...6] { ${achievementCardFields} },
+  "latest": *[_type == "epitychies"] | order(_createdAt desc)[0...6] { ${achievementCardFields} }
 }`;
 
 export function getHomeSuccessesFeed() {

@@ -1,10 +1,15 @@
 ---
 import Layout from '../../layouts/Layout.astro';
 import BreadcrumbSchema from '../../components/schema/BreadcrumbSchema.astro';
+import AchievementCardGallery from '../../components/successes/AchievementCardGallery.astro';
 import { client } from '../../lib/sanity';
 import { epitychiesBySlugQuery } from '../../lib/queries';
-import { resolveImageUrl } from '../../lib/image';
-import { achievementFallbacks } from '../../lib/stitch-images';
+import {
+  buildAchievementGalleryImages,
+  formatAchievementYears,
+  getAchievementCardImageUrl,
+  resolveAchievementYears,
+} from '../../lib/achievement-display';
 import { fetchWithFallback } from '../../lib/fetch-with-fallback';
 import type { Achievement } from '../../lib/types';
 
@@ -24,14 +29,14 @@ if (!achievement) {
   return new Response(null, { status: 404, statusText: 'Not Found' });
 }
 
+const galleryImages = buildAchievementGalleryImages(achievement, 0);
+const yearsLabel = formatAchievementYears(resolveAchievementYears(achievement));
 const pageTitle = achievement.seo?.title ?? achievement.title ?? 'Επιτυχία';
 const pageDescription =
   achievement.seo?.description ??
   achievement.description ??
   'Λεπτομέρειες επιτυχίας του ΓΑΣ Ευνίκη Ελευσίνας.';
-const ogImage = achievement.image
-  ? resolveImageUrl(achievement.image, achievementFallbacks[0])
-  : undefined;
+const ogImage = getAchievementCardImageUrl(achievement, 0);
 ---
 
 <Layout
@@ -51,13 +56,19 @@ const ogImage = achievement.image
   />
   <main class="pt-32 pb-section-padding px-gutter">
     <div class="max-w-container-max-width mx-auto">
-      <article>
-        <h1 class="font-display text-display-lg text-primary mb-6">{achievement.title}</h1>
-        {achievement.year && (
-          <p class="text-sm font-bold uppercase tracking-wider text-achievement mb-4">{achievement.year}</p>
-        )}
+      <article class="max-w-3xl">
+        <AchievementCardGallery
+          galleryId={`detail-${achievement._id}`}
+          images={galleryImages}
+          yearsLabel={yearsLabel}
+          heightClass="h-72 md:h-96"
+          priority
+        />
+        <h1 class="mt-8 font-display text-headline-lg text-primary mb-4 leading-snug">
+          {achievement.title}
+        </h1>
         {achievement.description && (
-          <p class="text-on-surface-variant text-body-lg mb-8">{achievement.description}</p>
+          <p class="text-on-surface-variant text-body-lg mb-8 whitespace-pre-line">{achievement.description}</p>
         )}
       </article>
       <a href="/epitychies" class="text-primary font-bold hover:underline">← Επιστροφή στις Επιτυχίες</a>

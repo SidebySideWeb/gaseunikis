@@ -3,11 +3,24 @@ import type { Achievement, NewsItem } from './types';
 export function resolveHomeSuccesses(
   selected: Achievement[] | null | undefined,
   featured: Achievement[],
+  latest: Achievement[],
   defaults: Achievement[],
 ): Achievement[] {
-  const cleaned = (selected ?? []).filter((item): item is Achievement => Boolean(item?._id));
-  if (cleaned.length > 0) return cleaned.slice(0, 6);
-  if (featured.length > 0) return featured.slice(0, 3);
+  const curated = (selected ?? []).filter((item): item is Achievement => Boolean(item?._id));
+  const featuredClean = featured.filter((item): item is Achievement => Boolean(item?._id));
+  const latestClean = latest.filter((item): item is Achievement => Boolean(item?._id));
+
+  // Full manual curation in Studio (3+ picks) overrides automatic feeds.
+  if (curated.length >= 3) return curated.slice(0, 3);
+
+  // Auto: items marked "Προβολή στην Αρχική", newest first.
+  if (featuredClean.length > 0) return featuredClean.slice(0, 3);
+
+  // Auto: latest achievements when none are featured.
+  if (latestClean.length > 0) return latestClean.slice(0, 3);
+
+  if (curated.length > 0) return curated.slice(0, 3);
+
   return defaults;
 }
 

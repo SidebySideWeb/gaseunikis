@@ -58,17 +58,33 @@ export const epitychies = defineType({
       description: 'π.χ. "Πανελλήνιο Πρωτάθλημα", "Βαλκανικό Πρωτάθλημα"',
     }),
     defineField({
-      name: 'year',
-      title: 'Έτος',
-      type: 'string',
-      description: 'π.χ. "2026"',
+      name: 'years',
+      title: 'Έτη',
+      type: 'array',
+      of: [{type: 'number'}],
+      description: 'Προσθέστε ένα ή περισσότερα έτη (π.χ. 2024, 2025, 2026).',
+      validation: (Rule) => Rule.min(1).unique(),
+    }),
+    defineField({
+      name: 'images',
+      title: 'Φωτογραφίες',
+      type: 'array',
+      of: [
+        {
+          type: 'image',
+          options: {hotspot: true},
+          fields: [{name: 'alt', type: 'string', title: 'Alt text'}],
+        },
+      ],
+      description: 'Πολλαπλές φωτογραφίες — εμφανίζονται ως slider στην κάρτα.',
+      validation: (Rule) => Rule.min(1),
     }),
     defineField({
       name: 'description',
-      title: 'Περιγραφή',
+      title: 'Περιγραφή (προαιρετικό)',
       type: 'text',
       rows: 4,
-      description: 'Αναλυτική περιγραφή της επιτυχίας',
+      description: 'Εμφανίζεται μόνο στη σελίδα λεπτομέρειας.',
     }),
     defineField({
       name: 'featured',
@@ -77,25 +93,31 @@ export const epitychies = defineType({
       initialValue: false,
     }),
     defineField({
+      name: 'year',
+      title: 'Έτος (παλιό πεδίο)',
+      type: 'string',
+      hidden: true,
+    }),
+    defineField({
       name: 'image',
-      title: 'Φωτογραφία',
+      title: 'Φωτογραφία (παλιό πεδίο)',
       type: 'image',
-      options: {hotspot: true},
-      fields: [{name: 'alt', type: 'string', title: 'Alt text'}],
+      hidden: true,
     }),
     defineField({name: 'seo', title: 'SEO', type: 'seo'}),
   ],
   orderings: [
     {
       title: 'Πιο πρόσφατες',
-      name: 'yearDesc',
-      by: [{field: 'year', direction: 'desc'}],
+      name: 'createdDesc',
+      by: [{field: '_createdAt', direction: 'desc'}],
     },
   ],
   preview: {
-    select: {title: 'title', subtitle: 'year', media: 'image'},
-    prepare({title, subtitle, media}) {
-      return {title, subtitle: `${subtitle || ''}`, media}
+    select: {title: 'title', years: 'years', media: 'images.0'},
+    prepare({title, years, media}) {
+      const subtitle = Array.isArray(years) && years.length ? years.join(', ') : ''
+      return {title, subtitle, media}
     },
   },
 })

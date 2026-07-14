@@ -1,4 +1,5 @@
 ---
+import AchievementCardGallery from './AchievementCardGallery.astro';
 import type { AchievementDisplay } from '../../lib/successes-display';
 
 interface Props {
@@ -22,33 +23,18 @@ const CATEGORY_LABELS: Record<string, string> = {
           data-success-category={item.category ?? ''}
           class="success-card bg-white border border-achievement/30 rounded-xl overflow-hidden flex flex-col shadow-card hover:shadow-card-hover transition-shadow"
         >
-          <div class="relative h-64 overflow-hidden bg-surface-container">
-            <img
-              src={item.imageUrl}
-              alt={item.image?.alt ?? item.title}
-              class="w-full h-full object-cover"
-              width={640}
-              height={256}
-              loading={index === 0 ? 'eager' : 'lazy'}
-              fetchpriority={index === 0 ? 'high' : undefined}
-              decoding={index === 0 ? 'sync' : 'async'}
-            />
-            {
-              item.year && (
-                <div class="absolute top-4 right-4 bg-achievement text-white text-xs font-bold px-3 py-1 rounded-full">
-                  {item.year}
-                </div>
-              )
-            }
-          </div>
-          <div class="p-6 flex-grow flex flex-col">
-            <h3 class="font-display text-headline-md text-on-surface mb-3">{item.title}</h3>
-            {
-              item.description && (
-                <p class="text-body-md text-on-surface-variant mb-6 line-clamp-3">{item.description}</p>
-              )
-            }
-            <div class="mt-auto pt-4 border-t border-achievement/20">
+          <AchievementCardGallery
+            galleryId={item._id}
+            images={item.galleryImages}
+            yearsLabel={item.yearsLabel}
+            heightClass="h-64"
+            priority={index === 0}
+          />
+          <div class="p-4 md:p-5 flex-grow flex flex-col">
+            <h3 class="font-display text-body-md font-semibold leading-snug text-on-surface line-clamp-4 mb-3">
+              {item.title}
+            </h3>
+            <div class="mt-auto pt-3 border-t border-achievement/20">
               <span class="inline-block text-achievement text-[11px] font-bold uppercase tracking-wider">
                 {CATEGORY_LABELS[item.category ?? ''] ?? item.category}
               </span>
