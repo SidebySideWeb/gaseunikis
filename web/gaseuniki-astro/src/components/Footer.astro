@@ -111,6 +111,20 @@ const usefulLinks = buildFooterUsefulLinks(settings);
   </div>
 
   <div class="border-t border-outline-variant/20 py-8">
-    <p class="text-center font-body text-body-md text-on-surface-variant">{copyright}</p>
+    <div class="container-page flex flex-col items-center gap-3 text-center sm:flex-row sm:items-center sm:justify-between sm:text-left">
+      <p class="font-body text-body-md text-on-surface-variant">{copyright}</p>
+      <p class="font-body text-body-sm text-on-surface-variant">
+        Created by
+        <a
+          href="https://www.ftiaxesite.gr"
+          class="text-on-surface-variant underline decoration-outline-variant/60 underline-offset-2 transition-colors hover:text-secondary"
+          target="_blank"
+          rel="noopener noreferrer"
+        >
+          ftiaxesite
+        </a>
+        <span class="text-on-surface-variant/70"> (www.ftiaxesite.gr)</span>
+      </p>
+    </div>
   </div>
 </footer>
