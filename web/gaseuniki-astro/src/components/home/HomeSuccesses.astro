@@ -8,7 +8,6 @@ import {
   formatAchievementYears,
   resolveAchievementYears,
 } from '../../lib/achievement-display';
-import { achievementUrl } from '../../lib/home-content';
 
 interface Props {
   heading: string;
@@ -32,13 +31,11 @@ const { heading, subheading, items, stats, ctaLabel, ctaUrl } = Astro.props;
 
     <div class="mb-12 grid gap-8 md:grid-cols-3">
       {items.map((item, index) => {
-        const href = achievementUrl(item);
         const galleryImages = buildAchievementGalleryImages(item, index);
         const yearsLabel = formatAchievementYears(resolveAchievementYears(item));
-        const cardClass =
-          'group flex flex-col overflow-hidden rounded-2xl border border-achievement/20 bg-surface-container-lowest shadow-card transition-shadow hover:shadow-card-hover';
-        const content = (
-          <>
+
+        return (
+          <article class="group flex flex-col overflow-hidden rounded-2xl border border-achievement/20 bg-surface-container-lowest shadow-card">
             <AchievementCardGallery
               galleryId={item._id}
               images={galleryImages}
@@ -50,15 +47,7 @@ const { heading, subheading, items, stats, ctaLabel, ctaUrl } = Astro.props;
                 {item.title}
               </h3>
             </div>
-          </>
-        );
-
-        return href ? (
-          <a href={href} class:list={[cardClass, 'no-underline text-inherit']}>
-            {content}
-          </a>
-        ) : (
-          <article class={cardClass}>{content}</article>
+          </article>
         );
       })}
     </div>

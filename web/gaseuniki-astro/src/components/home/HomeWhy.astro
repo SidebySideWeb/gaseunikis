@@ -57,13 +57,23 @@ const whyImage = image ?? { src: stitchImages.whyUs };
   <section class="border-y border-primary/5 bg-surface-container py-16">
     <div class="container-page">
       <p class="mb-10 text-center font-display text-label-md uppercase tracking-widest text-primary">{sponsorsHeading}</p>
-      <div class="flex flex-wrap items-center justify-center gap-16 opacity-60 grayscale transition-all hover:opacity-100 hover:grayscale-0">
+      <div class="flex flex-wrap items-center justify-center gap-10 md:gap-16 opacity-60 grayscale transition-all hover:opacity-100 hover:grayscale-0">
         {sponsors.map((sponsor) => {
-          const logoUrl = getImageUrl(sponsor.logo, { width: 160, height: 48, quality: 80 });
-          return logoUrl ? (
-            <img src={logoUrl} alt={sponsor.logo?.alt ?? sponsor.name} class="h-12 w-auto max-w-[160px] object-contain" />
-          ) : (
-            <span class="font-display text-2xl font-bold text-on-surface">{sponsor.name}</span>
+          const logoUrl = getImageUrl(sponsor.logo, { width: 320, quality: 80, fit: 'max' });
+          return (
+            <div class="flex h-24 w-44 shrink-0 items-center justify-center md:h-28 md:w-52">
+              {logoUrl ? (
+                <img
+                  src={logoUrl}
+                  alt={sponsor.logo?.alt ?? sponsor.name}
+                  class="max-h-full max-w-full object-contain"
+                  loading="lazy"
+                  decoding="async"
+                />
+              ) : (
+                <span class="text-center font-display text-xl font-bold text-on-surface md:text-2xl">{sponsor.name}</span>
+              )}
+            </div>
           );
         })}
       </div>
