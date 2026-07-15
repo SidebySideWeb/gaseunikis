@@ -555,7 +555,7 @@ export function getHomepageBundle() {
   );
 }
 
-/** Homepage shell at build time — excludes news and achievements (rendered via server islands). */
+/** Homepage shell — news and achievements are fetched on the same request as the page. */
 export const homepageStaticBundleQuery = `{
   "homePage": *[_type == "homePage"][0] {
     heroBadge,

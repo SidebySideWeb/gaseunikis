@@ -8,22 +8,24 @@ import HomeHero from '../components/home/HomeHero.astro';
 import HomeAbout from '../components/home/HomeAbout.astro';
 import HomeSections from '../components/home/HomeSections.astro';
 import HomeGallery from '../components/home/HomeGallery.astro';
-import HomeSuccessesIsland from '../components/home/HomeSuccessesIsland.astro';
-import HomeSuccessesFallback from '../components/home/HomeSuccessesFallback.astro';
-import HomeNewsIsland from '../components/home/HomeNewsIsland.astro';
-import HomeNewsFallback from '../components/home/HomeNewsFallback.astro';
+import HomeSuccesses from '../components/home/HomeSuccesses.astro';
+import HomeNews from '../components/home/HomeNews.astro';
 import HomeWhy from '../components/home/HomeWhy.astro';
 import HomeCTA from '../components/home/HomeCTA.astro';
-import { getHomepageStaticBundle } from '../lib/queries';
+import { getHomepageStaticBundle, getHomeSuccessesFeed, getLatestNews } from '../lib/queries';
 import { fetchWithFallback } from '../lib/fetch-with-fallback';
 import { resolvePresetImage } from '../lib/image';
+import { resolveHomeSuccesses, resolveLatestNews } from '../lib/home-content';
 import {
   defaultHomePage,
   defaultGalleryItems,
   defaultSectionsPreview,
   defaultSiteSettings,
+  defaultFeaturedSuccesses,
+  defaultLatestNews,
 } from '../lib/fallbacks';
 import { stitchImages } from '../lib/stitch-images';
+import type { Achievement } from '../lib/types';
 
 const emptyBundle = {
   homePage: null,
@@ -31,12 +33,22 @@ const emptyBundle = {
   siteSettings: null,
 };
 
-const bundle = await fetchWithFallback(
-  () => getHomepageStaticBundle(),
-  emptyBundle,
-  'homepageStaticBundle',
-);
+const emptyFeed = { selected: [], featured: [], latest: [] };
+
+const [bundle, successesFeed, latestNews] = await Promise.all([
+  fetchWithFallback(() => getHomepageStaticBundle(), emptyBundle, 'homepageStaticBundle'),
+  fetchWithFallback(() => getHomeSuccessesFeed(), emptyFeed, 'homeSuccessesFeed'),
+  fetchWithFallback(() => getLatestNews(), [], 'latestNews'),
+]);
+
 const siteSettings = { ...defaultSiteSettings, ...bundle.siteSettings };
+const homeSuccesses = resolveHomeSuccesses(
+  successesFeed.selected,
+  successesFeed.featured,
+  successesFeed.latest,
+  defaultFeaturedSuccesses,
+) as Achievement[];
+const homeNews = resolveLatestNews(latestNews, defaultLatestNews);
 
 const homePage = bundle.homePage;
 const sectionsPage = bundle.sectionsPage;
@@ -104,36 +116,20 @@ const pageDescription =
     subheading={home.gallerySubheading!}
     items={galleryItems}
   />
-  <HomeSuccessesIsland
-    server:defer
+  <HomeSuccesses
     heading={home.successesHeading!}
     subheading={home.successesSubheading!}
+    items={homeSuccesses}
     stats={stats}
     ctaLabel={home.successesCtaLabel!}
     ctaUrl={home.successesCtaUrl!}
-  >
-    <HomeSuccessesFallback
-      slot="fallback"
-      heading={home.successesHeading!}
-      subheading={home.successesSubheading!}
-      stats={stats}
-      ctaLabel={home.successesCtaLabel!}
-      ctaUrl={home.successesCtaUrl!}
-    />
-  </HomeSuccessesIsland>
-  <HomeNewsIsland
-    server:defer
+  />
+  <HomeNews
     heading={home.newsHeading!}
     ctaLabel={home.newsCtaLabel!}
     ctaUrl={home.newsCtaUrl!}
-  >
-    <HomeNewsFallback
-      slot="fallback"
-      heading={home.newsHeading!}
-      ctaLabel={home.newsCtaLabel!}
-      ctaUrl={home.newsCtaUrl!}
-    />
-  </HomeNewsIsland>
+    posts={homeNews}
+  />
   <HomeWhy
     heading={home.whyHeading!}
     items={home.whyItems ?? defaultHomePage.whyItems!}

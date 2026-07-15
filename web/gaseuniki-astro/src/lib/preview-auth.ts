@@ -1,12 +1,28 @@
 const PREVIEW_AUTH_COOKIE = 'preview_auth';
 
+function readAuthEnv(name: 'BASIC_AUTH_USER' | 'BASIC_AUTH_PASS'): string | undefined {
+  const fromImport = import.meta.env[name];
+  if (typeof fromImport === 'string' && fromImport.length > 0) {
+    return fromImport;
+  }
+
+  if (import.meta.env.SSR && typeof process !== 'undefined') {
+    const fromProcess = process.env[name];
+    if (typeof fromProcess === 'string' && fromProcess.length > 0) {
+      return fromProcess;
+    }
+  }
+
+  return undefined;
+}
+
 /** Prevent prerender when preview lock is on so middleware runs on every page. */
 export function shouldPrerenderForPreviewAuth(): boolean {
   return !isPreviewAuthEnabled();
 }
 
 export function isPreviewAuthEnabled(): boolean {
-  return Boolean(import.meta.env.BASIC_AUTH_USER && import.meta.env.BASIC_AUTH_PASS);
+  return Boolean(readAuthEnv('BASIC_AUTH_USER') && readAuthEnv('BASIC_AUTH_PASS'));
 }
 
 /** Keep auth redirects and HTML out of CDN caches (Cloudflare + Vercel). */
@@ -19,8 +35,8 @@ export function previewAuthResponseHeaders(): HeadersInit {
 }
 
 export function arePreviewCredentialsValid(username: string, password: string): boolean {
-  const expectedUser = import.meta.env.BASIC_AUTH_USER;
-  const expectedPass = import.meta.env.BASIC_AUTH_PASS;
+  const expectedUser = readAuthEnv('BASIC_AUTH_USER');
+  const expectedPass = readAuthEnv('BASIC_AUTH_PASS');
   return username === expectedUser && password === expectedPass;
 }
 
