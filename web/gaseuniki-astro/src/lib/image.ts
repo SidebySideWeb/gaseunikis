@@ -24,8 +24,8 @@ export interface ImageDelivery {
 }
 
 export const IMAGE_PRESETS = {
-  logoNav: { width: 124, height: 124, quality: 85 },
-  logoFooter: { width: 104, height: 104, quality: 85 },
+  logoNav: { width: 148, height: 148, quality: 85 },
+  logoFooter: { width: 124, height: 124, quality: 85 },
   og: { width: 1200, quality: 80 },
   card: {
     widths: [384, 576, 768] as const,

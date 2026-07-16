@@ -8,9 +8,9 @@ interface Props {
 const { size = 'md', src, alt = 'Logo' } = Astro.props;
 
 const sizeClasses =
-  size === 'sm' ? 'h-[52px] w-[52px]' : 'h-[52px] w-[52px] md:h-[62px] md:w-[62px]';
+  size === 'sm' ? 'h-[62px] w-[62px]' : 'h-[62px] w-[62px] md:h-[74px] md:w-[74px]';
 const iconClasses = size === 'sm' ? 'text-4xl' : 'text-4xl md:text-5xl';
-const pixelSize = size === 'sm' ? 52 : 62;
+const pixelSize = size === 'sm' ? 62 : 74;
 ---
 
 {
