@@ -41,7 +41,7 @@ const {
       <article class="glass-card hover-lift shadow-card rounded-[2rem] border-t-4 border-primary p-10">
         <header class="mb-8 flex items-start justify-between">
           <div>
-            <h3 class="mb-2 font-display text-headline-lg text-primary">{rhythmicHeading}</h3>
+            <h3 class="mb-2 font-display text-headline-lg text-primary-text">{rhythmicHeading}</h3>
             <p class="text-on-surface-variant">{rhythmicDescription}</p>
           </div>
           <span class="material-symbols-outlined text-5xl text-primary opacity-30" aria-hidden="true">sports_gymnastics</span>
@@ -49,7 +49,7 @@ const {
         <div class="mb-10 space-y-6">
           {rhythmicCompetitive.length > 0 && (
             <div>
-              <h4 class="mb-3 font-display text-label-md uppercase tracking-wider text-secondary">{rhythmicCategoryHeading}</h4>
+              <h4 class="mb-3 font-display text-label-md uppercase tracking-wider text-secondary-text">{rhythmicCategoryHeading}</h4>
               <ul class="grid grid-cols-2 gap-2 font-body text-body-md">
                 {rhythmicCompetitive.map((item) => (
                   <li class="flex items-center gap-2">
@@ -62,7 +62,7 @@ const {
           )}
           {rhythmicMass.length > 0 && (
             <div>
-              <h4 class="mb-3 font-display text-label-md uppercase tracking-wider text-secondary">{rhythmicMassHeading}</h4>
+              <h4 class="mb-3 font-display text-label-md uppercase tracking-wider text-secondary-text">{rhythmicMassHeading}</h4>
               <ul class="grid grid-cols-2 gap-3 font-body text-body-md">
                 {rhythmicMass.map((item) => (
                   <li class="rounded-lg border border-primary/10 bg-primary/5 p-2">{item.name}</li>
@@ -71,7 +71,11 @@ const {
             </div>
           )}
         </div>
-        <a href={ctaUrl} class="inline-flex items-center gap-2 font-bold text-primary hover:underline">
+        <a
+          href={ctaUrl}
+          class="inline-flex items-center gap-2 font-bold text-primary-text hover:underline"
+          aria-label={`${ctaLabel} — ${rhythmicHeading}`}
+        >
           {ctaLabel} <span class="material-symbols-outlined" aria-hidden="true">arrow_forward</span>
         </a>
       </article>
@@ -79,13 +83,13 @@ const {
       <article class="glass-card hover-lift shadow-card rounded-[2rem] border-t-4 border-secondary p-10">
         <header class="mb-8 flex items-start justify-between">
           <div>
-            <h3 class="mb-2 font-display text-headline-lg text-secondary">{gymnHeading}</h3>
+            <h3 class="mb-2 font-display text-headline-lg text-secondary-text">{gymnHeading}</h3>
             <p class="text-on-surface-variant">{gymnDescription}</p>
           </div>
           <span class="material-symbols-outlined text-5xl text-secondary opacity-30" aria-hidden="true">groups</span>
         </header>
         <div class="mb-10">
-          <h4 class="mb-3 font-display text-label-md uppercase tracking-wider text-primary">Αγωνιστικές Ομάδες Contest</h4>
+          <h4 class="mb-3 font-display text-label-md uppercase tracking-wider text-primary-text">Αγωνιστικές Ομάδες Contest</h4>
           <ul class="grid gap-4">
             {gymSections.map((team) => (
               <li class="flex items-center justify-between rounded-xl border border-secondary/20 bg-secondary/10 p-4">
@@ -95,7 +99,11 @@ const {
             ))}
           </ul>
         </div>
-        <a href={ctaUrl} class="inline-flex items-center gap-2 font-bold text-secondary hover:underline">
+        <a
+          href={ctaUrl}
+          class="inline-flex items-center gap-2 font-bold text-secondary-text hover:underline"
+          aria-label={`${ctaLabel} — ${gymnHeading}`}
+        >
           {ctaLabel} <span class="material-symbols-outlined" aria-hidden="true">arrow_forward</span>
         </a>
       </article>

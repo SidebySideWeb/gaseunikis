@@ -277,7 +277,7 @@ export default function RegistrationForm({
         <button
           type="submit"
           disabled={status === 'submitting'}
-          className="w-full bg-primary text-on-primary font-bold py-5 rounded-2xl shadow-card hover:shadow-card-hover hover:bg-primary-light transition-all duration-200 active:scale-95 text-body-lg flex justify-center items-center gap-2 disabled:opacity-60 disabled:cursor-not-allowed"
+          className="w-full bg-primary-dark text-on-primary font-bold py-5 rounded-2xl shadow-card hover:shadow-card-hover hover:bg-primary transition-all duration-200 active:scale-95 text-body-lg flex justify-center items-center gap-2 disabled:opacity-60 disabled:cursor-not-allowed"
         >
           {status === 'submitting' ? (
             <>

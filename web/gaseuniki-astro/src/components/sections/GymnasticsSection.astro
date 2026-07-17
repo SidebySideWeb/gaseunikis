@@ -55,7 +55,7 @@ const defaultIcons = ['group_work', 'theater_comedy', 'military_tech'];
           <div class={`${iconColors[index % 3]} mb-4 ${bgColors[index % 3]} w-14 h-14 rounded-2xl flex items-center justify-center`}>
             <span class="material-symbols-outlined text-4xl">{item.icon ?? defaultIcons[index % 3]}</span>
           </div>
-          <h4 class="font-display text-headline-md mb-2">{item.name}</h4>
+          <h3 class="font-display text-headline-md mb-2">{item.name}</h3>
           <p class="text-on-surface-variant mb-6 text-sm">{item.description}</p>
           {item.schedule && (
             <div class={`mt-auto space-y-2 pt-4 border-t ${index === 0 ? 'border-primary/10' : index === 1 ? 'border-secondary/10' : 'border-primary-container/10'}`}>

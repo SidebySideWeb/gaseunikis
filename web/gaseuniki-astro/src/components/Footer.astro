@@ -37,7 +37,7 @@ const usefulLinks = buildFooterUsefulLinks(settings);
 
     <div class="grid grid-cols-2 gap-x-gutter gap-y-6 md:contents">
       <div>
-        <h2 class="mb-4 font-display text-label-md uppercase tracking-wider text-primary">Πλοήγηση</h2>
+        <h2 class="mb-4 font-display text-label-md uppercase tracking-wider text-primary-text">Πλοήγηση</h2>
         <ul class="space-y-2">
           {
             navigationLinks.map((link) => (
@@ -55,7 +55,7 @@ const usefulLinks = buildFooterUsefulLinks(settings);
       </div>
 
       <div>
-        <h2 class="mb-4 font-display text-label-md uppercase tracking-wider text-primary">Χρήσιμα</h2>
+        <h2 class="mb-4 font-display text-label-md uppercase tracking-wider text-primary-text">Χρήσιμα</h2>
         <ul class="space-y-2">
           {
             usefulLinks.map((link) => (
@@ -73,7 +73,7 @@ const usefulLinks = buildFooterUsefulLinks(settings);
       </div>
 
       <div class="col-span-2 flex flex-col items-end md:col-span-1 md:items-start">
-        <h2 class="mb-4 font-display text-label-md uppercase tracking-wider text-primary text-right md:text-left">
+        <h2 class="mb-4 font-display text-label-md uppercase tracking-wider text-primary-text text-right md:text-left">
           Ακολουθήστε μας
         </h2>
         <div class="flex justify-end gap-4 md:justify-start">
@@ -81,7 +81,7 @@ const usefulLinks = buildFooterUsefulLinks(settings);
             settings?.facebookUrl && (
               <a
                 href={settings.facebookUrl}
-                class="flex h-10 w-10 items-center justify-center rounded-full bg-primary/10 text-primary transition-all hover:bg-primary hover:text-on-primary"
+                class="flex h-10 w-10 items-center justify-center rounded-full bg-primary/10 text-primary-text transition-all hover:bg-primary-dark hover:text-on-primary"
                 aria-label="Facebook"
                 target="_blank"
                 rel="noopener noreferrer"
@@ -96,7 +96,7 @@ const usefulLinks = buildFooterUsefulLinks(settings);
             settings?.instagramUrl && (
               <a
                 href={settings.instagramUrl}
-                class="flex h-10 w-10 items-center justify-center rounded-full bg-primary/10 text-primary transition-all hover:bg-primary hover:text-on-primary"
+                class="flex h-10 w-10 items-center justify-center rounded-full bg-primary/10 text-primary-text transition-all hover:bg-primary-dark hover:text-on-primary"
                 aria-label="Instagram"
                 target="_blank"
                 rel="noopener noreferrer"
@@ -123,7 +123,7 @@ const usefulLinks = buildFooterUsefulLinks(settings);
         >
           ftiaxesite
         </a>
-        <span class="text-on-surface-variant/70"> (www.ftiaxesite.gr)</span>
+        <span class="text-on-surface-variant"> (www.ftiaxesite.gr)</span>
       </p>
     </div>
   </div>

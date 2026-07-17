@@ -19,7 +19,7 @@ const { heading, ctaLabel, ctaUrl, posts } = Astro.props;
   <div class="container-page">
     <header class="mb-12 flex items-center justify-between">
       <h2 class="font-display text-headline-lg text-on-surface">{heading}</h2>
-      <a href={ctaUrl} class="flex items-center gap-2 font-bold text-primary transition-transform hover:translate-x-1">
+      <a href={ctaUrl} class="flex items-center gap-2 font-bold text-primary-text transition-transform hover:translate-x-1">
         {ctaLabel}
         <span class="material-symbols-outlined" aria-hidden="true">chevron_right</span>
       </a>
@@ -42,15 +42,15 @@ const { heading, ctaLabel, ctaUrl, posts } = Astro.props;
             </div>
             <div class="p-6">
               {post.publishedDate && (
-                <time datetime={post.publishedDate} class="text-sm font-bold text-primary">
+                <time datetime={post.publishedDate} class="text-sm font-bold text-primary-text">
                   {formatNewsDate(post.publishedDate)}
                 </time>
               )}
-              <h3 class="mb-4 mt-2 font-display text-headline-md text-on-surface transition-colors group-hover:text-primary">
+              <h3 class="mb-4 mt-2 font-display text-headline-md text-on-surface transition-colors group-hover:text-primary-text">
                 {post.title}
               </h3>
               {post.excerpt && <p class="mb-4 line-clamp-2 text-sm text-on-surface-variant">{post.excerpt}</p>}
-              <span class="flex items-center gap-1 text-sm font-bold text-primary">
+              <span class="flex items-center gap-1 text-sm font-bold text-primary-text">
                 {post.readMoreLabel ?? 'Διαβάστε περισσότερα'}
                 <span class="material-symbols-outlined text-sm" aria-hidden="true">arrow_forward</span>
               </span>

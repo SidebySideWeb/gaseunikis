@@ -10,6 +10,9 @@ export default {
         'primary-dark': '#b80049',
         'primary-container': '#e2165f',
         'on-primary': '#ffffff',
+        'primary-text': '#b80049',
+        'secondary-text': '#880358',
+        'achievement-text': '#6b4f10',
 
         // Achievement (gold — ONLY for medals/trophies/hall of fame)
         achievement: '#C9A24B',

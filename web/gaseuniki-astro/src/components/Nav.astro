@@ -31,9 +31,9 @@ function isActive(url: string): boolean {
     class="container-page flex items-center justify-between py-4"
     aria-label="Κύρια πλοήγηση"
   >
-    <a href="/" class="flex items-center gap-3">
+    <a href="/" class="flex items-center gap-3" aria-label={`${clubName} — Αρχική σελίδα`}>
       <ClubLogoMark src={logoUrl} alt={logoAlt} />
-      <span class="font-display text-headline-md font-bold text-primary">{clubName}</span>
+      <span class="font-display text-headline-md font-bold text-primary-text">{clubName}</span>
     </a>
 
     <div class="hidden items-center gap-4 font-display text-label-md md:flex lg:gap-8">
@@ -44,8 +44,8 @@ function isActive(url: string): boolean {
             class:list={[
               'transition-colors',
               isActive(link.url)
-                ? 'border-b-2 border-primary pb-1 text-primary'
-                : 'text-on-surface-variant hover:text-primary',
+                ? 'border-b-2 border-primary-dark pb-1 text-primary-text'
+                : 'text-on-surface-variant hover:text-primary-text',
             ]}
             aria-current={isActive(link.url) ? 'page' : undefined}
           >

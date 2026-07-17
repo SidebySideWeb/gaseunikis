@@ -13,6 +13,10 @@
   --color-primary-dark: #b80049;
   --color-primary-container: #e2165f;
   --color-on-primary: #ffffff;
+  /* WCAG AA text on light backgrounds (≥4.5:1 on white) */
+  --color-primary-text: #b80049;
+  --color-secondary-text: #880358;
+  --color-achievement-text: #6b4f10;
 
   /* Achievement — gold, use ONLY for medals/trophies */
   --color-achievement: #C9A24B;
@@ -130,6 +134,9 @@
   --color-primary-dark: #b80049;
   --color-primary-container: #e2165f;
   --color-on-primary: #ffffff;
+  --color-primary-text: #b80049;
+  --color-secondary-text: #880358;
+  --color-achievement-text: #6b4f10;
 
   /* Achievement — gold, use ONLY for medals/trophies */
   --color-achievement: #C9A24B;
@@ -273,5 +280,20 @@
 
   .custom-scrollbar::-webkit-scrollbar-thumb {
     @apply bg-primary-container rounded-full;
+  }
+}
+
+/* Readable brand text on light surfaces — keeps bg-primary/border-primary unchanged */
+@layer utilities {
+  .text-primary {
+    color: var(--color-primary-text);
+  }
+
+  .text-secondary {
+    color: var(--color-secondary-text);
+  }
+
+  .text-primary-container {
+    color: var(--color-primary-text);
   }
 }

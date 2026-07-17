@@ -51,7 +51,7 @@ export default function SuccessesFilterBar({ filterLabels }: Props) {
               aria-pressed={isActive}
               className={
                 isActive
-                  ? 'bg-primary text-on-primary px-8 py-3 rounded-full font-bold shadow-md transition-all'
+                  ? 'bg-primary-dark text-on-primary px-8 py-3 rounded-full font-bold shadow-md transition-all'
                   : 'bg-surface-container text-on-surface-variant hover:bg-surface-high px-8 py-3 rounded-full font-bold transition-all'
               }
             >
